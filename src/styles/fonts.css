@@ -1,0 +1,47 @@
+/* ---------------------------------------------------------------
+   Font pairing — brand identity v3.
+   Latin  : Archivo               — grotesque, 800/900 for display
+   Arabic : IBM Plex Sans Arabic  — the Arabic counterpart, 600/700
+   Hand   : Caveat                — marginalia only, Latin only
+   Nothing else in the codebase names a font; change it here and in
+   the <link> in index.html.
+   --------------------------------------------------------------- */
+:root {
+  --font-display: 'Archivo', system-ui, sans-serif;
+  --font-body: 'Archivo', system-ui, sans-serif;
+  --display-tracking: -0.035em;
+  --display-leading: 0.92;
+  --display-case: none;
+  --display-weight: 800;
+  /* `ch` is font-relative, so the headline measure belongs with the pairing:
+     IBM Plex Sans Arabic's ch is wider than Archivo's. */
+  --display-measure: 17ch;
+  /* The hero is one huge line; a statement that wraps needs more air. */
+  --statement-leading: 1.06;
+  /* Arabic sits noticeably smaller than Latin at the same px size, so the
+     display scale is nudged per script rather than per component. */
+  --display-scale: 1;
+  /* Hand-written notes in the margins of a composition. Caveat has no Arabic
+     cut, so Arabic falls back to the body face — legible, just not cursive. */
+  --font-hand: 'Caveat', var(--font-body);
+}
+
+:root[lang='ar'] {
+  --font-display: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --display-tracking: 0;
+  --display-leading: 1.32; /* Arabic needs room for descenders */
+  --display-case: none;
+  --display-weight: 700;
+  --display-measure: 15ch;
+  --statement-leading: 1.45;
+  --display-scale: 0.88;
+}
+
+/* Brand names, numbers and source labels keep the Latin face even inside
+   Arabic copy, with tabular figures so columns of numbers line up. */
+.font-latin {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.01em;
+}

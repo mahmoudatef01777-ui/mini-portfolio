@@ -1,0 +1,186 @@
+/* ---------------------------------------------------------------
+   Design tokens — the single source of colour for the whole site.
+   Change a value here and it changes everywhere.
+   Colours are RGB channels so Tailwind can apply opacity modifiers.
+
+   PALETTE v4, 2026-09-14. White-dominant and neutral: the page is
+   white, type is near-black, secondary type is a neutral grey, rules
+   are a very light neutral grey, and the warm orange is an accent
+   used sparingly — dots, numbers, active states, small highlights.
+   There are no beige surfaces, no gradients and no coloured cards.
+
+   Some token NAMES are historical (`--c-cream` is the page, which is
+   now white; `--c-blush` is a quiet fill). The names were kept so a
+   pure-colour change stayed a pure-colour change; read the comment,
+   not the name.
+
+   NOTHING outside this file may declare a colour, with four
+   deliberate exceptions. Three are other people's brands rather than
+   ours: content/tools.ts (platform marks), content/brand-colors.ts
+   (client logos) and ui/SocialLinks.tsx (social platforms). The fourth
+   is lib/theme.ts, which writes the browser's own theme-color meta tag
+   and needs a literal hex — keep its two values equal to --c-cream in
+   each theme.
+   --------------------------------------------------------------- */
+:root {
+  /* Surfaces */
+  --c-cream: 255 255 255; /* #FFFFFF — the page. White is the identity. */
+  --c-soft: 250 250 250; /* #FAFAFA — alternating bands and raised panels */
+  --c-orange: 201 106 61; /* #C96A3D — brand accent, unchanged */
+  --c-black: 10 10 10; /* #0A0A0A — dark sections. Neutral, never brown. */
+  --c-blush: 245 245 245; /* #F5F5F5 — quiet fills */
+
+  /* Text roles */
+  --c-ink: 17 17 17; /* #111111 — primary text */
+  --c-ink-dim: 107 107 107; /* #6B6B6B — secondary text, 5.4:1 on white */
+  --c-on-orange: 17 17 17; /* small text on the accent MUST be this */
+  --c-on-dark: 245 245 245; /* #F5F5F5 — off-white text on dark sections */
+
+  /**
+   * The accent, darkened only as far as it takes to clear 4.5:1 on
+   * white. Same hue, same warmth — use it whenever the accent carries
+   * TEXT below roughly 24px: a link, a step number, an active label.
+   * `--c-orange` stays the brand value for display type, rules, dots,
+   * icons and fills.
+   */
+  --c-orange-ink: 179 90 46; /* #B35A2E — 4.8:1 on white */
+
+  /* Lines */
+  --c-line: 229 229 229; /* #E5E5E5 — borders and hairlines */
+  --c-line-on-orange: 255 255 255;
+
+  /* The sheet a logo or a browser frame sits on. */
+  --c-paper: 255 255 255;
+
+  /**
+   * The fill of an outline button. On a light page it is a true white that
+   * lifts off the page; on a dark one it has to BE the page, because a light
+   * fill there would turn an outline button into a solid slab and put
+   * near-white text on near-white. Not the same thing as --c-paper, which is
+   * dimmed rather than inverted in dark mode.
+   */
+  --c-pill: 255 255 255;
+
+  /* Layout */
+  --gutter: 1.25rem;
+  --radius-card: 1rem;
+  --radius-media: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 3.5rem;
+  }
+}
+
+/* --- Contrast notes ------------------------------------------------
+   #111111 on #FFFFFF  = 18.9:1  -> anything
+   #6B6B6B on #FFFFFF  =  5.4:1  -> AA for body text
+   #B35A2E on #FFFFFF  =  4.8:1  -> AA for small text: the accent-ink
+   #C96A3D on #FFFFFF  =  3.7:1  -> AA-large ONLY. The brand accent is
+                                    for display type, rules, dots, icons
+                                    and fills — never small body copy.
+   #111111 on #C96A3D  =  5.0:1  -> safe for small text ON the accent
+   #F5F5F5 on #0A0A0A  = 18.2:1  -> the dark final CTA
+   #C96A3D on #0A0A0A  =  5.3:1  -> safe on the dark section
+   ------------------------------------------------------------------ */
+
+/* ---------------------------------------------------------------
+   Dark theme. Same design, same spacing, same accent — only the
+   surfaces and the text roles swap. Set by the inline script in
+   index.html before first paint, so there is no flash.
+
+   Neutral near-black, not a warm one: the light theme is white and
+   neutral, so a brown-black here would read as a different identity.
+   --------------------------------------------------------------- */
+:root[data-theme='dark'] {
+  /* Surfaces */
+  --c-cream: 15 15 15; /* #0F0F0F — the page */
+  --c-soft: 22 22 22; /* #161616 — raised panels, alternating bands */
+  --c-orange: 201 106 61; /* #C96A3D — unchanged: it is the brand */
+  --c-black: 8 8 8; /* #080808 — the dark CTA block, darker than the page */
+  --c-blush: 26 26 26; /* #1A1A1A */
+
+  /* Text roles */
+  --c-ink: 245 245 245; /* #F5F5F5 on the dark page */
+  --c-ink-dim: 161 161 161; /* #A1A1A1 — secondary text, 7.4:1 on the page */
+  --c-on-orange: 17 17 17; /* unchanged: dark text on the accent, 5.0:1 */
+  --c-on-dark: 245 245 245;
+
+  /* On a dark page the brand accent already clears 4.5:1, so small
+     accent text needs no darker variant — it IS the brand value. */
+  --c-orange-ink: 201 106 61; /* #C96A3D — 5.1:1 on #0F0F0F */
+
+  /* Lines */
+  --c-line: 38 38 38; /* #262626 — very subtle */
+  --c-line-on-orange: 255 255 255;
+
+  /* Dimmed so a logo chip or a browser frame is not a glare source. */
+  --c-paper: 232 232 232;
+
+  /* An outline button on the dark page keeps the page's own surface. */
+  --c-pill: 15 15 15;
+}
+
+/* --- Dark contrast notes ------------------------------------------
+   #F5F5F5 on #0F0F0F = 17.4:1  -> anything
+   #A1A1A1 on #0F0F0F =  7.4:1  -> AA for body text
+   #C96A3D on #0F0F0F =  5.1:1  -> AA for text, unlike on white where
+                                   the same accent is large-type only
+   #111111 on #C96A3D =  5.0:1  -> unchanged
+   ------------------------------------------------------------------ */
+
+/* Only while the theme is being switched, so a permanent transition
+   never competes with hover states or costs a frame on scroll. */
+:root.theme-switching,
+:root.theme-switching *,
+:root.theme-switching *::before,
+:root.theme-switching *::after {
+  transition:
+    background-color 0.28s ease,
+    border-color 0.28s ease,
+    color 0.28s ease,
+    fill 0.28s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-switching,
+  :root.theme-switching *,
+  :root.theme-switching *::before,
+  :root.theme-switching *::after {
+    transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Landing page surface (route /landing), added 2026-09-15.
+
+   The design reference for this page is NOT on the white page the
+   rest of the site uses: sampling it gives rgb(248,245,241) for the
+   page and a slightly deeper warm neutral behind the photograph. The
+   override is scoped to the landing's own wrapper so no other page
+   moves, and it changes ONLY surfaces — the ink, the accent and the
+   accent-ink roles are untouched, so every contrast note above still
+   holds (#111 on #F8F5F1 = 17.9:1, #6B6B6B = 5.1:1, #B35A2E = 4.6:1).
+
+   Dark mode is deliberately not overridden: the dark palette is
+   already warm-neutral and the reference only shows the light theme.
+   --------------------------------------------------------------- */
+:root[data-theme='light'] [data-surface='landing'] {
+  --c-cream: 248 245 241; /* #F8F5F1 — the page */
+  --c-blush: 243 240 235; /* #F3F0EB — the block the photo sits on */
+  --c-paper: 255 255 255; /* #FFFFFF — the outline button and the note */
+  --c-line: 226 221 214; /* #E2DDD6 — hairlines, warmed to match */
+
+  /* The pinned paper note in the hero photograph, sampled off the
+     reference: a warm beige clearly darker than the wall behind it.
+     Undefined outside this scope, where `.hero-note` falls back to
+     --c-blush, so dark mode needs no value of its own. */
+  --c-note: 219 205 187; /* #DBCDBB */
+}

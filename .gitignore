@@ -1,0 +1,37 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+.vite
+tsconfig.tsbuildinfo
+
+# Environment. This site has no backend and needs no secrets to build, so if
+# one of these ever appears, something has gone wrong — never commit them.
+.env
+.env.*
+!.env.example
+
+# Tooling and editors
+.vercel
+.claude/
+*.local
+.DS_Store
+Thumbs.db
+
+# Working screenshots from scripts/shoot.mjs and the review passes.
+# Review artefacts, not part of the site, and large.
+shots-*/
+shots/
+
+# THE UNREDACTED EVIDENCE ORIGINALS — NEVER COMMIT THESE.
+#
+# `_evidence-originals/` holds the 15 raw dashboard captures exactly as they
+# came off Shopify, Meta and TikTok: client brand names, ad creatives and
+# account details all still legible. Everything published under `public/img/`
+# is the redacted version of these, and the whole point of the redaction is
+# that the raw ones never leave this machine. Committing them to a public
+# repository would undo every blur on the site in one push.
+#
+# Keep the folder locally, and keep it out of git.
+_evidence-originals/

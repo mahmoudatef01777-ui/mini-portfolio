@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="MZ">
+  <!--
+    The MZ monogram on the brand orange, token c-orange = 201 106 61.
+
+    Solid tile rather than orange letters on transparent: a favicon is 16px
+    in a tab strip, and at that size a filled shape is what the eye finds.
+    The letterforms only have to survive as a texture.
+  -->
+  <rect width="64" height="64" rx="14" fill="#C96A3D" />
+  <path
+    fill="#FFFFFF"
+    d="M12 44V20h6.2l7.1 12.4L32.4 20h6.2v24h-5.5V29.8l-5.6 9.7h-2.4l-5.6-9.7V44H12z"
+  />
+  <path
+    fill="#FFFFFF"
+    d="M40.5 44v-4.3l9.1-14.4h-8.8V20h16v4.3l-9.1 14.4h9.3V44H40.5z"
+  />
+</svg>
