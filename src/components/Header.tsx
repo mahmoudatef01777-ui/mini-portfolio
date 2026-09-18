@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLang } from '@/i18n/lang';
+import type { Lang } from '@/content/content';
 import { ui } from '@/content/content';
 import { applyTheme, readTheme, storeTheme, type Theme } from '@/lib/theme';
-import { Link } from '@/lib/router';
+import { Link, useRoute } from '@/lib/router';
+import { build } from '@/lib/url';
 import { Monogram } from './ui';
 
 /**
@@ -15,7 +17,9 @@ import { Monogram } from './ui';
  */
 export default function Header() {
   const { lang, setLang, t } = useLang();
+  const { route } = useRoute();
   const [theme, setTheme] = useState<Theme>('light');
+  const other: Lang = lang === 'ar' ? 'en' : 'ar';
 
   // The inline script in index.html has already set the attribute before
   // first paint; this only syncs React's copy of it.
@@ -48,13 +52,28 @@ export default function Header() {
         </Link>
 
         <div className="flex items-center justify-self-end gap-2">
-          <button
-            type="button"
-            onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
+          {/* THE OTHER LANGUAGE IS ANOTHER URL, so this is an anchor and not a
+              button. It was a button until 2026-09-19, which meant the Arabic
+              half of the site had no link pointing at it anywhere: a crawler
+              had nothing to follow, and a visitor could not open it in a new
+              tab or see where it went. Only a plain left click is intercepted,
+              so the swap itself is still instant and still replaceState. */}
+          <a
+            href={build({ lang: other, route })}
+            hrefLang={other}
+            lang={other}
+            aria-label={t(ui.toggleLangLabel)}
+            onClick={(e) => {
+              if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+                return;
+              }
+              e.preventDefault();
+              setLang(other);
+            }}
             className="rounded-full border border-line px-3.5 py-2 text-xs font-semibold text-ink transition-colors duration-300 hover:border-ink"
           >
             {t(ui.toggleLang)}
-          </button>
+          </a>
 
           <button
             type="button"

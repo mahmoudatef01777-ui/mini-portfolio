@@ -618,6 +618,10 @@ export const cta = {
 
 export const ui = {
   toggleLang: { ar: 'EN', en: 'عربي' } satisfies Localized,
+  /* The visible label is the other language's own name, which a screen
+     reader announces on its own once the anchor carries lang="…". This
+     says what pressing it does. */
+  toggleLangLabel: { ar: 'Read this page in English', en: 'اقرأ الصفحة بالعربية' } satisfies Localized,
   toggleTheme: { ar: 'غيّر الوضع', en: 'Switch theme' } satisfies Localized,
   skip: { ar: 'تخطَّ إلى المحتوى', en: 'Skip to content' } satisfies Localized,
 };

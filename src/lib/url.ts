@@ -61,8 +61,18 @@ export function absolute(location: Location): string {
  * The one place the production origin is written down. `index.html` names it
  * too, in tags a scraper reads without running any of this — change both
  * together or a shared card will point at the wrong host.
+ *
+ * THIS HAS TO BE A HOST THAT ACTUALLY ANSWERS. It said mahmoudelzaqla.com
+ * until 2026-09-19, and that domain does not exist yet: the canonical pointed
+ * at a url with no DNS record, which tells a search engine not to index the
+ * page it is actually reading, and og:image pointed at the same dead host, so
+ * a link shared on WhatsApp came up with a blank card — the one thing this
+ * site is for. It names the live deployment instead until the domain is real.
+ *
+ * WHEN THE DOMAIN IS BOUGHT AND POINTED AT THIS PROJECT: put it back here and
+ * in index.html, together, and nothing else needs to change.
  */
-export const ORIGIN = 'https://mahmoudelzaqla.com';
+export const ORIGIN = 'https://mini-portfolio-pied-beta.vercel.app';
 
 /** What `og:locale` should say for each language. */
 export const OG_LOCALE: Record<Lang, string> = { en: 'en_US', ar: 'ar_EG' };
