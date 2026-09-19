@@ -274,6 +274,11 @@ export default function StoryPage() {
       {/* The home page's own hero line, on purpose: the story ends where the
           landing began, so the reader arrives back at the positioning. */}
       <Section>
+        {/* Two columns on a laptop, one on anything narrower — and the
+            photograph is simply not there below `lg`, so a phone never
+            downloads it. Same rule as the pictures up the timeline. */}
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,19rem)] lg:items-center lg:gap-14">
+        <div className="min-w-0">
         <Reveal>
           <p className="display max-w-[16ch] text-balance text-[calc(clamp(1.875rem,6.4vw,3.25rem)*var(--display-scale))] text-ink">
             {t(story.takeaway.lead)}
@@ -298,6 +303,18 @@ export default function StoryPage() {
             {t(contact.whatsapp.label)}
           </Button>
         </Reveal>
+        </div>
+
+        <img
+          src={story.takeaway.art.src}
+          alt={t(story.takeaway.art.alt)}
+          width={story.takeaway.art.width}
+          height={story.takeaway.art.height}
+          loading="lazy"
+          decoding="async"
+          className="hidden h-auto w-full lg:block"
+        />
+        </div>
       </Section>
     </main>
   );

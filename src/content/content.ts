@@ -628,9 +628,15 @@ export const ui = {
 };
 
 export const seo = {
+  /*
+    THE SAME STRING IN BOTH LANGUAGES, on Mahmoud's instruction. This is what
+    a browser tab, a bookmark and a shared card say, and he wants one name
+    there whichever language the page is in — the one the domain carries,
+    mahmoudelzaqla.site, rather than the one the body copy uses.
+  */
   title: {
-    ar: 'محمود عاطف — E-commerce Growth Specialist',
-    en: 'Mahmoud Atef — E-commerce Growth Specialist',
+    ar: 'Portfolio Mahmoud Elzaqla',
+    en: 'Portfolio Mahmoud Elzaqla',
   } satisfies Localized,
   description: {
     ar: 'ببني ستورات Shopify، وبشغّل إعلانات Meta وTikTok، وبشوف المنتج والسوق والعميل والتشغيل والأرقام — وبعدين بشوف الإعلان.',

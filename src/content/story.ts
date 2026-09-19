@@ -338,11 +338,31 @@ export const story = {
       ar: 'بشوف المنتج والسوق والعميل، والستور والتشغيل والأرقام — وبعدين بشوف الإعلان.',
       en: 'I look at the product, the market, the customer, the website, the operations and the numbers — and then I look at the ad.',
     } satisfies Localized,
+    /*
+      The photograph beside the closing line, on a laptop only.
+      
+      It is the one that used to sit in the middle of the main portfolio's
+      projects section and in its footer — him behind a fan of dollar notes —
+      which Mahmoud took off that site on 2026-09-19 because it hid his face
+      in the place a reader looks for it. He put it here instead, at the end
+      of the story, where nothing depends on seeing his face.
+    */
+    art: {
+      src: '/img/story-closing.webp',
+      width: 1100,
+      height: 927,
+      alt: {
+        ar: 'محمود عاطف ماسك مروحة من ورق الدولار قدام وشه وفي إيده التانية تليفون.',
+        en: 'Mahmoud Atef holding a fan of dollar notes in front of his face, a phone in his other hand.',
+      } satisfies Localized,
+    },
   },
 
   /* ---------------------------------------------------------------- seo */
   seo: {
-    title: { ar: 'الحكاية كاملة — محمود عاطف', en: 'The full background — Mahmoud Atef' } satisfies Localized,
+    /* The page keeps its own prefix — two pages must not share one title —
+       and carries the same name the home page's title does. */
+    title: { ar: 'الحكاية كاملة — Mahmoud Elzaqla', en: 'The full background — Mahmoud Elzaqla' } satisfies Localized,
     description: {
       ar: 'من المخزن وتحضير الأوردرات، للتشغيل وإدارته، لـ Bloomy والـ Shopify والإعلانات — الحكاية بالترتيب اللي حصلت بيه.',
       en: 'From the warehouse and preparing orders, to running the operation, to Bloomy, Shopify and the ads — the story in the order it happened.',
