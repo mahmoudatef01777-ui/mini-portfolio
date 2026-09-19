@@ -47,6 +47,27 @@ export interface StoryStage {
     /** Set the figure smaller and dimmer — for a number that is not his. */
     quiet?: boolean;
   }>;
+  /**
+   * A picture for this stage. Laptop only — see StoryPage.tsx. A stage
+   * without one simply renders none, so the six can arrive one at a time.
+   *
+   * THESE ARE IMAGINED SCENES, and Mahmoud said so when he commissioned them:
+   * they illustrate the kind of work a stage describes, they are not
+   * photographs of a particular place, and they prove nothing. Every capture
+   * elsewhere on this site backs a figure and carries its source and its
+   * period. These do the opposite job and must never be dressed up as though
+   * they did that one.
+   *
+   * SO: no caption naming a client, an employer, a warehouse or a date, and
+   * `alt` describes what is in the frame and stops there. Say more than that
+   * and an illustration turns into a claim.
+   */
+  art?: {
+    src: string;
+    width: number;
+    height: number;
+    alt: Localized;
+  };
 }
 
 export const story = {
@@ -104,6 +125,16 @@ export const story = {
         { value: '+5,000', label: { ar: 'أوردر جهّزتها', en: 'orders prepared' } },
         { value: '+11,000', label: { ar: 'قطعة استلمتها في المخزن', en: 'pieces received into the warehouse' } },
       ],
+      /* First of six. See the note on `art` in StoryStage above. */
+      art: {
+        src: '/img/story-operations.webp',
+        width: 1200,
+        height: 751,
+        alt: {
+          ar: 'محمود عاطف في مخزن بيجهّز أوردر وفي إيده بوليصة شحن، وحواليه رفوف وطرود.',
+          en: 'Mahmoud Atef in a warehouse preparing an order, a shipping label in his hand, racks and parcels around him.',
+        },
+      },
     },
     {
       id: 'customers',
@@ -121,6 +152,16 @@ export const story = {
       stats: [
         { value: '+4,000', label: { ar: 'أوردر مرتجعات وإعادة طلبات', en: 'orders involving returns and replacements' } },
       ],
+      /* Second of six. See the note on `art` in StoryStage above. */
+      art: {
+        src: '/img/story-customers.webp',
+        width: 1200,
+        height: 751,
+        alt: {
+          ar: 'محمود عاطف على مكتب فيه لابتوب وتليفون ونوتة، وحواليه كراتين مرتجعات واستبدال وطرود متجهزة.',
+          en: 'Mahmoud Atef at a desk with a laptop, a phone and a notebook, boxes for returns and replacements and packed parcels around him.',
+        },
+      },
     },
     {
       id: 'managing',
@@ -155,6 +196,16 @@ export const story = {
           },
         },
       ],
+      /* Third of six. See the note on `art` in StoryStage above. */
+      art: {
+        src: '/img/story-managing.webp',
+        width: 1200,
+        height: 751,
+        alt: {
+          ar: 'محمود عاطف في مخزن ماسك تابلت وبيتابع التشغيل، وحواليه فريق شغّال ورفوف وطرود متجهزة.',
+          en: 'Mahmoud Atef in a warehouse holding a tablet and following the operation, a team working around him among shelves and packed parcels.',
+        },
+      },
     },
     {
       id: 'production',
@@ -168,6 +219,21 @@ export const story = {
           'Then I went deeper into the production side, went down to the factory and saw the manufacturing stages myself.', // REVIEW
           'I am not a production specialist, but that experience taught me how much a delay in production, or a problem in the product, can reach the stock, the orders and in the end the customer.', // REVIEW
         ],
+      },
+      /*
+        Fourth of six. See the note on `art` in StoryStage above — and one
+        thing on top of it here: the body says outright that he is not a
+        production specialist. The alt describes a factory floor he is
+        standing on, and must never drift into saying he runs one.
+      */
+      art: {
+        src: '/img/story-production.webp',
+        width: 1200,
+        height: 751,
+        alt: {
+          ar: 'محمود عاطف في مصنع ملابس بيبص على قطعة قماش، وحواليه ماكينات خياطة وفريق شغّال وقطع متطبّقة.',
+          en: 'Mahmoud Atef on a clothing factory floor looking at a piece of fabric, sewing machines, a working team and folded pieces around him.',
+        },
       },
     },
     {
@@ -185,6 +251,20 @@ export const story = {
           'After that role ended, I started Bloomy from scratch.',
           'I studied the product, the market, the competitors and the cost, tested demand with Message Ads, and built the business step by step.', // REVIEW
         ],
+      },
+      /*
+        Fifth of six. See the note on `art` in StoryStage above. The Bloomy
+        name is visible in this one and that is fine — it is his own brand and
+        the site names it openly. No other brand may appear in any of these.
+      */
+      art: {
+        src: '/img/story-bloomy.webp',
+        width: 1200,
+        height: 751,
+        alt: {
+          ar: 'محمود عاطف على مكتب بيخطّط لـBloomy — لابتوب ونوتة وعيّنات قماش ورسومات، وستاند لبس ولوحة أفكار وراه.',
+          en: 'Mahmoud Atef at a desk planning Bloomy — a laptop, a notebook, fabric samples and sketches, a clothing rail and a mood board behind him.',
+        },
       },
     },
     {

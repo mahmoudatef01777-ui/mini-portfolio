@@ -148,7 +148,24 @@ export default function StoryPage() {
                   <StageNumber n={i + 1} />
                 </div>
 
-                <div className="min-w-0 flex-1 pb-2">
+                {/*
+                  A STAGE WITH A PICTURE SHOWS IT BESIDE THE WORDS ON A LAPTOP
+                  AND NOWHERE ELSE.
+
+                  Mahmoud's call: these are illustrations, and six of them
+                  stacked between six blocks of text is what a phone would
+                  make of them — the reader would scroll past a picture to
+                  reach the next sentence, six times. `hidden` on the img is
+                  not just visual: the browser never requests a file it is
+                  told not to display, so a phone does not pay for them.
+                */}
+                <div
+                  className={cn(
+                    'min-w-0 flex-1 pb-2',
+                    stage.art && 'lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,21rem)] lg:items-start lg:gap-10',
+                  )}
+                >
+                  <div className="min-w-0">
                   <h2 className="display max-w-[24ch] text-[calc(clamp(1.25rem,3.6vw,1.875rem)*var(--display-scale))] text-ink">
                     {t(stage.name)}
                   </h2>
@@ -206,6 +223,19 @@ export default function StoryPage() {
                           time they appear. */}
                       <p className="mt-2.5 text-[0.6875rem] text-ink-dim">{t(story.statsNote)}</p>
                     </div>
+                  )}
+                  </div>
+
+                  {stage.art && (
+                    <img
+                      src={stage.art.src}
+                      alt={t(stage.art.alt)}
+                      width={stage.art.width}
+                      height={stage.art.height}
+                      loading="lazy"
+                      decoding="async"
+                      className="hidden h-auto w-full rounded-media border border-line lg:block"
+                    />
                   )}
                 </div>
               </article>
