@@ -689,7 +689,7 @@ export function Sites() {
           </p>
         </Reveal>
 
-        <ul className="mt-10 space-y-12 md:mt-14 md:space-y-16">
+        <ul className="mt-10 space-y-12 md:mt-14 md:space-y-16 lg:space-y-24">
           {sites.demos.map((demo, i) => (
             <Reveal as="li" key={demo.id} delay={0.04 * (i % 2)}>
               <StoreDemo demo={demo} visit={sites.visit} />

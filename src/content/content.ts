@@ -460,21 +460,55 @@ export const sites = {
 
   demos: [
     {
-      id: 'cove',
-      name: 'Cove',
-      href: 'https://covestore.co',
-      domain: 'covestore.co',
+      id: 'kayan',
+      name: 'KAYAN',
+      href: 'https://kayaan.com.co',
+      domain: 'kayaan.com.co',
       detail: {
-        /* Was "بنيت الستور وشغّلت العمليات والمبيعات". Scoped back on
-           2026-09-17: a caption here must not tie a named brand to ad work or
-           to sales. This section is the stores he built; who spent what, and
-           what it returned, is the Results section's job and it carries the
-           evidence for it. */
-        ar: 'بنيت الستور',
-        en: 'Built the store',
+        ar: 'بنيت ستور Shopify لبراند ستريت وير أطفال',
+        en: 'Built the Shopify store for a kids streetwear brand',
       } satisfies Localized,
-      desktop: { src: '/img/site-cove.webp', width: 2880, height: 1360 },
-      phone: { src: '/img/phone-cove.webp', width: 1170, height: 2280 },
+      desktop: { src: '/img/site-kayan.webp', width: 2880, height: 1360 },
+      phone: { src: '/img/phone-kayan.webp', width: 1170, height: 2280 },
+    },
+    {
+      /*
+        ADDED 2026-09-17 ON MAHMOUD'S EXPLICIT INSTRUCTION, after he was told
+        what it means.
+
+        It went up while the storefront was answering HTTP 402 — the Shopify
+        plan was frozen — so the browser frame around it was claiming the store
+        was running when it was not. The plan is live again: the url answers
+        200, and both captures below were retaken from it on 2026-09-19, the
+        desktop one from the homepage's own BEST SELLERS row and the phone one
+        from the Clogsy Tiger product page.
+
+        If it ever goes back to 402, the frame is a lie again — pull the card
+        rather than pointing it somewhere else. A substitute url would be a
+        fake demo, which is worse than a frozen one.
+      */
+      id: 'yours-shoes',
+      name: 'Yours Shoes',
+      href: 'https://yoursshoes-eg.myshopify.com',
+      domain: 'yoursshoes-eg.myshopify.com',
+      detail: {
+        ar: 'بنيت ستور Shopify لبراند أحذية حريمي', // REVIEW
+        en: 'Built the Shopify store for a women’s footwear brand',
+      } satisfies Localized,
+      desktop: { src: '/img/site-yours-shoes.webp', width: 2880, height: 1360 },
+      phone: { src: '/img/phone-yours-shoes.webp', width: 1170, height: 2280 },
+    },
+    {
+      id: 'asloaraby',
+      name: 'أصله عربي',
+      href: 'https://asloaraby.myshopify.com',
+      domain: 'asloaraby.myshopify.com',
+      detail: {
+        ar: 'بنيت ستور Shopify لبراند مستوحى من الإرث العربي',
+        en: 'Built the Shopify store for a heritage-led clothing brand',
+      } satisfies Localized,
+      desktop: { src: '/img/site-asloaraby.webp', width: 2880, height: 1360 },
+      phone: { src: '/img/phone-asloaraby.webp', width: 1170, height: 2280 },
     },
     {
       id: 'veloura',
@@ -490,54 +524,21 @@ export const sites = {
       phone: { src: '/img/phone-veloura.webp', width: 1170, height: 2280 },
     },
     {
-      id: 'kayan',
-      name: 'KAYAN',
-      href: 'https://kayaan.com.co',
-      domain: 'kayaan.com.co',
+      id: 'cove',
+      name: 'Cove',
+      href: 'https://covestore.co',
+      domain: 'covestore.co',
       detail: {
-        ar: 'بنيت ستور Shopify لبراند ستريت وير أطفال',
-        en: 'Built the Shopify store for a kids streetwear brand',
+        /* Was "بنيت الستور وشغّلت العمليات والمبيعات". Scoped back on
+           2026-09-17: a caption here must not tie a named brand to ad work or
+           to sales. This section is the stores he built; who spent what, and
+           what it returned, is the Results section's job and it carries the
+           evidence for it. */
+        ar: 'بنيت الستور',
+        en: 'Built the store',
       } satisfies Localized,
-      desktop: { src: '/img/site-kayan.webp', width: 2880, height: 1360 },
-      phone: { src: '/img/phone-kayan.webp', width: 1170, height: 2280 },
-    },
-    {
-      id: 'asloaraby',
-      name: 'أصله عربي',
-      href: 'https://asloaraby.myshopify.com',
-      domain: 'asloaraby.myshopify.com',
-      detail: {
-        ar: 'بنيت ستور Shopify لبراند مستوحى من الإرث العربي',
-        en: 'Built the Shopify store for a heritage-led clothing brand',
-      } satisfies Localized,
-      desktop: { src: '/img/site-asloaraby.webp', width: 2880, height: 1360 },
-      phone: { src: '/img/phone-asloaraby.webp', width: 1170, height: 2280 },
-    },
-    {
-      /*
-        ADDED 2026-09-17 ON MAHMOUD'S EXPLICIT INSTRUCTION, after he was told
-        what it means.
-
-        The url is real and it is the one the main portfolio carries, but the
-        storefront answers HTTP 402 — the Shopify plan is frozen — and it was
-        still answering 402 when this card was added. So the demo frame around
-        it is making a claim the store does not currently meet, which is why
-        the section's intro no longer says these are all running.
-
-        The moment the plan is reactivated this comment can go. Until then,
-        do not "fix" the 402 by pointing this anywhere else: a substitute url
-        would be a fake demo, which is worse than a frozen one.
-      */
-      id: 'yours-shoes',
-      name: 'Yours Shoes',
-      href: 'https://yoursshoes-eg.myshopify.com',
-      domain: 'yoursshoes-eg.myshopify.com',
-      detail: {
-        ar: 'بنيت ستور Shopify لبراند أحذية حريمي', // REVIEW
-        en: 'Built the Shopify store for a women’s footwear brand',
-      } satisfies Localized,
-      desktop: { src: '/img/site-yours-shoes.webp', width: 2880, height: 1360 },
-      phone: { src: '/img/phone-yours-shoes.webp', width: 1170, height: 2280 },
+      desktop: { src: '/img/site-cove.webp', width: 2880, height: 1360 },
+      phone: { src: '/img/phone-cove.webp', width: 1170, height: 2280 },
     },
   ],
 

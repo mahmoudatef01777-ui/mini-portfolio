@@ -29,16 +29,26 @@ export interface Demo {
   phone: { src: string; width: number; height: number };
 }
 
+/*
+  ON A LAPTOP THE DEMO TAKES THE WHOLE COLUMN.
+
+  The figure was capped at 44rem at every width, which on a 1280 screen left
+  the right-hand half of the section empty and shrank the storefront to a
+  thumbnail — the one thing in this section worth looking at. The cap still
+  holds below `lg`, where a wider frame would only mean a smaller phone on
+  top of it; above `lg` the frame takes the column and the phone, the address
+  bar and the padding all grow with it.
+*/
 export default function StoreDemo({ demo, visit }: { demo: Demo; visit: Localized }) {
   const { t, isRTL } = useLang();
 
   return (
-    <figure className="max-w-[44rem]">
+    <figure className="max-w-[44rem] lg:max-w-none">
       <a
         href={demo.href}
         target="_blank"
         rel="noreferrer noopener"
-        className="group block rounded-media border border-line bg-soft p-3 transition-colors duration-300 ease-out hover:border-ink/30 md:p-4"
+        className="group block rounded-media border border-line bg-soft p-3 transition-colors duration-300 ease-out hover:border-ink/30 md:p-4 lg:p-5"
       >
         <div className="relative">
           <div className="overflow-hidden rounded-lg border border-line bg-paper">
@@ -53,7 +63,7 @@ export default function StoreDemo({ demo, visit }: { demo: Demo; visit: Localize
               </span>
               <span
                 dir="ltr"
-                className="font-latin min-w-0 flex-1 truncate rounded-full bg-cream px-3 py-1 text-center text-[0.6875rem] text-ink-dim"
+                className="font-latin min-w-0 flex-1 truncate rounded-full bg-cream px-3 py-1 text-center text-[0.6875rem] text-ink-dim lg:py-1.5 lg:text-xs"
               >
                 {demo.domain}
               </span>
@@ -83,7 +93,7 @@ export default function StoreDemo({ demo, visit }: { demo: Demo; visit: Localize
             the frame, pushed to the end side so it reads as part of the demo
             rather than as something left over. The laptop view is unchanged.
           */}
-          <div className="ms-auto mt-3 w-[6.5rem] md:absolute md:-bottom-4 md:end-4 md:mt-0 md:w-[9rem]">
+          <div className="ms-auto mt-3 w-[6.5rem] md:absolute md:-bottom-4 md:end-4 md:mt-0 md:w-[9rem] lg:-bottom-6 lg:end-8 lg:w-[12.5rem]">
             <div className="overflow-hidden rounded-[1.1rem] border-[3px] border-ink bg-ink shadow-[0_10px_30px_-12px_rgba(17,17,17,0.45)]">
               <img
                 src={demo.phone.src}
