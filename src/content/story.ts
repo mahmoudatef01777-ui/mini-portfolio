@@ -280,6 +280,30 @@ export const story = {
           'I started running Meta Ads, testing creatives and angles, and tying what I saw in Ads Manager to what happened after the order.', // REVIEW
         ],
       },
+      /*
+        Sixth of six, and the only one that needs watching. See the note on
+        `art` in StoryStage above, and then this:
+
+        THERE ARE REAL FIGURES ON THE SCREENS IN IT — EGP 1,061,525, 28.3K
+        sessions, 1,361 orders, 4.51% — and they are the Veloura figures this
+        site already publishes in content/proof.ts, with their capture and
+        their period. They were checked against it line by line. That is the
+        only reason an illustration is allowed to carry numbers at all.
+
+        SO: if a figure in proof.ts ever moves, this picture is quietly showing
+        an old one, and a drawn scene is not something a reader can check a
+        source on. Re-draw it or drop it. Never let it show a number this site
+        does not publish, and never caption it as a dashboard.
+      */
+      art: {
+        src: '/img/story-shopify.webp',
+        width: 1200,
+        height: 800,
+        alt: {
+          ar: 'محمود عاطف قدام لابتوب وشاشتين، على واحدة ستور وعلى التانية داشبورد مبيعات، وجنبه نوتة خطة نمو.',
+          en: 'Mahmoud Atef at a laptop with two screens, a storefront on one and a sales dashboard on the other, a growth-plan notebook beside him.',
+        },
+      },
     },
   ] satisfies StoryStage[],
 
