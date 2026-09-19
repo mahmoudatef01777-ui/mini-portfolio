@@ -73,8 +73,12 @@ export const hero = {
   photo: {
     src: '/img/hero-mobile.webp',
     wide: '/img/hero-desktop.webp',
-    width: 1080,
-    height: 1350,
+    /* The mobile file's own size. The wide one is 1536x1024 and its box is
+       declared on the <source> in Sections.tsx — both changed on 2026-09-19
+       when Mahmoud supplied a new pair, and a stale number here reserves the
+       wrong height and costs a layout shift. */
+    width: 941,
+    height: 1672,
     alt: {
       ar: 'محمود عاطف قدام داشبوردات Shopify فيها نتايج ستورات اشتغل عليها.',
       en: 'Mahmoud Atef in front of Shopify dashboards showing results from the stores he has worked on.',

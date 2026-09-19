@@ -52,7 +52,7 @@ export function Hero() {
           box. The media query keeps the file and the reserved box in step, and
           that is what keeps CLS at zero. */}
       <picture>
-        <source media="(min-width: 768px)" srcSet={hero.photo.wide} width={1672} height={941} />
+        <source media="(min-width: 768px)" srcSet={hero.photo.wide} width={1536} height={1024} />
         <img
           src={hero.photo.src}
           sizes="100vw"
@@ -64,7 +64,7 @@ export function Hero() {
           // attribute and warns about it; spread emits the real lowercase
           // one. React 19 handles the camelCase spelling directly.
           {...{ fetchpriority: 'high' }}
-          className="block w-full object-cover [aspect-ratio:1080/1350] md:[aspect-ratio:1672/941]"
+          className="block w-full object-cover [aspect-ratio:941/1672] md:[aspect-ratio:1536/1024]"
         />
       </picture>
 
