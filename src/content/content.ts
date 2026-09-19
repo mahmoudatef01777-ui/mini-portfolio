@@ -73,6 +73,12 @@ export const hero = {
   photo: {
     src: '/img/hero-mobile.webp',
     wide: '/img/hero-desktop.webp',
+    /* The same two pictures in AVIF, and the ones actually served. The hero is
+       the LCP element and the WebP pair was 164 KB and 143 KB — most of what a
+       phone downloaded before it saw anything. AVIF at quality 58 is 68 KB and
+       56 KB, indistinguishable at 2x zoom. The WebP stays as the fallback. */
+    srcAvif: '/img/hero-mobile.avif',
+    wideAvif: '/img/hero-desktop.avif',
     /* The mobile file's own size. The wide one is 1536x1024 and its box is
        declared on the <source> in Sections.tsx — both changed on 2026-09-19
        when Mahmoud supplied a new pair, and a stale number here reserves the

@@ -52,7 +52,12 @@ export function Hero() {
           box. The media query keeps the file and the reserved box in step, and
           that is what keeps CLS at zero. */}
       <picture>
+        {/* AVIF first at each width, then the WebP the <img> falls back to.
+            A browser picks the first <source> it can decode, so the order is
+            the whole mechanism. */}
+        <source media="(min-width: 768px)" srcSet={hero.photo.wideAvif} type="image/avif" width={1536} height={1024} />
         <source media="(min-width: 768px)" srcSet={hero.photo.wide} width={1536} height={1024} />
+        <source srcSet={hero.photo.srcAvif} type="image/avif" width={941} height={1672} />
         <img
           src={hero.photo.src}
           sizes="100vw"

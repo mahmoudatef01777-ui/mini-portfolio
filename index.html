@@ -104,8 +104,17 @@
 
     <!-- The portrait is the LCP element, so it is fetched before the bundle
          asks for it. -->
-    <link rel="preload" as="image" href="/img/hero-mobile.webp" media="(max-width: 1023px)" />
-    <link rel="preload" as="image" href="/img/hero-desktop.webp" media="(min-width: 1024px)" />
+    <!--
+      THE BREAKPOINT HERE HAS TO MATCH THE ONE THE PAGE SWITCHES AT.
+      It said 1023/1024 while the hero switches files at 768, so between
+      those widths a visitor preloaded one file and was then shown the
+      other: a wasted download AND an LCP image that was never preloaded.
+
+      AVIF, with `type`, so a browser that cannot decode it skips the
+      preload and simply takes the WebP from the <picture> instead.
+    -->
+    <link rel="preload" as="image" href="/img/hero-mobile.avif" type="image/avif" media="(max-width: 767px)" />
+    <link rel="preload" as="image" href="/img/hero-desktop.avif" type="image/avif" media="(min-width: 768px)" />
   </head>
   <body>
     <div id="root"></div>
