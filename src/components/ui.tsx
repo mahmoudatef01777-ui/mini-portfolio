@@ -84,7 +84,13 @@ export function Button({
 }: {
   href: string;
   children: ReactNode;
-  tone?: 'solid' | 'quiet';
+  /**
+   * `whatsapp` is `solid` plus the fill: the pill starts as the ink button
+   * every other call to action uses, and hovering pours WhatsApp green into
+   * it. Opt-in rather than automatic, because only the WhatsApp link earns
+   * another company's colour — see `.btn-water` in styles/index.css.
+   */
+  tone?: 'solid' | 'quiet' | 'whatsapp';
   className?: string;
 }) {
   const external = href.startsWith('http') || href.startsWith('mailto:');
@@ -94,12 +100,20 @@ export function Button({
       {...(external ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
       className={cn(
         'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-colors duration-300 ease-out md:text-base',
-        tone === 'solid'
-          ? 'bg-ink text-cream hover:bg-orange hover:text-on-orange'
-          : 'border border-line text-ink hover:border-ink',
+        tone === 'solid' && 'bg-ink text-cream hover:bg-orange hover:text-on-orange',
+        tone === 'quiet' && 'border border-line text-ink hover:border-ink',
+        tone === 'whatsapp' &&
+          // `isolate` keeps the fill in this pill's own stacking context,
+          // `overflow-hidden` clips it to the rounded shape, and the delay on
+          // the colour transition lets the water reach the label first.
+          // `on-orange` rather than `ink`: it is #111111 in BOTH themes, because it
+          // exists for dark text on a brand colour. `ink` inverts to near-white
+          // in dark mode, which would have put light text on the green.
+          'btn-fill relative isolate overflow-hidden bg-ink text-cream [transition-delay:340ms] hover:text-on-orange',
         className,
       )}
     >
+      {tone === 'whatsapp' && <span aria-hidden className="btn-water -z-10" />}
       {children}
     </a>
   );

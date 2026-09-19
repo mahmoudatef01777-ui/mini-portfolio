@@ -150,7 +150,7 @@ export const story = {
           quiet: true,
           value: 'EGP 6.5M',
           label: {
-            ar: 'مبيعات الشركة في الفترة دي — مش نتيجة منسوبة ليا',
+            ar: 'مبيعات الشركة في الفترة دي — مش نتيجة بنسبها لنفسي',
             en: "the company's sales in that period — not a result attributed to me",
           },
         },
@@ -255,7 +255,7 @@ export const story = {
   takeaway: {
     lead: { ar: 'أنا مش بشوف الإعلان لوحده.', en: "I don't look at the ad on its own." } satisfies Localized,
     body: {
-      ar: 'بشوف المنتج، السوق، العميل، الـwebsite، الـoperations والأرقام — وبعدها بشوف الإعلان.',
+      ar: 'بشوف المنتج والسوق والعميل، والستور والتشغيل والأرقام — وبعدين بشوف الإعلان.',
       en: 'I look at the product, the market, the customer, the website, the operations and the numbers — and then I look at the ad.',
     } satisfies Localized,
   },

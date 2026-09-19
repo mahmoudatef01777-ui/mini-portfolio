@@ -67,8 +67,8 @@ export const hero = {
     en: "I don't look at the ad on its own.",
   } satisfies Localized,
   subline: {
-    ar: 'بشوف المنافسين والـbenchmark، المنتج، السوق، العميل، الـwebsite، الـoperations والأرقام — وبعدها بشوف الإعلان.',
-    en: 'I look at the competitors and the benchmark, the product, the market, the customer, the website, the operations and the numbers — and then I look at the ad.',
+    ar: 'بشوف المنافسين والـbenchmark، والمنتج والسوق والعميل، والستور والتشغيل والأرقام — وبعدين بشوف الإعلان.',
+    en: 'I look at the competitors and the benchmarks, the product, the market, the customer, the website, the operations and the numbers — and then I look at the ad.',
   } satisfies Localized,
   photo: {
     src: '/img/hero-mobile.webp',
@@ -76,7 +76,7 @@ export const hero = {
     width: 1080,
     height: 1350,
     alt: {
-      ar: 'محمود عاطف قدام داشبوردات Shopify بتوضّح نتايج المتاجر اللي اشتغل عليها.',
+      ar: 'محمود عاطف قدام داشبوردات Shopify فيها نتايج ستورات اشتغل عليها.',
       en: 'Mahmoud Atef in front of Shopify dashboards showing results from the stores he has worked on.',
     } satisfies Localized,
   },
@@ -107,7 +107,7 @@ export const about = {
 
   body: {
     ar: [
-      'حضرت آلاف الأوردرات، اشتغلت على الـERP، وتابعت التشغيل والستوك والإنتاج. ومع الوقت فهمت إن الإعلان جزء من السيستم، مش السيستم كله.',
+      'حضّرت آلاف الأوردرات، اشتغلت على الـERP، وتابعت التشغيل والستوك والإنتاج. ومع الوقت فهمت إن الإعلان جزء من السيستم، مش السيستم كله.',
       /* "متابعة التصنيع", never "التصنيع" on its own: docs/CLAUDE.md is explicit
          that he coordinated production and is not a manufacturer. One word is
          the whole difference. */
@@ -116,7 +116,7 @@ export const about = {
     ],
     en: [
       'I prepared thousands of orders, worked on the ERP, and followed the operation, the stock and the production. Over time I understood that the ad is one part of the system, not the whole system.',
-      'And with Bloomy I lived the full cycle myself — from choosing the product, the pricing and following the production, through to the ads, the website, the orders, the shipping and the returns.',
+      'And with Bloomy I lived the full cycle myself — from choosing the product, setting the pricing and following the production, through to the ads, the website, the orders, the shipping and the returns.',
       "So when I look at an ad, I don't ask how many orders it brought. I ask what happened to that order afterwards.",
     ],
   } satisfies Localized<string[]>,
@@ -146,7 +146,7 @@ export const about = {
     { ar: 'الأوردر', en: 'The order' },
     { ar: 'التشغيل', en: 'Operations' },
     { ar: 'التسليم', en: 'Delivery' },
-    { ar: 'النتيجة النهائية للبيزنس', en: "The business's bottom line" },
+    { ar: 'نتيجة البيزنس', en: "The business's bottom line" },
   ] as Localized[],
 };
 
@@ -176,7 +176,7 @@ export const results = {
     {
       id: 'orders',
       value: '25,000+',
-      label: { ar: 'أوردر اتعاملت معاها وأدرتها', en: 'Orders handled and managed' } satisfies Localized,
+      label: { ar: 'أوردر اتعاملت معاها وأنا اللي مديرها', en: 'Orders handled and managed' } satisfies Localized,
     },
     {
       id: 'sales',
@@ -196,7 +196,7 @@ export const results = {
        */
       value: '~6',
       unit: { ar: 'شهور', en: 'months' } satisfies Localized,
-      label: { ar: 'المدة اللي اتحققت فيها المبيعات دي', en: 'The period these sales were recorded in' } satisfies Localized, // REVIEW
+      label: { ar: 'المدة اللي جت فيها المبيعات دي', en: 'The period these sales were recorded in' } satisfies Localized,
     },
   ],
 
@@ -210,8 +210,8 @@ export const results = {
    */
 
   note: {
-    ar: 'دي مبيعات وأوردرات متسجلة، مش أرباح — وأرقام شغل عملته بنفسي، مش نتايج منسوبة ليا. كل لقطة مكتوب جنبها مصدرها وفترتها.',
-    en: 'These are recorded sales and orders, not profit — and they count work I did myself, not results attributed to me. Every screenshot carries its source and its period.',
+    ar: 'دي مبيعات وأوردرات مسجّلة، مش أرباح — وشغل عملته بإيدي، مش نتايج بنسبها لنفسي. كل لقطة مكتوب جنبها مصدرها وفترتها.',
+    en: "These are recorded sales and orders, not profit — and it's work I did myself, not results credited to me. Every screenshot carries its source and its period.",
   } satisfies Localized,
 
   cta: { ar: 'القصة كاملة', en: 'Read the full story' } satisfies Localized,
@@ -236,7 +236,7 @@ export const ads = {
      them this section shows and which sit behind the viewer. */
 
   note: {
-    ar: 'اللقطة اللي مكتوب جنبها تاريخ، ده التاريخ الظاهر فيها. و«Messaging conversations» لو ظهرت في أي جدول، دي محادثات مش أوردرات.',
+    ar: 'أي لقطة مكتوب جنبها تاريخ، ده التاريخ الظاهر فيها هي نفسها. ولو لقيت «Messaging conversations» في أي جدول، دي محادثات مش أوردرات.',
     en: 'Where a capture carries a date range, that is the range shown in the image. And where a table reports "messaging conversations", those are conversations, not orders.',
   } satisfies Localized,
 };
@@ -558,13 +558,13 @@ export const sites = {
    * It does not name which client, and it does not blame one.
    */
   positioning: {
-    ar: 'موضوع المواقع واسع، وأنا مش web developer. اتعلّمت Shopify — كورس E-Cart — عشان لازم أفهم المنصة اللي العميل بيشتري من عليها. في ستورات منهم الـ UI/UX كان ممكن يطلع أحسن، وده بيرجع لوقت العميل وباجِته مش لمستوى الشغل، بس اللي بمسك فيه دايمًا هو الـ CRO: إن الستور يبيع. تركيزي الأساسي في الـ e-commerce نفسه.', // REVIEW
+    ar: 'موضوع المواقع واسع، وأنا مش web developer. اتعلّمت Shopify — كورس E-Cart — عشان لازم أفهم المنصة اللي العميل بيشتري من عليها. في ستورات منهم الـ UI/UX كان ممكن يطلع أحسن، وده بيرجع لوقت العميل وباجته مش لمستوى الشغل، بس اللي بمسك فيه دايمًا هو الـ CRO: إن الستور يبيع. تركيزي الأساسي في الـ e-commerce نفسه.', // REVIEW
     en: 'Website work is a wide field, and I am not a web developer. I learned Shopify — the E-Cart course — because I have to understand the platform the customer actually buys on. On some of these the UI and UX could have gone further; that came down to the client\u2019s timeline and budget rather than the standard. What I hold to every time is CRO: that the store sells. My focus is the e-commerce itself.',
   } satisfies Localized,
 
   visit: { ar: 'افتح الستور', en: 'Open the store' } satisfies Localized,
   note: {
-    ar: 'اللقطات دي حقيقية من الستورات نفسها، مش إطارات مركّبة — بس هي لقطات، فأي تغيير على ستور عند العميل مش هيظهر هنا لوحده.',
+    ar: 'دي لقطات حقيقية من الستورات نفسها، مش موك أب — بس هي لقطات، يعني أي تغيير يحصل على ستور عند العميل مش هيظهر هنا لوحده.',
     en: 'These are real captures of the stores themselves, not mocked-up frames — but they are captures, so a change on a client’s store does not appear here by itself.',
   } satisfies Localized,
 };
@@ -596,7 +596,7 @@ export const fullStory = {
 export const closing = {
   lead: { ar: 'مبدأتش بالإعلانات.', en: 'I didn’t start with ads.' } satisfies Localized,
   body: {
-    ar: 'بدأت إني أفهم البيزنس — من المنتج لحد التسليم.',
+    ar: 'بدأت من إني أفهم البيزنس — من المنتج لحد التسليم.',
     en: 'I started by understanding the business — from product to delivery.',
   } satisfies Localized,
 };
@@ -610,7 +610,7 @@ export const cta = {
     en: 'Let’s build something that actually grows.',
   } satisfies Localized,
   body: {
-    ar: 'لو عندك براند e-commerce ومحتاج حد يشوف الصورة كاملة — الستور والإعلانات والتشغيل — ابعتلي وقولي انت فين دلوقتي.',
+    ar: 'لو عندك براند e-commerce ومحتاج حد يشوف الصورة كاملة — الستور والإعلانات والتشغيل — ابعتلي وقولي إنت واقف فين دلوقتي.',
     en: 'If you have an e-commerce brand and want someone who sees the whole picture — the store, the ads and the operation — message me and tell me where you are right now.',
   } satisfies Localized,
 };
@@ -624,7 +624,7 @@ export const ui = {
      says what pressing it does. */
   toggleLangLabel: { ar: 'Read this page in English', en: 'اقرأ الصفحة بالعربية' } satisfies Localized,
   toggleTheme: { ar: 'غيّر الوضع', en: 'Switch theme' } satisfies Localized,
-  skip: { ar: 'تخطَّ إلى المحتوى', en: 'Skip to content' } satisfies Localized,
+  skip: { ar: 'روح للمحتوى', en: 'Skip to content' } satisfies Localized,
 };
 
 export const seo = {
@@ -633,7 +633,7 @@ export const seo = {
     en: 'Mahmoud Atef — E-commerce Growth Specialist',
   } satisfies Localized,
   description: {
-    ar: 'ببني ستورات Shopify، وبشغّل إعلانات Meta وTikTok، وبشوف المنتج والسوق والعميل والتشغيل والأرقام — وبعدها بشوف الإعلان.',
+    ar: 'ببني ستورات Shopify، وبشغّل إعلانات Meta وTikTok، وبشوف المنتج والسوق والعميل والتشغيل والأرقام — وبعدين بشوف الإعلان.',
     en: 'I build Shopify stores, run Meta and TikTok ads, and read the product, the market, the customer, the operation and the numbers before I read the ad.',
   } satisfies Localized,
 };

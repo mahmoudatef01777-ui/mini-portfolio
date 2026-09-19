@@ -505,7 +505,7 @@ export const resultCards: ResultCard[] = [
     brand: 'Bloomy',
     logo: '/img/logo-bloomy.webp',
     alias: { ar: 'البراند بتاعي', en: 'my own brand' } satisfies Localized,
-    badge: { ar: 'براندي أنا', en: 'my own brand' },
+    badge: { ar: 'البراند بتاعي', en: 'my own brand' },
     /* Ran about three to four months and is stopped now (docs/context.md §5).
        Without this the ERP total reads as a brand still trading. */
     status: { ar: 'وقفته بعد ~4 شهور', en: 'stopped it after ~4 months' },
@@ -552,7 +552,7 @@ export const resultCards: ResultCard[] = [
     value: 'EGP 1.01M',
     label: { ar: '1,526 أوردر organic', en: '1,526 organic orders' },
     did: {
-      ar: 'بنيت الستور وشغّلت العمليات والمبيعات',
+      ar: 'بنيت الستور وشغّلت التشغيل والمبيعات',
       en: 'built the store, ran operations and sales',
     },
     source: { ar: 'Shopify · مايو–يوليو 2026 · من غير صرف إعلانات', en: 'Shopify · May–Jul 2026 · no ad spend' },
@@ -688,7 +688,7 @@ export const resultCards: ResultCard[] = [
       en: 'sales across ~70 doors from an EGP 11,000 campaign',
     },
     did: {
-      ar: 'بنيت البنية الإعلانية لمنتج high-ticket ودرّبت الأونرز',
+      ar: 'بنيت هيكل الحملات لمنتج high-ticket ودرّبت الأونرز',
       en: 'built the ad setup for a high-ticket product and trained the owners',
     },
     source: { ar: 'رقم تقديري من البيزنس', en: 'Approximate, reported by the business' },
@@ -820,8 +820,8 @@ export const adsLibrary = {
 export const messaging = {
   label: { ar: 'حملات المسجات', en: 'Messaging campaigns' } satisfies Localized,
   title: {
-    ar: 'شغل الـ message commerce، من الحسابات نفسها.', // REVIEW
-    en: 'The message-commerce work, from the accounts themselves.',
+    ar: 'ودي حملات المسجات، من نفس الحسابات.',
+    en: 'And these are the messaging campaigns, from the same accounts.',
   } satisfies Localized,
   intro: {
     ar: 'دي حملات نتيجتها محادثات على ماسنجر وإنستجرام وواتساب، مش أوردرات ومش مبيعات — والأوردر بيتقفل بعد كده في المحادثة نفسها.', // REVIEW
@@ -850,17 +850,17 @@ export const messaging = {
   stat: {
     value: '~EGP 3M',
     label: {
-      ar: 'مبيعات اتقفلت من خلال المحادثات', // REVIEW
+      ar: 'مبيعات اتقفلت جوّه المحادثات',
       en: 'in sales closed through the conversations',
     } satisfies Localized,
     source: {
-      ar: 'رقم تقديري من البيزنس — اللقطتين تحت بيوروا المحادثات والصرف، مش المبيعات', // REVIEW
+      ar: 'رقم تقديري من البيزنس — اللقطتين تحت بيورّوا المحادثات والصرف، مش المبيعات', // REVIEW
       en: 'Approximate, reported by the business — the captures below show the conversations and the spend, not the sales',
     } satisfies Localized,
   },
   ids: ['bloomy-messaging', 'veloura-campaigns-all'] as const,
   note: {
-    ar: 'اللقطتين دول بيوروا عدد المحادثات وتكلفتها والصرف — ومفيهمش رقم مبيعات. أي رقم مبيعات لحملات المسجات لازم ييجي من الـERP مش من الـAds Manager.', // REVIEW
+    ar: 'اللقطتين دول بيورّوا عدد المحادثات وتكلفتها والصرف — ومفيهمش رقم مبيعات. أي رقم مبيعات لحملات المسجات لازم ييجي من الـERP مش من الـAds Manager.', // REVIEW
     en: 'These two captures show conversation counts, their cost and the spend — and no sales figure. Any sales figure for messaging has to come from the ERP, not from Ads Manager.',
   } satisfies Localized,
 };
@@ -870,7 +870,7 @@ export const proofUi = {
   resultsLabel: { ar: 'النتايج', en: 'Results' } satisfies Localized,
   resultsTitle: { ar: 'كل رقم ومصدره.', en: 'Every number, with its source.' } satisfies Localized,
   resultsIntro: {
-    ar: 'كل رقم تحته اللقطة اللي طالع منها. اضغط «شوف الدليل» تشوفها كاملة.',
+    ar: 'كل رقم تحته اللقطة اللي طالع منها. اضغط «شوف الدليل» عشان تشوفها كاملة.',
     en: 'Each card carries the capture its figure was read from. Open the evidence to read it in full.',
   } satisfies Localized,
 
@@ -879,8 +879,8 @@ export const proofUi = {
   close: { ar: 'إقفل', en: 'Close' } satisfies Localized,
   zoomIn: { ar: 'كبّر الصورة', en: 'Zoom in' } satisfies Localized, // REVIEW
   zoomOut: { ar: 'صغّر الصورة', en: 'Zoom out' } satisfies Localized, // REVIEW
-  fitLabel: { ar: 'مناسب للشاشة', en: 'Fit' } satisfies Localized, // REVIEW
-  panHint: { ar: 'اسحب يمين وشمال تقرا الجدول كله', en: 'Drag sideways to read the whole table' } satisfies Localized, // REVIEW
+  fitLabel: { ar: 'على الشاشة', en: 'Fit' } satisfies Localized,
+  panHint: { ar: 'اسحب يمين وشمال عشان تقرا الجدول كله', en: 'Drag sideways to read the whole table' } satisfies Localized,
   prev: { ar: 'السابق', en: 'Previous' } satisfies Localized,
   next: { ar: 'التالي', en: 'Next' } satisfies Localized,
 

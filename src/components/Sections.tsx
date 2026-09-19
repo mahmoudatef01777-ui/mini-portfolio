@@ -85,7 +85,9 @@ export function Hero() {
       </Reveal>
 
       <Reveal delay={0.18} className="mt-8 flex flex-wrap gap-3 md:mt-10">
-        <Button href={contact.whatsapp.href}>{t(contact.whatsapp.label)}</Button>
+        <Button href={contact.whatsapp.href} tone="whatsapp">
+          {t(contact.whatsapp.label)}
+        </Button>
         <Link
           to="story"
           className="inline-flex items-center justify-center gap-2 rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-ink transition-colors duration-300 ease-out hover:border-ink md:text-base"
