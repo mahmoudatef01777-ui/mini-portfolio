@@ -1,47 +1,59 @@
 /* ---------------------------------------------------------------
-   Font pairing — brand identity v3.
-   Latin  : Archivo               — grotesque, 800/900 for display
-   Arabic : IBM Plex Sans Arabic  — the Arabic counterpart, 600/700
-   Hand   : Caveat                — marginalia only, Latin only
+   Font pairing — brand identity v4, 2026-11-04.
+
+   THE AGENCY'S FACES, not this page's own. Mahmoud works inside the
+   agency whose own site is the Tafseel portfolio and asked for the
+   same identity here, so the pairing is read off that project rather
+   than chosen again:
+
+   Readex Pro     — display and body, BOTH scripts
+   IBM Plex Mono  — the small capitalised markers and Latin numerals
+   Caveat         — marginalia only, Latin only
+
+   ONE FAMILY FOR BOTH LANGUAGES is the real change. The old pairing
+   was Archivo for Latin and IBM Plex Sans Arabic for Arabic — two
+   designs, two sets of proportions, and a `--display-scale` of 0.88
+   to stop the Arabic rendering visibly smaller at the same px size.
+   Readex Pro was drawn with Arabic and Latin together, so the scale
+   is 1 in both and a heading is the same size in both languages.
+
    Nothing else in the codebase names a font; change it here and in
    the <link> in index.html.
    --------------------------------------------------------------- */
 :root {
-  --font-display: 'Archivo', system-ui, sans-serif;
-  --font-body: 'Archivo', system-ui, sans-serif;
-  --display-tracking: -0.035em;
-  --display-leading: 0.92;
+  --font-display: 'Readex Pro', system-ui, sans-serif;
+  --font-body: 'Readex Pro', system-ui, sans-serif;
+  /* Readex Pro is softer and wider than Archivo, so it needs less
+     negative tracking than the grotesque did to look set rather than
+     spaced: -0.035em closed it up into a smear at display sizes. */
+  --display-tracking: -0.02em;
+  --display-leading: 0.98;
   --display-case: none;
-  --display-weight: 800;
-  /* `ch` is font-relative, so the headline measure belongs with the pairing:
-     IBM Plex Sans Arabic's ch is wider than Archivo's. */
-  --display-measure: 17ch;
+  /* 700 is Readex Pro's heaviest weight. The old 800 silently fell
+     back to it anyway; naming it stops a browser synthesising one. */
+  --display-weight: 700;
+  --display-measure: 18ch;
   /* The hero is one huge line; a statement that wraps needs more air. */
-  --statement-leading: 1.06;
-  /* Arabic sits noticeably smaller than Latin at the same px size, so the
-     display scale is nudged per script rather than per component. */
+  --statement-leading: 1.1;
   --display-scale: 1;
-  /* Hand-written notes in the margins of a composition. Caveat has no Arabic
-     cut, so Arabic falls back to the body face — legible, just not cursive. */
+  /* Hand-written notes in the margins of a composition. Caveat has no
+     Arabic cut, so Arabic falls back to the body face. */
   --font-hand: 'Caveat', var(--font-body);
+  /* The small capitalised markers, and Latin figures inside them. It
+     has no Arabic, so Arabic takes the body face — see `.label` in
+     index.css, which drops the tracking and the uppercasing there. */
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
 :root[lang='ar'] {
-  --font-display: 'IBM Plex Sans Arabic', system-ui, sans-serif;
-  --font-body: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  /* Same family, and that is the point. Only the metrics that are
+     genuinely script-dependent change: Arabic needs room under the
+     baseline for descenders, and letter-spacing in Arabic breaks the
+     joins between letters, so it is always zero. */
   --display-tracking: 0;
-  --display-leading: 1.32; /* Arabic needs room for descenders */
-  --display-case: none;
+  --display-leading: 1.3;
   --display-weight: 700;
-  --display-measure: 15ch;
+  --display-measure: 16ch;
   --statement-leading: 1.45;
-  --display-scale: 0.88;
-}
-
-/* Brand names, numbers and source labels keep the Latin face even inside
-   Arabic copy, with tabular figures so columns of numbers line up. */
-.font-latin {
-  font-family: 'Archivo', system-ui, sans-serif;
-  font-feature-settings: 'tnum' 1;
-  letter-spacing: -0.01em;
+  --display-scale: 1;
 }

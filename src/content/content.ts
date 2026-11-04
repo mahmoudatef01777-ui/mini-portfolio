@@ -70,24 +70,45 @@ export const hero = {
     ar: 'بشوف المنافسين والـbenchmark، والمنتج والسوق والعميل، والستور والتشغيل والأرقام — وبعدين بشوف الإعلان.',
     en: 'I look at the competitors and the benchmarks, the product, the market, the customer, the website, the operations and the numbers — and then I look at the ad.',
   } satisfies Localized,
+  /*
+    THREE CROPS OF ONE PHOTOGRAPH, one per class of screen.
+
+    The source is upright and full length. The ratio that fills a phone
+    beautifully was 843px tall on a laptop — the whole first screen spent on
+    a picture — so the wider the screen, the shallower the band taken out of
+    it: 3:4 on a phone, 3:2 on a tablet, 16:9 on a laptop. Every band shares
+    the same top edge, just above his head, because he stands in the LOWER
+    half of the frame and a centred crop keeps the floor and loses the face.
+  */
   photo: {
     src: '/img/hero-mobile.webp',
+    tablet: '/img/hero-tablet.webp',
     wide: '/img/hero-desktop.webp',
     /* The same two pictures in AVIF, and the ones actually served. The hero is
        the LCP element and the WebP pair was 164 KB and 143 KB — most of what a
        phone downloaded before it saw anything. AVIF at quality 58 is 68 KB and
        56 KB, indistinguishable at 2x zoom. The WebP stays as the fallback. */
     srcAvif: '/img/hero-mobile.avif',
+    tabletAvif: '/img/hero-tablet.avif',
     wideAvif: '/img/hero-desktop.avif',
-    /* The mobile file's own size. The wide one is 1536x1024 and its box is
-       declared on the <source> in Sections.tsx — both changed on 2026-09-19
-       when Mahmoud supplied a new pair, and a stale number here reserves the
-       wrong height and costs a layout shift. */
-    width: 941,
-    height: 1672,
+    /* The mobile file's own size. The other two are 1600x1067 and 2000x1125
+       and their boxes are declared on the <source>s in Sections.tsx. A stale
+       number anywhere in that set reserves the wrong height and costs a
+       layout shift, so all four move together. */
+    width: 1080,
+    height: 1440,
+    /*
+      THE ALT DESCRIBES THE PICTURE, nothing else.
+
+      The old one said "in front of Shopify dashboards showing results from
+      the stores he has worked on" — which was a claim about his work, not a
+      description of an image, and the image it described has been replaced.
+      Alt text is read out in place of the photograph; a sales line there is
+      a sales line nobody asked to hear.
+    */
     alt: {
-      ar: 'محمود عاطف قدام داشبوردات Shopify فيها نتايج ستورات اشتغل عليها.',
-      en: 'Mahmoud Atef in front of Shopify dashboards showing results from the stores he has worked on.',
+      ar: 'محمود عاطف واقف قدام لوحة كبيرة في قاعة عرض.',
+      en: 'Mahmoud Atef standing in front of a large painting in a gallery.',
     } satisfies Localized,
   },
 };
@@ -195,18 +216,6 @@ export const results = {
         ar: 'مبيعات في بيزنسات e-commerce مختلفة',
         en: 'Sales across e-commerce businesses',
       } satisfies Localized,
-    },
-    {
-      id: 'time',
-      /**
-       * The figure ALONE, with the word in `unit`. The value renders inside
-       * an LTR isolate so bidi cannot reorder it; a unit left inside that
-       * isolate gets dragged to the wrong side of the number in Arabic, and
-       * "~6 شهور" ends up reading as "شهور 6~".
-       */
-      value: '~6',
-      unit: { ar: 'شهور', en: 'months' } satisfies Localized,
-      label: { ar: 'المدة اللي جت فيها المبيعات دي', en: 'The period these sales were recorded in' } satisfies Localized,
     },
   ],
 

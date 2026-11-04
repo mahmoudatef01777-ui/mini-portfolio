@@ -1,4 +1,22 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mahmoudelzaqla.com/sitemap.xml
+# Answer engines are told the same thing as search engines: everything
+# here is public and is meant to be quoted. The page exists to be found
+# by someone deciding who to hire.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://mahmoudelzaqla.site/sitemap.xml

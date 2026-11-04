@@ -48,6 +48,83 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <!--
+      STRUCTURED DATA, and it says nothing the page does not.
+
+      This is here for the answer engines as much as for search: when
+      someone asks an assistant who runs e-commerce ads in Egypt, the
+      thing it can quote is a machine-readable statement of who this is
+      and what he does. Every field is already visible in the markup —
+      the role is the hero eyebrow, the links are in content/content.ts,
+      the subjects are the tools section. Add nothing here that a reader
+      cannot also read on the page; a claim only in the JSON is a claim
+      with no evidence under it.
+
+      It describes the ENGLISH root, like the og: tags above and for the
+      same reason: a scraper never runs the app, so whatever is written
+      here has to match the page "/" actually serves.
+    -->
+    <script type="application/ld+json">
+{
+          "@context": "https://schema.org",
+          "@graph": [
+                {
+                      "@type": "Person",
+                      "@id": "https://mahmoudelzaqla.site/#person",
+                      "name": "Mahmoud Atef",
+                      "alternateName": "Mahmoud Elzaqla",
+                      "url": "https://mahmoudelzaqla.site",
+                      "jobTitle": "E-commerce Growth Specialist",
+                      "email": "mailto:mahmoudelzaqla@gmail.com",
+                      "knowsLanguage": [
+                            "ar",
+                            "en"
+                      ],
+                      "knowsAbout": [
+                            "E-commerce growth",
+                            "Shopify store building",
+                            "Meta Ads",
+                            "TikTok Ads",
+                            "Conversion rate optimisation",
+                            "Competitor and benchmark research",
+                            "E-commerce operations and fulfilment"
+                      ],
+                      "sameAs": [
+                            "https://linkedin.com/in/mahmoudelzaqla"
+                      ]
+                },
+                {
+                      "@type": "WebSite",
+                      "@id": "https://mahmoudelzaqla.site/#website",
+                      "url": "https://mahmoudelzaqla.site",
+                      "name": "Mahmoud Atef — E-commerce Growth Specialist",
+                      "inLanguage": [
+                            "en",
+                            "ar"
+                      ],
+                      "publisher": {
+                            "@id": "https://mahmoudelzaqla.site/#person"
+                      }
+                },
+                {
+                      "@type": "ProfilePage",
+                      "@id": "https://mahmoudelzaqla.site/#profilepage",
+                      "url": "https://mahmoudelzaqla.site",
+                      "isPartOf": {
+                            "@id": "https://mahmoudelzaqla.site/#website"
+                      },
+                      "about": {
+                            "@id": "https://mahmoudelzaqla.site/#person"
+                      },
+                      "mainEntity": {
+                            "@id": "https://mahmoudelzaqla.site/#person"
+                      },
+                      "inLanguage": "en"
+                }
+          ]
+    }
+    </script>
+
+    <!--
       Theme before first paint. Without this the page renders light and then
       snaps to dark, which is worse than having no dark mode at all. Keep the
       key and the attribute in step with src/lib/theme.ts.
@@ -122,14 +199,14 @@
     -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       />
     </noscript>
 
@@ -145,7 +222,14 @@
       preload and simply takes the WebP from the <picture> instead.
     -->
     <link rel="preload" as="image" href="/img/hero-mobile.avif" type="image/avif" media="(max-width: 767px)" />
-    <link rel="preload" as="image" href="/img/hero-desktop.avif" type="image/avif" media="(min-width: 768px)" />
+    <link
+      rel="preload"
+      as="image"
+      href="/img/hero-tablet.avif"
+      type="image/avif"
+      media="(min-width: 768px) and (max-width: 1279px)"
+    />
+    <link rel="preload" as="image" href="/img/hero-desktop.avif" type="image/avif" media="(min-width: 1280px)" />
   </head>
   <body>
     <div id="root"></div>

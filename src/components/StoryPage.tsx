@@ -57,7 +57,7 @@ function Chain({ steps, tone = 'quiet' }: { steps: Localized[]; tone?: 'quiet' |
       {steps.map((step, i) => (
         <li key={step.en} className="flex items-center gap-2">
           {i > 0 && (
-            <span aria-hidden className={cn('text-orange', isRTL && 'rotate-180')}>
+            <span aria-hidden className={cn('text-orange-ink', isRTL && 'rotate-180')}>
               →
             </span>
           )}

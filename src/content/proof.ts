@@ -499,6 +499,46 @@ export interface ResultCard {
  * turns proof into a client carousel. A card is the figure, its context and
  * its evidence.
  */
+/**
+ * WHAT COUNTS AS A RESULT ON THIS PAGE — and it is deliberately narrow.
+ *
+ * Mahmoud set the rule on 2026-11-04: the page is aimed at e-commerce
+ * conversion clients, so a result is a figure READ OFF A DASHBOARD about an
+ * e-commerce outcome — Shopify, the Odoo ERP, Meta Ads Manager, TikTok Ads
+ * Manager. Anything else comes off the results rail.
+ *
+ * Three kinds of thing fail that test, and all three are still true, still
+ * in the project, and still openable in the evidence viewer. They are simply
+ * not presented as results:
+ *
+ *   REACH IS NOT A RESULT. `fakhama-reels` is view counts on six TikTok
+ *   reels. Nothing on that screen is an order, a pound or a conversion, and
+ *   a 1.5M standing in a row of sales figures reads as though it were one.
+ *
+ *   A CONVERSATION IS NOT A CONVERSION. The messaging-campaign captures
+ *   report conversations on Messenger, Instagram and WhatsApp; the order, if
+ *   it happens, is closed by hand afterwards. That is a real way to sell and
+ *   it is not the thing an e-commerce conversion client is buying.
+ *
+ *   AN ESTIMATE IS NOT A READING. A card marked `soft` carries a figure the
+ *   business reported rather than one a dashboard shows — see `softNote`.
+ *   Those cards come off the rail whole (`softResultCards` below).
+ *
+ * To put something back, take its id out of this list. Nothing else changes.
+ */
+export const notAResult: readonly EvidenceId[] = [
+  // Reach, not a result.
+  'fakhama-reels',
+  // Conversations, not conversions — the `messaging` group of `adsLibrary`.
+  'bloomy-messaging',
+  'veloura-campaigns-all',
+  'dahab-campaigns',
+  'el-haramein-ads',
+  'brilliant-campaigns',
+  'pinky-mobile',
+  'fakhama-adsets',
+];
+
 export const resultCards: ResultCard[] = [
   {
     id: 'bloomy',

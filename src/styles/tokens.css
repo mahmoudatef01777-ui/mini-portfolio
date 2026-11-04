@@ -3,16 +3,34 @@
    Change a value here and it changes everywhere.
    Colours are RGB channels so Tailwind can apply opacity modifiers.
 
-   PALETTE v4, 2026-09-14. White-dominant and neutral: the page is
-   white, type is near-black, secondary type is a neutral grey, rules
-   are a very light neutral grey, and the warm orange is an accent
-   used sparingly — dots, numbers, active states, small highlights.
-   There are no beige surfaces, no gradients and no coloured cards.
+   PALETTE v5, 2026-11-04. THE AGENCY'S PALETTE, not this page's own.
+   Mahmoud works inside the agency whose own site is the Tafseel
+   portfolio, and asked for the same identity here, so these values
+   are read off that project's stylesheet rather than invented: linen
+   #F1EBDF as the page, charcoal #1F1D1B as the ink, and a yellow
+   #F2C230 where this site used a warm orange.
+
+   THE ACCENT IS A DIFFERENT COLOUR IN EACH THEME, and that is how
+   the reference does it rather than a compromise. #F2C230 on linen is
+   1.4:1 — a yellow dot on a cream page is an invisible dot — so the
+   agency's own site uses its red for accents on light surfaces and
+   keeps the yellow for accents on charcoal ones, where it reads at
+   11:1. This file does the same: --c-orange is the red on the light
+   theme and the yellow on the dark one.
+
+   AND ON LIGHT THE RED IS ONE VALUE, not two. Contrast is symmetric,
+   so a red dark enough to be read ON linen is also a red that linen
+   can be read on: #A8381F is 5.4:1 either way. The reference's own
+   #C8432F is 4.1:1, which fails in both directions at once, so it is
+   darkened by that much and no more. --c-orange and --c-orange-ink
+   are therefore the same colour here; they stay separate tokens
+   because the dark theme does need two.
+
+   The token names are historical; read the comment, not the name.
 
    Some token NAMES are historical (`--c-cream` is the page, which is
-   now white; `--c-blush` is a quiet fill). The names were kept so a
-   pure-colour change stayed a pure-colour change; read the comment,
-   not the name.
+   now linen; `--c-blush` is a quiet fill). The names were kept so a
+   pure-colour change stayed a pure-colour change.
 
    NOTHING outside this file may declare a colour, with four
    deliberate exceptions. Three are other people's brands rather than
@@ -24,30 +42,29 @@
    --------------------------------------------------------------- */
 :root {
   /* Surfaces */
-  --c-cream: 255 255 255; /* #FFFFFF — the page. White is the identity. */
-  --c-soft: 250 250 250; /* #FAFAFA — alternating bands and raised panels */
-  --c-orange: 201 106 61; /* #C96A3D — brand accent, unchanged */
-  --c-black: 10 10 10; /* #0A0A0A — dark sections. Neutral, never brown. */
-  --c-blush: 245 245 245; /* #F5F5F5 — quiet fills */
+  --c-cream: 241 235 223; /* #F1EBDF — the page. Linen is the identity. */
+  --c-soft: 233 225 210; /* #E9E1D2 — alternating bands and raised panels */
+  --c-orange: 168 56 31; /* #A8381F — the accent on the light page, 5.4:1 */
+  --c-black: 31 29 27; /* #1F1D1B — dark sections, the palette's charcoal */
+  --c-blush: 251 248 242; /* #FBF8F2 — quiet fills */
 
   /* Text roles */
-  --c-ink: 17 17 17; /* #111111 — primary text */
-  --c-ink-dim: 107 107 107; /* #6B6B6B — secondary text, 5.4:1 on white */
-  --c-on-orange: 17 17 17; /* small text on the accent MUST be this */
-  --c-on-dark: 245 245 245; /* #F5F5F5 — off-white text on dark sections */
+  --c-ink: 31 29 27; /* #1F1D1B — primary text */
+  --c-ink-dim: 74 70 64; /* #4A4640 — secondary text, 7.9:1 on linen */
+  --c-on-orange: 241 235 223; /* #F1EBDF — linen on the red, 5.4:1 */
+  --c-on-dark: 241 235 223; /* #F1EBDF — linen text on the charcoal sections */
 
   /**
-   * The accent, darkened only as far as it takes to clear 4.5:1 on
-   * white. Same hue, same warmth — use it whenever the accent carries
-   * TEXT below roughly 24px: a link, a step number, an active label.
-   * `--c-orange` stays the brand value for display type, rules, dots,
-   * icons and fills.
+   * The accent WHEN IT IS TEXT. Equal to --c-orange on this theme, for
+   * the reason in the header: one red serves both because the ratio
+   * that makes it readable on linen is the ratio that makes linen
+   * readable on it. On the dark theme the two diverge.
    */
-  --c-orange-ink: 179 90 46; /* #B35A2E — 4.8:1 on white */
+  --c-orange-ink: 168 56 31; /* #A8381F — 5.4:1 on linen */
 
   /* Lines */
-  --c-line: 229 229 229; /* #E5E5E5 — borders and hairlines */
-  --c-line-on-orange: 255 255 255;
+  --c-line: 212 206 193; /* #D4CEC1 — borders and hairlines */
+  --c-line-on-orange: 241 235 223;
 
   /* The sheet a logo or a browser frame sits on. */
   --c-paper: 255 255 255;
@@ -80,15 +97,19 @@
 }
 
 /* --- Contrast notes ------------------------------------------------
-   #111111 on #FFFFFF  = 18.9:1  -> anything
-   #6B6B6B on #FFFFFF  =  5.4:1  -> AA for body text
-   #B35A2E on #FFFFFF  =  4.8:1  -> AA for small text: the accent-ink
-   #C96A3D on #FFFFFF  =  3.7:1  -> AA-large ONLY. The brand accent is
-                                    for display type, rules, dots, icons
-                                    and fills — never small body copy.
-   #111111 on #C96A3D  =  5.0:1  -> safe for small text ON the accent
-   #F5F5F5 on #0A0A0A  = 18.2:1  -> the dark final CTA
-   #C96A3D on #0A0A0A  =  5.3:1  -> safe on the dark section
+   #1F1D1B on #F1EBDF  =  14.2:1  -> anything
+   #4A4640 on #F1EBDF  =   7.9:1  -> AA for body text
+   #A8381F on #F1EBDF  =   5.4:1  -> AA for small text: the accent-ink
+   #A8381F on #F1EBDF  =   5.4:1  -> the accent, and it IS readable: dots,
+                                    rules, marks and small accent text
+   #F1EBDF on #A8381F  =   5.4:1  -> the same number, because contrast is
+                                    symmetric. Linen on the accent is safe.
+   #C8432F on #F1EBDF  =   4.1:1  -> the reference's own red, which is why
+                                    this file does not use it undarkened
+   #F2C230 on #131210  =  11.2:1  -> the yellow belongs to the dark theme,
+                                    where it is the accent instead
+   #4A4640 on #E9E1D2  =   7.2:1  -> AA on the alternating band
+   #F1EBDF on #1F1D1B  =  14.2:1  -> the dark final CTA
    ------------------------------------------------------------------ */
 
 /* ---------------------------------------------------------------
@@ -96,44 +117,45 @@
    surfaces and the text roles swap. Set by the inline script in
    index.html before first paint, so there is no flash.
 
-   Neutral near-black, not a warm one: the light theme is white and
-   neutral, so a brown-black here would read as a different identity.
+   Warm near-black, taken from the same reference: the light theme is
+   linen, so a neutral grey-black here would read as a different
+   identity rather than the same one at night.
    --------------------------------------------------------------- */
 :root[data-theme='dark'] {
   /* Surfaces */
-  --c-cream: 15 15 15; /* #0F0F0F — the page */
-  --c-soft: 22 22 22; /* #161616 — raised panels, alternating bands */
-  --c-orange: 201 106 61; /* #C96A3D — unchanged: it is the brand */
-  --c-black: 8 8 8; /* #080808 — the dark CTA block, darker than the page */
-  --c-blush: 26 26 26; /* #1A1A1A */
+  --c-cream: 19 18 16; /* #131210 — the page */
+  --c-soft: 28 26 23; /* #1C1A17 — raised panels, alternating bands */
+  --c-orange: 242 194 48; /* #F2C230 — unchanged: it is the brand */
+  --c-black: 12 11 10; /* #0C0B0A — the dark CTA block, darker than the page */
+  --c-blush: 33 31 27; /* #211F1B */
 
   /* Text roles */
-  --c-ink: 245 245 245; /* #F5F5F5 on the dark page */
-  --c-ink-dim: 161 161 161; /* #A1A1A1 — secondary text, 7.4:1 on the page */
-  --c-on-orange: 17 17 17; /* unchanged: dark text on the accent, 5.0:1 */
-  --c-on-dark: 245 245 245;
+  --c-ink: 241 235 223; /* #F1EBDF on the dark page */
+  --c-ink-dim: 183 174 158; /* #B7AE9E — secondary text, 8.5:1 on the page */
+  --c-on-orange: 31 29 27; /* #1F1D1B — charcoal on the yellow, 10.0:1 */
+  --c-on-dark: 241 235 223;
 
-  /* On a dark page the brand accent already clears 4.5:1, so small
-     accent text needs no darker variant — it IS the brand value. */
-  --c-orange-ink: 201 106 61; /* #C96A3D — 5.1:1 on #0F0F0F */
+  /* On a dark page the yellow is 11.2:1, so here — and only
+     here — the accent can carry text and needs no red stand-in. */
+  --c-orange-ink: 242 194 48; /* #F2C230 — 11.2:1 on the page */
 
   /* Lines */
-  --c-line: 38 38 38; /* #262626 — very subtle */
-  --c-line-on-orange: 255 255 255;
+  --c-line: 53 50 44; /* #35322C — very subtle */
+  --c-line-on-orange: 31 29 27;
 
   /* Dimmed so a logo chip or a browser frame is not a glare source. */
-  --c-paper: 232 232 232;
+  --c-paper: 232 228 219;
 
   /* An outline button on the dark page keeps the page's own surface. */
-  --c-pill: 15 15 15;
+  --c-pill: 19 18 16;
 }
 
 /* --- Dark contrast notes ------------------------------------------
-   #F5F5F5 on #0F0F0F = 17.4:1  -> anything
-   #A1A1A1 on #0F0F0F =  7.4:1  -> AA for body text
-   #C96A3D on #0F0F0F =  5.1:1  -> AA for text, unlike on white where
-                                   the same accent is large-type only
-   #111111 on #C96A3D =  5.0:1  -> unchanged
+   #F1EBDF on #131210 =  15.8:1  -> anything
+   #B7AE9E on #131210 =   8.5:1  -> AA for body text
+   #F2C230 on #131210 =  11.2:1  -> AA for text, unlike on linen where
+                                   the same yellow is unreadable
+   #1F1D1B on #F2C230 =  10.0:1  -> unchanged
    ------------------------------------------------------------------ */
 
 /* Only while the theme is being switched, so a permanent transition

@@ -6,15 +6,15 @@ import { useRoute } from '@/lib/router';
 import { OG_LOCALE, absolute } from '@/lib/url';
 import Header from '@/components/Header';
 import StoryPage from '@/components/StoryPage';
-import { About, Ads, Closing, Contact, FullStory, Growth, Hero, Messaging, Results, Sites } from '@/components/Sections';
+import { About, Closing, Contact, FullStory, Growth, Hero, Results, Sites } from '@/components/Sections';
 
 /**
  * TWO PAGES, and they are both this site's.
  *
  *   /        the landing itself: hero -> who I am -> the figures and the
- *            dashboards behind them -> the Ads Manager captures -> how I can
- *            help -> websites I built -> the closing line -> the way into the
- *            story -> the dark call, which is the footer.
+ *            dashboards behind them, every one of them on one rail -> how
+ *            I can help -> websites I built -> the closing line -> the way
+ *            into the story -> the dark call, which is the footer.
  *
  *   /story   the full background, told here rather than linked away to.
  *
@@ -89,8 +89,6 @@ export default function App() {
           <Hero />
           <About />
           <Results />
-          <Ads />
-          <Messaging />
           <Growth />
           <Sites />
           <Closing />

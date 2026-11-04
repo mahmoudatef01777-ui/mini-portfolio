@@ -82,6 +82,100 @@
     }
   }
 
+  /**
+   * THE PROOF RAIL, AND IT TURNS BY ITSELF.
+   *
+   * Three result cards in a grid meant the third one lived a screen below the
+   * first on a phone, and a reader who had stopped scrolling never saw it. On
+   * a rail that moves on its own, the cards come to the reader instead: they
+   * arrive, they pass, and the one after them is already on its way in.
+   *
+   * HOW THE LOOP IS SEAMLESS. The track holds the cards TWICE and slides
+   * exactly -50%, so the moment the first copy has gone the second copy is
+   * sitting precisely where the first one started and the jump back is
+   * invisible. The second copy is `aria-hidden` and untabbable - it is the
+   * same content, and a screen reader meeting every figure twice would be
+   * reading a longer results section than the page actually has.
+   *
+   * THE GAP IS A MARGIN, NOT `gap`. With `gap`, the track is
+   * 2x(cards) + (2n-1) gaps, so half of it is half a gap short of one copy
+   * and the loop drifts sideways a little further on every pass. A margin on
+   * each card makes the two halves exactly equal and the drift is zero.
+   *
+   * IT STOPS WHEN SOMEONE IS READING IT: on hover, and on focus-within so a
+   * keyboard user is not chasing the button they are tabbing to.
+   */
+  .marquee {
+    overflow: hidden;
+    /* The cards fade out at the edges rather than being guillotined, which is
+       what says "this keeps going" without a scrollbar saying it. */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-slide var(--marquee-duration, 60s) linear infinite;
+  }
+
+  /* Arabic reads the other way, so the rail travels the other way. */
+  .marquee-track.reverse {
+    animation-direction: reverse;
+  }
+
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-item {
+    margin-inline-end: 1.25rem;
+  }
+
+  @keyframes marquee-slide {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /**
+   * NO POINTER, NO AUTOPLAY.
+   *
+   * A rail that moves on its own and cannot be paused is unusable with a
+   * finger: there is no hover to stop it with, and a card slides out from
+   * under the tap. So on a touch screen the same markup becomes an ordinary
+   * swipeable rail - animation off, snap on, and the duplicate copy removed
+   * so the reader is not swiping through the same five cards twice.
+   */
+  @media (hover: none) {
+    .marquee {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--gutter);
+      overscroll-behavior-x: contain;
+      -webkit-mask-image: none;
+      mask-image: none;
+      scrollbar-width: none;
+    }
+    .marquee::-webkit-scrollbar {
+      display: none;
+    }
+    .marquee-track {
+      animation: none;
+      padding-inline: var(--gutter);
+    }
+    .marquee-track > [aria-hidden='true'] {
+      display: none;
+    }
+    .marquee-item {
+      scroll-snap-align: center;
+    }
+  }
+
   .display {
     font-family: var(--font-display);
     font-weight: var(--display-weight);
@@ -243,6 +337,30 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  /* The rail stops travelling and becomes a plain swipeable one. Without
+     this the `animation-duration: 0.01ms` below would whip it through the
+     whole loop in one frame and leave it parked on the last card. */
+  .marquee {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    -webkit-mask-image: none;
+    mask-image: none;
+    scrollbar-width: none;
+  }
+  .marquee::-webkit-scrollbar {
+    display: none;
+  }
+  .marquee-track {
+    animation: none !important;
+    padding-inline: var(--gutter);
+  }
+  .marquee-track > [aria-hidden='true'] {
+    display: none;
+  }
+  .marquee-item {
+    scroll-snap-align: center;
   }
   *,
   *::before,

@@ -1,8 +1,8 @@
 import { useLang } from '@/i18n/lang';
 import { cn } from '@/lib/cn';
 import { Link, useRoute } from '@/lib/router';
-import { EvidenceButton, EvidenceViewer, useEvidenceViewer } from './Evidence';
-import { adsLibrary, evidence, messaging, proofUi, resultCards, shots } from '@/content/proof';
+import { EvidenceViewer, useEvidenceViewer } from './Evidence';
+import { evidence, notAResult, proofUi, resultCards, sourceLabel } from '@/content/proof';
 import { story } from '@/content/story';
 import {
   about,
@@ -17,6 +17,7 @@ import {
   sites,
 } from '@/content/content';
 import { Button, Monogram, Reveal, SectionHead } from './ui';
+import Carousel from './Carousel';
 import StoreDemo from './StoreDemo';
 import AboutPortrait from './AboutPortrait';
 
@@ -44,20 +45,31 @@ export function Hero() {
           laptop instead of sitting in a boxed frame. Only the copy below it is
           in the container.
 
-          <picture> WITH A `media` QUERY, not a plain srcset. The two files are
-          different SHAPES — 1080x1350 upright for the phone, 1672x941 wide for
-          the laptop — and the CSS reserves the matching ratio at the same
-          768px line. A srcset would let the browser pick the wide file for a
-          narrow high-DPR screen, which would then be cropped into the upright
-          box. The media query keeps the file and the reserved box in step, and
-          that is what keeps CLS at zero. */}
+          <picture> WITH `media` QUERIES, not a plain srcset. The three files
+          are different SHAPES — 1080x1440 upright for the phone, 1600x1067
+          for the tablet, 2000x1125 for the laptop — and the CSS reserves the
+          matching ratio at the same two breakpoints. A srcset would let the
+          browser pick the wide file for a narrow high-DPR screen, which would
+          then be cropped into the upright box. The media queries keep the
+          file and the reserved box in step, and that is what keeps CLS at
+          zero. Change one and change the other.
+
+          WHY THREE AND NOT TWO. The ratio that fills a phone is 843px tall on
+          a 1280 laptop — the entire first screen is the photograph and the
+          headline is below the fold. The wider the screen, the shallower the
+          band. `max-h-[78svh]` then catches the case the ratios cannot: a
+          wide, short window, where even 16:9 would be taller than the screen.
+          `svh`, not `vh`, so a phone's collapsing address bar does not resize
+          the hero mid-scroll. */}
       <picture>
         {/* AVIF first at each width, then the WebP the <img> falls back to.
             A browser picks the first <source> it can decode, so the order is
             the whole mechanism. */}
-        <source media="(min-width: 768px)" srcSet={hero.photo.wideAvif} type="image/avif" width={1536} height={1024} />
-        <source media="(min-width: 768px)" srcSet={hero.photo.wide} width={1536} height={1024} />
-        <source srcSet={hero.photo.srcAvif} type="image/avif" width={941} height={1672} />
+        <source media="(min-width: 1280px)" srcSet={hero.photo.wideAvif} type="image/avif" width={2000} height={1125} />
+        <source media="(min-width: 1280px)" srcSet={hero.photo.wide} width={2000} height={1125} />
+        <source media="(min-width: 768px)" srcSet={hero.photo.tabletAvif} type="image/avif" width={1600} height={1067} />
+        <source media="(min-width: 768px)" srcSet={hero.photo.tablet} width={1600} height={1067} />
+        <source srcSet={hero.photo.srcAvif} type="image/avif" width={1080} height={1440} />
         <img
           src={hero.photo.src}
           sizes="100vw"
@@ -69,7 +81,7 @@ export function Hero() {
           // attribute and warns about it; spread emits the real lowercase
           // one. React 19 handles the camelCase spelling directly.
           {...{ fetchpriority: 'high' }}
-          className="block w-full object-cover [aspect-ratio:941/1672] md:[aspect-ratio:1536/1024]"
+          className="block max-h-[78svh] w-full object-cover object-top [aspect-ratio:1080/1440] md:[aspect-ratio:1600/1067] xl:[aspect-ratio:2000/1125]"
         />
       </picture>
 
@@ -81,7 +93,7 @@ export function Hero() {
       <Reveal delay={0.06}>
         <h1 className="display mt-6 max-w-[15ch] text-balance text-[calc(clamp(2.125rem,7vw,4.25rem)*var(--display-scale))] text-ink md:mt-8">
           {headline}
-          <span className="text-orange">.</span>
+          <span className="text-orange-ink">.</span>
         </h1>
       </Reveal>
 
@@ -151,7 +163,7 @@ export function About() {
             {about.chain.map((step, i) => (
               <li key={step.en} className="flex items-center gap-2">
                 {i > 0 && (
-                  <span aria-hidden className={cn('text-orange', isRTL && 'rotate-180')}>
+                  <span aria-hidden className={cn('text-orange-ink', isRTL && 'rotate-180')}>
                     →
                   </span>
                 )}
@@ -193,16 +205,64 @@ export function About() {
  * sits unmarked beside a dashboard read — that is the difference between this
  * section and a claim.
  */
+/**
+ * ONE CARD PER CAPTURE, not one card per client.
+ *
+ * The rail used to carry five cards, one a brand, each hiding five or six
+ * dashboards behind a button nobody pressed. Mahmoud asked for the opposite:
+ * every screen that carries a result is its own card, and every card says
+ * underneath it what it is. So this flattens the five galleries into the
+ * captures themselves, in the order the cards were in.
+ *
+ * THE FIGURES DO NOT GET LOST IN THE FLATTENING. A brand's headline and its
+ * four facts belong to ONE of its captures — the `cover`, which is the shot
+ * they were read off — so they ride on that capture's card and on no other.
+ * A supporting capture carries its caption and nothing else, because
+ * attaching a figure to a screen it cannot be read from is the one thing
+ * this whole section exists not to do.
+ *
+ * Deduplicated: a capture that appears in two galleries is still one screen.
+ */
+function resultShots() {
+  const seen = new Set<string>();
+
+  return resultCards.flatMap((card) => {
+    // A reported figure is not a dashboard reading, so the whole card goes.
+    if (card.soft) return [];
+
+    return card.gallery.flatMap((id) => {
+      // Still in the gallery and still in the viewer — just not a result.
+      if (seen.has(id) || notAResult.includes(id)) return [];
+      seen.add(id);
+      return [{ card, shot: evidence[id], lead: id === card.cover }];
+    });
+  });
+}
+
+/**
+ * THE WHOLE PROOF, IN ONE SECTION.
+ *
+ * There were two rails four sections apart — the stores and the ERP here,
+ * the Ads Manager captures further down — and they drew from the same
+ * library, so four screens appeared on both. Mahmoud asked for one carousel,
+ * and one is also the honest shape: every card is the same thing, a reading
+ * off a dashboard, and splitting them by which tool took the screenshot was
+ * a distinction the reader was never making.
+ */
 export function Results() {
   const { t } = useLang();
   const viewer = useEvidenceViewer();
+
+  const cards = resultShots();
 
   return (
     <section className="border-t border-line bg-soft">
       <div className="container-page py-14 md:py-20">
         <SectionHead label={results.label} title={results.title} />
 
-        <dl className="mt-10 grid gap-8 sm:grid-cols-3 md:mt-12">
+        {/* Two now, not three — the "~6 months" figure came off on
+            2026-11-04. The column count follows the content. */}
+        <dl className="mt-10 grid gap-8 sm:grid-cols-2 md:mt-12">
           {results.stats.map((stat, i) => (
             <Reveal key={stat.id} delay={0.06 * (i + 1)}>
               <div className="border-t border-ink/15 pt-4">
@@ -210,12 +270,12 @@ export function Results() {
                   {/* The figure is isolated from the Arabic around it; the unit
                       sits OUTSIDE that isolate or bidi drags it to the wrong
                       side of the number. */}
+                  {/* No unit branch any more: the only stat that carried one
+                      was "~6 months", and it is gone. If a unit comes back,
+                      it goes in its own span OUTSIDE this isolate — inside
+                      it, bidi drags the word to the wrong side of the
+                      number and "~6 شهور" renders as "شهور 6~". */}
                   <span className="num">{stat.value}</span>
-                  {'unit' in stat && stat.unit && (
-                    <span className="ms-1.5 text-[0.5em] font-medium text-ink-dim">
-                      {t(stat.unit)}
-                    </span>
-                  )}
                 </dt>
                 <dd className="mt-3 text-sm font-medium text-ink md:text-base">{t(stat.label)}</dd>
               </div>
@@ -228,334 +288,89 @@ export function Results() {
           <p className="lede mt-4 max-w-[50ch]">{t(proofUi.resultsIntro)}</p>
         </Reveal>
 
-        <ul className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {resultCards.map((card, i) => {
-            const cover = card.cover ? evidence[card.cover] : undefined;
-            const gallery = shots(card.gallery);
+        {/*
+          NO BLOCK OF FIGURES ABOVE THE RAIL. There was one, briefly, on
+          2026-11-04 — three columns carrying the headline figure and the
+          four facts for each brand — and Mahmoud took all three off the
+          same afternoon. The figures live where they are checkable: on the
+          dashboards in the rail below, which is the whole argument of this
+          section. The two figures that stay at the top of the section are
+          the career totals, not a brand's.
+        */}
+        <Reveal delay={0.24} className="mt-8">
+          <Carousel
+            label={t(proofUi.resultsLabel)}
+            /* 23rem on a laptop and as close to it as a phone allows. The
+               90vw cap is what keeps a sliver of the next card showing at
+               375px — without it the card fills the screen edge to edge and
+               stops looking like something you can swipe. */
+            itemClassName="w-[min(90vw,23rem)]"
+          >
+            {cards.map(({ shot }) => (
+              <article
+                key={shot.id}
+                className="flex h-full w-full flex-col overflow-hidden rounded-media border border-line bg-cream"
+              >
+                {/*
+                  THE CAPTURE IS THE CARD, so it opens the untouched file at
+                  full size rather than sitting there as decoration.
 
-            return (
-              <Reveal as="li" key={card.id} delay={0.05 * (i % 2)}>
-                <article className="flex h-full flex-col overflow-hidden rounded-media border border-line bg-cream">
-                  <div className="p-5 md:p-6">
-                    <div className="flex min-h-[1.75rem] flex-wrap items-center gap-2.5">
-                      {/*
-                        THE MARK STANDS IN FOR THE NAME.
+                  `object-contain`, and that is not a style preference: every
+                  capture here is a wide table — up to four to one — and
+                  cropping one to a card-shaped box throws away columns. The
+                  reader would be looking at a dashboard with its figures cut
+                  out of it. Letterboxed, the whole table is there.
+                */}
+                <button
+                  type="button"
+                  onClick={() => viewer.open([shot], 0)}
+                  aria-label={`${t(proofUi.viewEvidence)} — ${t(shot.caption)}`}
+                  className="flex h-44 w-full shrink-0 items-center justify-center border-b border-line bg-soft p-3 transition-opacity duration-300 hover:opacity-90"
+                >
+                  <img
+                    src={shot.src}
+                    alt={t(shot.alt)}
+                    width={shot.width}
+                    height={shot.height}
+                    loading="lazy"
+                    decoding="async"
+                    className="max-h-full w-auto max-w-full object-contain"
+                  />
+                </button>
 
-                        Mahmoud does not want a client's name sitting on the
-                        page as text a visitor can select, copy and search. So
-                        the heading renders the brand's own logo, and the name
-                        moves into the image's alt — which keeps the heading a
-                        heading and keeps the card named for a screen reader
-                        without printing the word.
-
-                        It does NOT make the brand unidentifiable: the
-                        dashboards below say Bloomy, Veloura, DAHAB DECOR and
-                        Fkhama in their own pixels. This lowers how easy the
-                        name is to lift, and that is all it does.
-                      */}
-                      <h3 className="flex items-center">
-                        {card.logo ? (
-                          <img
-                            src={card.logo}
-                            /* The alias, not the name: alt text is in the DOM
-                               and is scrapeable, so the brand does not go in
-                               it either. The card is still named for a screen
-                               reader, just not with the client's name. */
-                            alt={card.alias ? t(card.alias) : ''}
-                            width={192}
-                            height={192}
-                            /* Eager: it is a 2KB mark at the top of the card
-                               and it is the card's name. Deferring it leaves
-                               the heading blank on a slow connection. */
-                            decoding="async"
-                            className="h-7 w-7 rounded-full object-contain"
-                          />
-                        ) : (
-                          <span className="num text-sm font-semibold text-ink">{card.brand}</span>
-                        )}
-                      </h3>
-                      {card.badge && (
-                        <span className="rounded-full bg-orange/10 px-2.5 py-1 text-[0.6875rem] font-semibold text-orange-ink">
-                          {t(card.badge)}
-                        </span>
-                      )}
-                      {card.status && (
-                        <span className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-medium text-ink-dim">
-                          {t(card.status)}
-                        </span>
-                      )}
-                      {card.soft && (
-                        <span className="rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-medium text-ink-dim">
-                          {t(proofUi.softLabel)}
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="display mt-4 text-[calc(clamp(1.625rem,4.6vw,2.25rem)*var(--display-scale))] leading-none text-ink">
-                      <span className="num">{card.value}</span>
-                    </p>
-                    {/*
-                      EVERY BAND ON THIS CARD RESERVES ITS TALLEST CASE.
-
-                      The cards sit side by side, so a label that wraps to two
-                      lines on one card and one line on the next pushes the
-                      figures, the evidence and the buttons out of line all the
-                      way down the row. Each `min-h` below is the height of the
-                      longest copy that band carries; they are in `em` so they
-                      follow the type rather than a fixed pixel size.
-
-                      Change the copy and re-check these — a third line will
-                      break the row again.
-                    */}
-                    <p className="mt-3 min-h-[3.25em] max-w-[32ch] text-sm font-medium leading-relaxed text-ink md:text-base">
-                      {t(card.label)}
-                    </p>
-                    <p className="mt-2 min-h-[2.8em] text-xs leading-relaxed text-ink-dim">
-                      {t(card.source)}
-                    </p>
-
-                    <p className="mt-4 min-h-[4.9em] border-t border-line pt-4 text-xs leading-relaxed text-ink-dim md:text-sm">
-                      {t(card.did)}
-                    </p>
-
-                    <dl className="mt-4 grid min-h-[7.5rem] grid-cols-2 content-start gap-x-4 gap-y-3">
-                      {card.facts.map((fact) => (
-                        <div key={fact.value + t(fact.label)}>
-                          <dt className="num text-base font-semibold text-ink">{fact.value}</dt>
-                          <dd className="mt-0.5 text-[0.6875rem] leading-snug text-ink-dim">
-                            {t(fact.label)}
-                            <span className="block opacity-80">{t(fact.source)}</span>
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
+                <div className="flex flex-1 flex-col p-5">
+                  {/* Which tool the screen is from — the first thing that
+                      makes a screenshot checkable. */}
+                  <span className="self-start rounded-full border border-line px-2.5 py-1 text-[0.6875rem] font-medium text-ink-dim">
+                    {t(sourceLabel[shot.source])}
+                  </span>
 
                   {/*
-                    The capture the headline was read from, never upscaled —
-                    and only when there IS one. A card whose figures have moved
-                    past every capture in the library shows none: a screenshot
-                    that reports different numbers from the headline above it
-                    is worse than an empty slot.
+                    THE LINE THAT SAYS WHAT THE SCREEN IS. It is the capture's
+                    own caption — the same sentence the evidence viewer prints
+                    under the full-size image — so the explanation on the card
+                    and the explanation on the evidence can never drift apart.
+                    `mt-auto` holds it to the bottom, which lines the captions
+                    up across the rail even when one of them runs long.
                   */}
-                  {cover ? (
-                  <figure className="mt-auto border-t border-line bg-soft">
-                    {/* One height for every cover in the row, so the captions
-                        and the buttons under them line up. `object-contain`
-                        letterboxes a wide capture — it never crops it, because
-                        a cropped screenshot says less than the screenshot. */}
-                    <div className="flex h-36 items-center justify-center p-2.5 md:h-40">
-                      <img
-                        src={cover.src}
-                        alt={t(cover.alt)}
-                        width={cover.width}
-                        height={cover.height}
-                        loading="lazy"
-                        decoding="async"
-                        className="max-h-full w-auto max-w-full object-contain"
-                      />
-                    </div>
-                    {/*
-                      ONE HEIGHT FOR THE WHOLE CAPTION BAND, set to the longest
-                      caption on the page — Fakhama's, which has to spell out
-                      that its figures are conversations rather than orders,
-                      and Veloura's, which carries a note as well.
-
-                      It is a min-height rather than a clamp: a caption is part
-                      of the evidence, so it is never truncated to fit. If a new
-                      capture needs more room, raise this — do not shorten the
-                      caption.
-                    */}
-                    <figcaption className="min-h-[7rem] border-t border-line px-4 py-3 text-xs leading-relaxed text-ink-dim">
-                      {t(cover.caption)}
-                      {card.coverNote && (
-                        <span className="mt-2 block border-s-2 border-orange ps-3">
-                          {t(card.coverNote)}
-                        </span>
-                      )}
-                    </figcaption>
-                  </figure>
-                  ) : (
-                    <div className="mt-auto" />
-                  )}
-
-                  <div className="border-t border-line p-4">
-                    <EvidenceButton
-                      count={gallery.length}
-                      label={t(proofUi.viewEvidence)}
-                      onClick={() => viewer.open(gallery, 0)}
-                    />
-                  </div>
-                </article>
-              </Reveal>
-            );
-          })}
-        </ul>
+                  <p className="mt-auto pt-4 text-xs leading-relaxed text-ink-dim">
+                    {t(shot.caption)}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </Carousel>
+        </Reveal>
 
         <Reveal delay={0.1}>
           <p className="mt-8 max-w-[62ch] border-s-2 border-orange ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
             {t(results.note)}
           </p>
-        </Reveal>
-
-        <Reveal delay={0.12}>
-          <p className="mt-4 max-w-[62ch] text-xs leading-relaxed text-ink-dim md:text-sm">
-            {t(proofUi.softNote)}
-          </p>
-        </Reveal>
-      </div>
-
-      <EvidenceViewer
-        state={viewer.state}
-        onClose={viewer.close}
-        onIndex={(index) => viewer.setState((current) => (current ? { ...current, index } : current))}
-      />
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------- ads */
-
-/**
- * A curated three from the Ads Managers, each labelled with only what the
- * capture itself shows — and a way into all of them.
- *
- * The full set is grouped the way Site 1 groups it: website purchase campaigns
- * first, messaging campaigns after. That split is not cosmetic. A messaging
- * campaign reports CONVERSATIONS, and a conversation is not an order; one
- * heading over both groups is how a reader ends up adding them together.
- */
-export function Ads() {
-  const { t } = useLang();
-  const viewer = useEvidenceViewer();
-
-  const featured = shots(adsLibrary.featured);
-  const all = adsLibrary.groups.flatMap((group) => shots(group.ids));
-
-  return (
-    <section className="border-t border-line">
-      <div className="container-page py-14 md:py-20">
-        <SectionHead label={ads.label} title={ads.title} />
-
-        <ul className="mt-10 space-y-5 md:mt-12">
-          {featured.map((shot, i) => (
-            <Reveal as="li" key={shot.id} delay={0.04 * i}>
-              <figure className="overflow-hidden rounded-media border border-line bg-soft">
-                <button
-                  type="button"
-                  onClick={() => viewer.open(all, all.findIndex((s) => s.id === shot.id))}
-                  aria-label={`${t(proofUi.viewEvidence)} — ${t(shot.caption)}`}
-                  className="block w-full"
-                >
-                  <img
-                    src={shot.src}
-                    alt={t(shot.alt)}
-                    width={shot.width}
-                    height={shot.height}
-                    loading="lazy"
-                    decoding="async"
-                    className="block h-auto w-full"
-                  />
-                </button>
-                <figcaption className="border-t border-line px-4 py-3 text-xs font-medium text-ink-dim">
-                  {t(shot.caption)}
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </ul>
-
-        <Reveal delay={0.08} className="mt-8">
-          <EvidenceButton
-            count={all.length}
-            label={t(proofUi.viewAllAds)}
-            tone="dark"
-            onClick={() => viewer.open(all, 0)}
-          />
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <p className="mt-8 max-w-[62ch] border-s-2 border-orange ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
+          {/* Came down from the Ads Manager section when the two rails
+              became one. It is about how to read a capture's date range,
+              which is now true of every card on the rail. */}
+          <p className="mt-4 max-w-[62ch] border-s-2 border-orange ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
             {t(ads.note)}
-          </p>
-        </Reveal>
-      </div>
-
-      <EvidenceViewer
-        state={viewer.state}
-        onClose={viewer.close}
-        onIndex={(index) => viewer.setState((current) => (current ? { ...current, index } : current))}
-      />
-    </section>
-  );
-}
-
-/* --------------------------------------------------------------- messaging */
-
-/**
- * The message-campaign captures, lifted out of the Ads Manager list into a
- * band of their own. Same viewer, same rules — and the intro says what a
- * "messaging conversation" is before the reader sees a five-figure count and
- * reads it as orders.
- */
-export function Messaging() {
-  const { t } = useLang();
-  const viewer = useEvidenceViewer();
-  const shown = shots(messaging.ids);
-
-  return (
-    <section className="border-t border-line bg-soft">
-      <div className="container-page py-14 md:py-20">
-        <SectionHead label={messaging.label} title={messaging.title} />
-
-        <Reveal delay={0.06}>
-          <p className="lede mt-5 max-w-[54ch]">{t(messaging.intro)}</p>
-        </Reveal>
-
-        {/* The figure sits ABOVE the captures and carries its own source, so
-            the reader meets the estimate and the reason it is an estimate in
-            the same glance — never the number alone over a dashboard. */}
-        <Reveal delay={0.1}>
-          <div className="mt-9 max-w-[46ch] border-s-2 border-orange ps-5">
-            <p className="display text-[calc(clamp(1.75rem,5vw,2.75rem)*var(--display-scale))] leading-none text-ink">
-              <span className="num">{messaging.stat.value}</span>
-            </p>
-            <p className="mt-3 text-sm font-medium text-ink md:text-base">{t(messaging.stat.label)}</p>
-            <p className="mt-2 text-xs leading-relaxed text-ink-dim">{t(messaging.stat.source)}</p>
-          </div>
-        </Reveal>
-
-        <ul className="mt-10 grid gap-5 md:mt-12 md:grid-cols-2">
-          {shown.map((shot, i) => (
-            <Reveal as="li" key={shot.id} delay={0.05 * i}>
-              <figure className="overflow-hidden rounded-media border border-line bg-cream">
-                <button
-                  type="button"
-                  onClick={() => viewer.open(shown, i)}
-                  aria-label={`${t(proofUi.viewEvidence)} — ${t(shot.caption)}`}
-                  className="block w-full"
-                >
-                  <img
-                    src={shot.src}
-                    alt={t(shot.alt)}
-                    width={shot.width}
-                    height={shot.height}
-                    loading="lazy"
-                    decoding="async"
-                    className="block h-auto w-full"
-                  />
-                </button>
-                <figcaption className="border-t border-line px-4 py-3 text-xs font-medium text-ink-dim">
-                  {t(shot.caption)}
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </ul>
-
-        <Reveal delay={0.1}>
-          <p className="mt-8 max-w-[62ch] border-s-2 border-orange ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
-            {t(messaging.note)}
           </p>
         </Reveal>
       </div>
@@ -643,7 +458,7 @@ export function Growth() {
               {growth.decision.steps.map((step, i) => (
                 <li key={step.en}>
                   {i > 0 && (
-                    <span aria-hidden className="block py-1 text-sm leading-none text-orange">
+                    <span aria-hidden className="block py-1 text-sm leading-none text-orange-ink">
                       ↓
                     </span>
                   )}

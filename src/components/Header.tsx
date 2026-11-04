@@ -47,7 +47,7 @@ export default function Header() {
 
         {/* The mark goes home WITHOUT a page load: a hard href would throw
             away the app and reload the whole site to move one route. */}
-        <Link to="home" aria-label="Mahmoud Atef" className="justify-self-center text-orange">
+        <Link to="home" aria-label="Mahmoud Atef" className="justify-self-center text-orange-ink">
           <Monogram className="h-5 md:h-6" />
         </Link>
 
