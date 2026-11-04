@@ -106,10 +106,15 @@ export function Button({
           // `isolate` keeps the fill in this pill's own stacking context,
           // `overflow-hidden` clips it to the rounded shape, and the delay on
           // the colour transition lets the water reach the label first.
-          // `on-orange` rather than `ink`: it is #111111 in BOTH themes, because it
-          // exists for dark text on a brand colour. `ink` inverts to near-white
-          // in dark mode, which would have put light text on the green.
-          'btn-fill relative isolate overflow-hidden bg-ink text-cream [transition-delay:340ms] hover:text-on-orange',
+          // `black` rather than `ink` or `on-orange`. This label lands on
+          // WhatsApp's green, which is nobody's token: it needs a colour that
+          // is dark in BOTH themes. `ink` is not — it inverts to near-white at
+          // night and would put light text on the green. `on-orange` was not
+          // either, once the palette changed: it used to be #111111 in both
+          // themes and is now the pale lavender on light, which is 1.2:1 on
+          // #25D366. `black` is #0F1F17 light and #08110D dark — 8.6:1 and
+          // 9.7:1 on the green. If the palette moves again, re-check this one.
+          'btn-fill relative isolate overflow-hidden bg-ink text-cream [transition-delay:340ms] hover:text-black',
         className,
       )}
     >

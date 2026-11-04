@@ -3,70 +3,69 @@
    Change a value here and it changes everywhere.
    Colours are RGB channels so Tailwind can apply opacity modifiers.
 
-   PALETTE v6, 2026-11-04. THE SIX MAHMOUD PICKED:
+   PALETTE v7, 2026-11-04. THE SIX MAHMOUD PICKED — deep forest greens with a pale sage:
 
-     #0E0B1D  near-black violet    #8B7CC7  light purple
-     #2A1E4D  deep purple          #C9C2E3  pale lavender
-     #5A3B8C  mid purple           #3A3A52  slate
+     #0F1F17  near-black        #6B7F67  light
+     #1E3A2E  deep              #C7CBB8  pale
+     #3E5A3F  mid               #3D4337  neutral
 
-   The six are a dark identity, and the site has a light theme too, so
-   they are used at both ends rather than only one: the pale lavender
-   is the light page and the near-black violet is the dark one, and
-   the two mid purples swap jobs between them. On the light theme the
-   accent is #5A3B8C, which is dark enough to be read; on the dark one
-   it is #8B7CC7, which is light enough. Same move as the palette
-   before this one, for the same reason — an accent has to clear the
-   page it sits on, and no single purple clears both.
+   The six read as one dark identity, and this site has a light theme
+   as well as a dark one, so they are spread across both rather than
+   crowded into one: the pale is the light page, the near-black is the
+   dark page, and the two middle values swap jobs between them. The
+   accent has to clear the page under it and no single value clears
+   both, so each theme gets its own.
+   the dark accent is #6B7F67 taken 50% toward #C7CBB8,
+   because the swatch itself did not clear its own page.
 
-   FOUR VALUES ARE DERIVED, and only where a role has nothing in the
+   FIVE VALUES ARE DERIVED, and only where a role has nothing in the
    six to fill it: the alternating band and the quiet fill on each
-   theme, the hairline, and the dark theme's secondary text, which had
-   to be lifted off #8B7CC7 because #8B7CC7 on #2A1E4D is 4.2:1 and
-   small text on a chip would have failed. Every derived value is a
-   mix of two of the six (or of one with white/black) — the comment on
-   each says which.
+   theme, the hairline, the sheet behind a logo, and the dark theme's
+   secondary text. Each is a mix of two of the six (or of one with
+   white or black), and the comment on each line says which.
 
-   Some token NAMES are historical: `--c-cream` is the page, which is
-   lavender; `--c-orange` is the accent, which is purple; `--c-blush`
-   is a quiet fill. The names were kept so a pure-colour change stayed
-   a pure-colour change. Read the comment, not the name.
+   Some token NAMES are historical: `--c-cream` is the page, `--c-orange`
+   is the accent, `--c-blush` is a quiet fill. The names were kept so a
+   pure-colour change stays a pure-colour change. Read the comment, not
+   the name.
 
-   NOTHING outside this file may declare a colour, with four
-   deliberate exceptions. Three are other people's brands rather than
-   ours: content/tools.ts (platform marks), content/brand-colors.ts
-   (client logos) and ui/SocialLinks.tsx (social platforms). The fourth
-   is lib/theme.ts, which writes the browser's own theme-color meta tag
-   and needs a literal hex — keep its two values equal to --c-cream in
+   NOTHING outside this file may declare a colour, with FIVE deliberate
+   exceptions. Four are other people's brands rather than ours:
+   content/tools.ts (platform marks), content/brand-colors.ts (client
+   logos), ui/SocialLinks.tsx (social platforms) and the WhatsApp green
+   in ui.tsx and index.css. The fifth is lib/theme.ts, which writes the
+   browser's own theme-color meta tag and needs a literal hex — keep
+   its two values, and the two in index.html, equal to --c-cream in
    each theme.
    --------------------------------------------------------------- */
 :root {
   /* Surfaces */
-  --c-cream: 201 194 227; /* #C9C2E3 — the page. The pale lavender. */
-  --c-soft: 224 220 239; /* #E0DCEF — bands and raised panels; the page lifted 42% toward white */
-  --c-orange: 90 59 140; /* #5A3B8C — the accent, 5.0:1 on the page */
-  --c-black: 14 11 29; /* #0E0B1D — dark sections */
-  --c-blush: 234 232 244; /* #EAE8F4 — quiet fills; the page lifted 62% toward white */
+  --c-cream: 199 203 184; /* #C7CBB8 — the page */
+  --c-soft: 223 225 214; /* #DFE1D6 — bands and raised panels; the page 42% toward white */
+  --c-orange: 62 90 63; /* #3E5A3F — the accent, 4.6:1 on the page */
+  --c-black: 15 31 23; /* #0F1F17 — dark sections */
+  --c-blush: 234 235 228; /* #EAEBE4 — quiet fills; the page 62% toward white */
 
   /* Text roles */
-  --c-ink: 14 11 29; /* #0E0B1D — primary text, 11.4:1 */
-  --c-ink-dim: 58 58 82; /* #3A3A52 — secondary text, 6.5:1 */
-  --c-on-orange: 201 194 227; /* #C9C2E3 — on the accent, 5.0:1 */
-  --c-on-dark: 201 194 227; /* #C9C2E3 — text on the dark sections */
+  --c-ink: 15 31 23; /* #0F1F17 — primary text, 10.3:1 */
+  --c-ink-dim: 61 67 55; /* #3D4337 — secondary text, 6.2:1 */
+  --c-on-orange: 199 203 184; /* #C7CBB8 — on the accent, 4.6:1 */
+  --c-on-dark: 199 203 184; /* #C7CBB8 — text on the dark sections */
 
   /**
-   * The accent WHEN IT IS TEXT. Equal to --c-orange here: #5A3B8C is
-   * already 5.0:1 on the page, so the light theme needs no
-   * darker stand-in. The two tokens stay separate because the dark
-   * theme uses a different purple for the accent.
+   * The accent WHEN IT IS TEXT. Equal to --c-orange on this theme: it
+   * is already 4.6:1 on the page, so no darker stand-in is
+   * needed. The two stay separate tokens because the dark theme uses
+   * a different value for the accent.
    */
-  --c-orange-ink: 90 59 140; /* #5A3B8C */
+  --c-orange-ink: 62 90 63; /* #3E5A3F */
 
   /* Lines */
-  --c-line: 158 153 184; /* #9E99B8 — the page mixed 30% into the slate */
-  --c-line-on-orange: 201 194 227;
+  --c-line: 158 162 145; /* #9EA291 — the page 30% toward the neutral */
+  --c-line-on-orange: 199 203 184;
 
   /* The sheet a logo or a browser frame sits on. */
-  --c-paper: 243 242 249; /* #F3F2F9 */
+  --c-paper: 243 244 239; /* #F3F4EF — the page 78% toward white */
 
   /**
    * The fill of an outline button. On a light page it lifts off the page; on
@@ -75,7 +74,7 @@
    * near-white. Not the same thing as --c-paper, which is dimmed rather than
    * inverted in dark mode.
    */
-  --c-pill: 234 232 244;
+  --c-pill: 234 235 228;
 
   /* Layout */
   --gutter: 1.25rem;
@@ -96,12 +95,12 @@
 }
 
 /* --- Contrast notes ------------------------------------------------
-   #0E0B1D on #C9C2E3  =  11.4:1  -> anything
-   #3A3A52 on #C9C2E3  =   6.5:1  -> AA for body text
-   #5A3B8C on #C9C2E3  =   5.0:1  -> AA: the accent reads as text here
-   #C9C2E3 on #5A3B8C  =   5.0:1  -> safe for small text ON the accent
-   #3A3A52 on #E0DCEF  =   8.2:1  -> AA on the alternating band
-   #C9C2E3 on #0E0B1D  =  11.4:1  -> the dark final CTA
+   #0F1F17 on #C7CBB8  =  10.3:1  -> anything
+   #3D4337 on #C7CBB8  =   6.2:1  -> AA for body text
+   #3E5A3F on #C7CBB8  =   4.6:1  -> AA: the accent reads as text here
+   #C7CBB8 on #3E5A3F  =   4.6:1  -> safe for small text ON the accent
+   #3D4337 on #DFE1D6  =   7.7:1  -> AA on the alternating band
+   #C7CBB8 on #0F1F17  =  10.3:1  -> the dark final CTA
    ------------------------------------------------------------------ */
 
 /* ---------------------------------------------------------------
@@ -111,43 +110,42 @@
    --------------------------------------------------------------- */
 :root[data-theme='dark'] {
   /* Surfaces */
-  --c-cream: 14 11 29; /* #0E0B1D — the page */
-  --c-soft: 25 19 48; /* #191330 — bands and panels; the page 40% toward the deep purple */
-  --c-orange: 139 124 199; /* #8B7CC7 — the accent, 5.4:1 on the page */
-  --c-black: 8 6 16; /* #080610 — the dark CTA block, below the page */
-  --c-blush: 42 30 77; /* #2A1E4D — quiet fills, the deep purple itself */
+  --c-cream: 15 31 23; /* #0F1F17 — the page */
+  --c-soft: 21 42 32; /* #152A20 — bands and panels; the page 40% toward the deep */
+  --c-orange: 153 165 144; /* #99A590 — the accent, 6.6:1 on the page */
+  --c-black: 8 17 13; /* #08110D — the dark CTA block, below the page */
+  --c-blush: 30 58 46; /* #1E3A2E — quiet fills, the deep value itself */
 
   /* Text roles */
-  --c-ink: 201 194 227; /* #C9C2E3 — primary text, 11.4:1 */
-  /* Lifted off #8B7CC7 by 45% toward the lavender: the light purple
-     is 4.2:1 on a #2A1E4D chip, which is not enough for the
-     small print that sits on one. This is 6.0:1 there. */
-  --c-ink-dim: 167 156 212; /* #A79CD4 — secondary text, 7.7:1 on the page */
-  --c-on-orange: 14 11 29; /* #0E0B1D — on the accent, 5.4:1 */
-  --c-on-dark: 201 194 227;
+  --c-ink: 199 203 184; /* #C7CBB8 — primary text, 10.3:1 */
+  /* Lifted off #6B7F67 toward the pale: the swatch itself is 2.9:1 on
+     a #1E3A2E chip, and small print sits on one. This is 4.7:1 there. */
+  --c-ink-dim: 151 163 141; /* #97A38D — secondary text, 6.5:1 on the page */
+  --c-on-orange: 15 31 23; /* #0F1F17 — on the accent, 6.6:1 */
+  --c-on-dark: 199 203 184;
 
   /* The accent is light enough to be read here, so it needs no
      stand-in: --c-orange-ink IS --c-orange on this theme. */
-  --c-orange-ink: 139 124 199; /* #8B7CC7 — 5.4:1 on the page */
+  --c-orange-ink: 153 165 144; /* #99A590 — 6.6:1 on the page */
 
   /* Lines */
-  --c-line: 58 58 82; /* #3A3A52 — the slate */
-  --c-line-on-orange: 14 11 29;
+  --c-line: 61 67 55; /* #3D4337 — the neutral */
+  --c-line-on-orange: 15 31 23;
 
   /* Dimmed so a logo chip or a browser frame is not a glare source. */
-  --c-paper: 201 194 227;
+  --c-paper: 199 203 184;
 
   /* An outline button on the dark page keeps the page's own surface. */
-  --c-pill: 14 11 29;
+  --c-pill: 15 31 23;
 }
 
 /* --- Dark contrast notes ------------------------------------------
-   #C9C2E3 on #0E0B1D =  11.4:1  -> anything
-   #A79CD4 on #0E0B1D =   7.7:1  -> AA for body text
-   #A79CD4 on #2A1E4D =   6.0:1  -> AA on a chip, which is why it is
-                                   lifted off the palette's #8B7CC7
-   #8B7CC7 on #0E0B1D =   5.4:1  -> AA: the accent reads as text here
-   #0E0B1D on #8B7CC7 =   5.4:1  -> safe for small text ON the accent
+   #C7CBB8 on #0F1F17 =  10.3:1  -> anything
+   #97A38D on #0F1F17 =   6.5:1  -> AA for body text
+   #97A38D on #1E3A2E =   4.7:1  -> AA on a chip, which is why it is
+                                   lifted off the palette's #6B7F67
+   #99A590 on #0F1F17 =   6.6:1  -> AA: the accent reads as text here
+   #0F1F17 on #99A590 =   6.6:1  -> safe for small text ON the accent
    ------------------------------------------------------------------ */
 
 /* Only while the theme is being switched, so a permanent transition
