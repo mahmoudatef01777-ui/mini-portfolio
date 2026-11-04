@@ -43,7 +43,7 @@ export function applyTheme(theme: Theme, animate = false) {
 
   // Keep the browser chrome (mobile address bar) in step with the page.
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0F1F17' : '#C7CBB8');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0B132B' : '#F4D6B0');
 }
 
 export function storeTheme(theme: Theme) {

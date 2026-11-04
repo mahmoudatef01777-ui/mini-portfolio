@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useLang } from '@/i18n/lang';
-import { useReveal } from '@/lib/reveal';
+import { useReveal, useStagger } from '@/lib/reveal';
 import type { Localized } from '@/content/content';
 import { cn } from '@/lib/cn';
 
@@ -40,13 +40,36 @@ export function Reveal({
   delay?: number;
   as?: 'div' | 'li' | 'section';
 }) {
-  const ref = useReveal<HTMLDivElement>();
+  /* The delay goes to GSAP now rather than to a CSS `transition-delay`.
+     Same intent, same numbers at every call site — it is the tween that
+     waits instead of the transition. */
+  const ref = useReveal<HTMLDivElement>(delay);
   return (
-    <Tag
-      ref={ref as never}
-      className={cn('reveal', className)}
-      style={delay ? { transitionDelay: `${delay}s` } : undefined}
-    >
+    <Tag ref={ref as never} className={cn('reveal', className)}>
+      {children}
+    </Tag>
+  );
+}
+
+/**
+ * A list whose items arrive in sequence. The hook needs a ref and a ref
+ * cannot be taken inside a `.map()`, so the list itself is the component.
+ */
+export function Stagger({
+  children,
+  className,
+  as: Tag = 'ul',
+  /** Seconds between items. Keep it under ~0.08 or the tail drags. */
+  each,
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: 'ul' | 'ol' | 'div';
+  each?: number;
+}) {
+  const ref = useStagger<HTMLUListElement>(each);
+  return (
+    <Tag ref={ref as never} className={className}>
       {children}
     </Tag>
   );

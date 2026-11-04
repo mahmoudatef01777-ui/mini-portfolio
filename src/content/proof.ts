@@ -924,6 +924,12 @@ export const proofUi = {
   prev: { ar: 'السابق', en: 'Previous' } satisfies Localized,
   next: { ar: 'التالي', en: 'Next' } satisfies Localized,
 
+  /* The rail moves on its own, so it has to be stoppable — see the note
+     on the control in components/Carousel.tsx. Each label says what the
+     button WILL DO, not what the rail is doing. */
+  pause: { ar: 'وقّف الحركة', en: 'Stop the motion' } satisfies Localized,
+  play: { ar: 'شغّل الحركة', en: 'Start the motion' } satisfies Localized,
+
   /** Marks a figure that is approximate or reported rather than read. */
   softLabel: { ar: 'رقم تقديري', en: 'Approximate' } satisfies Localized,
 

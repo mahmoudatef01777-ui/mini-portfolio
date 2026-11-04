@@ -14,11 +14,10 @@ import {
   growth,
   hero,
   results,
-  sites,
 } from '@/content/content';
-import { Button, Monogram, Reveal, SectionHead } from './ui';
+import { Button, Monogram, Reveal, SectionHead, Stagger } from './ui';
+import { useSplitHeadline } from '@/lib/reveal';
 import Carousel from './Carousel';
-import StoreDemo from './StoreDemo';
 import AboutPortrait from './AboutPortrait';
 
 /* ------------------------------------------------------------------ hero */
@@ -29,8 +28,12 @@ import AboutPortrait from './AboutPortrait';
  * that fades up from zero does not count as painted until the fade ends.
  */
 export function Hero() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const headline = t(hero.headline).replace(/\.$/, '');
+  /* The one headline that arrives a word at a time. `lang` is the key, so
+     switching language re-splits against the new sentence instead of
+     animating the spans of the one that just left. */
+  const headlineRef = useSplitHeadline<HTMLHeadingElement>(lang);
 
   return (
     <section className="pb-14 md:pb-20">
@@ -90,12 +93,16 @@ export function Hero() {
         <p className="label eyebrow">{t(hero.eyebrow)}</p>
       </Reveal>
 
-      <Reveal delay={0.06}>
-        <h1 className="display mt-6 max-w-[15ch] text-balance text-[calc(clamp(2.125rem,7vw,4.25rem)*var(--display-scale))] text-ink md:mt-8">
-          {headline}
-          <span className="text-orange-ink">.</span>
-        </h1>
-      </Reveal>
+      {/* No <Reveal> on this one: it has its own entrance, and a fade on
+          the wrapper would run against the word stagger inside it. */}
+      <h1
+        ref={headlineRef}
+        key={lang}
+        className="display mt-6 max-w-[15ch] text-balance text-[calc(clamp(2.125rem,7vw,4.25rem)*var(--display-scale))] text-ink md:mt-8"
+      >
+        {headline}
+        <span className="text-orange-ink">.</span>
+      </h1>
 
       <Reveal delay={0.12}>
         <p className="lede mt-6 max-w-[46ch] md:mt-8">{t(hero.subline)}</p>
@@ -404,9 +411,12 @@ export function Growth() {
         {/* Six blocks, two across from `md` up — the same card shape the four
             stages used, so the section reads as a longer version of what was
             here rather than as a different page. */}
-        <ol className="mt-10 grid gap-x-10 gap-y-10 md:mt-14 md:grid-cols-2">
-          {growth.blocks.map((block, i) => (
-            <Reveal as="li" key={block.id} delay={0.05 * (i % 2)}>
+        {/* The cards come in one after another rather than each fading on
+            its own: a grid where every cell has its own trigger reveals in
+            whatever order the scroll happens to cross them. */}
+        <Stagger as="ol" each={0.07} className="mt-10 grid gap-x-10 gap-y-10 md:mt-14 md:grid-cols-2">
+          {growth.blocks.map((block) => (
+            <li key={block.id}>
               <div className="border-t border-ink/15 pt-5">
                 <div className="flex items-baseline gap-3">
                   <span className="display num text-sm text-orange-ink">{block.n}</span>
@@ -417,7 +427,9 @@ export function Growth() {
                   {t(block.lead)}
                 </p>
 
-                <ul className="mt-4 space-y-2">
+                {/* The bullets are the substance of the card, so they
+                    assemble in reading order instead of all at once. */}
+                <Stagger className="mt-4 space-y-2">
                   {block.points.map((point) => (
                     <li
                       key={point.en}
@@ -427,7 +439,7 @@ export function Growth() {
                       {t(point)}
                     </li>
                   ))}
-                </ul>
+                </Stagger>
 
                 {/* Not every block has one. Where it does, it is the point the
                     list was building to, so it is set apart from the bullets. */}
@@ -437,9 +449,9 @@ export function Growth() {
                   </p>
                 )}
               </div>
-            </Reveal>
+            </li>
           ))}
-        </ol>
+        </Stagger>
 
         {/*
           THE DECISION, FULL WIDTH AND VERTICAL.
@@ -454,7 +466,7 @@ export function Growth() {
               {t(growth.decision.title)}
             </p>
 
-            <ol className="mt-6 space-y-1">
+            <Stagger as="ol" each={0.09} className="mt-6 space-y-1">
               {growth.decision.steps.map((step, i) => (
                 <li key={step.en}>
                   {i > 0 && (
@@ -467,7 +479,7 @@ export function Growth() {
                   </span>
                 </li>
               ))}
-            </ol>
+            </Stagger>
           </div>
         </Reveal>
 
@@ -475,53 +487,6 @@ export function Growth() {
         <Reveal delay={0.12}>
           <p className="display mt-12 max-w-[32ch] text-[calc(clamp(1.25rem,4vw,2rem)*var(--display-scale))] leading-[var(--statement-leading)] text-ink md:mt-16">
             {t(growth.statement)}
-          </p>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------------------------------------- sites */
-
-/**
- * NOT the projects section: no figures, no role breakdown, no link inward.
- * Four live stores, each in a browser frame that opens the real thing.
- *
- * Stacked in one column rather than tiled. The phone overlaps the corner of
- * each frame, and three of those side by side on a desktop would leave every
- * frame too small to read as a storefront.
- */
-export function Sites() {
-  const { t } = useLang();
-  return (
-    <section className="border-t border-line">
-      <div className="container-page py-14 md:py-20">
-        <SectionHead label={sites.label} title={sites.title} />
-        <Reveal delay={0.06}>
-          <p className="lede mt-5 max-w-[48ch]">{t(sites.intro)}</p>
-        </Reveal>
-
-        {/* Directly under the intro, before the first storefront: someone
-            scrolling a row of sites decides what this section is in about two
-            seconds, and this is what it is. */}
-        <Reveal delay={0.09}>
-          <p className="mt-5 max-w-[58ch] border-s-2 border-orange ps-4 text-[0.8125rem] leading-[1.8] text-ink-dim md:text-sm">
-            {t(sites.positioning)}
-          </p>
-        </Reveal>
-
-        <ul className="mt-10 space-y-12 md:mt-14 md:space-y-16 lg:space-y-24">
-          {sites.demos.map((demo, i) => (
-            <Reveal as="li" key={demo.id} delay={0.04 * (i % 2)}>
-              <StoreDemo demo={demo} visit={sites.visit} />
-            </Reveal>
-          ))}
-        </ul>
-
-        <Reveal delay={0.1}>
-          <p className="mt-10 max-w-[62ch] border-s-2 border-orange ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
-            {t(sites.note)}
           </p>
         </Reveal>
       </div>

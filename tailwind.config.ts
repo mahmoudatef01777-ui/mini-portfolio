@@ -29,6 +29,7 @@ export default {
         black: withAlpha('--c-black'),
         blush: withAlpha('--c-blush'),
         line: withAlpha('--c-line'),
+        focus: withAlpha('--c-focus'),
         paper: withAlpha('--c-paper'),
         ink: withAlpha('--c-ink'),
         'ink-dim': withAlpha('--c-ink-dim'),

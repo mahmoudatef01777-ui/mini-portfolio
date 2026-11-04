@@ -1,5 +1,6 @@
-import { Children, useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
+import { Children, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { useLang } from '@/i18n/lang';
+import { proofUi } from '@/content/proof';
 import { cn } from '@/lib/cn';
 
 /**
@@ -36,9 +37,21 @@ export default function Carousel({
   itemClassName?: string;
   className?: string;
 }) {
-  const { isRTL } = useLang();
+  const { t, isRTL } = useLang();
   const frameRef = useRef<HTMLDivElement>(null);
   const items = Children.toArray(children);
+
+  /*
+    A STOP BUTTON, because the rail moves on its own.
+
+    Hover and focus-within already pause it, and neither of those is a
+    control: a reader on a touch screen has no hover, and a reader who
+    simply wants the movement to stop has nothing to press. Anything that
+    moves by itself for more than five seconds needs a way to pause it, and
+    this loop runs for a minute and more. So there is a real button, and
+    the paused state is an attribute the stylesheet reads.
+  */
+  const [paused, setPaused] = useState(false);
 
   /**
    * On a touch screen the rail is a plain scroller (the clone is hidden and
@@ -91,12 +104,14 @@ export default function Carousel({
     ));
 
   return (
-    <div
-      ref={frameRef}
-      dir="ltr"
-      className={cn('marquee mx-[calc(var(--gutter)*-1)]', className)}
-      style={{ '--marquee-duration': `${duration}s` } as CSSProperties}
-    >
+    <div className={className}>
+      <div
+        ref={frameRef}
+        dir="ltr"
+        data-paused={paused}
+        className="marquee mx-[calc(var(--gutter)*-1)]"
+        style={{ '--marquee-duration': `${duration}s` } as CSSProperties}
+      >
       {/*
         `items-stretch`, and the card has to earn it. These cards carry very
         different amounts — one capture comes with a headline figure and its
@@ -109,10 +124,29 @@ export default function Carousel({
         card instead of below the rail. The cards are kept close in height at
         the other end, in Sections.tsx, by setting the figures two to a row.
       */}
-      <ul aria-label={label} className={cn('marquee-track items-stretch', isRTL && 'reverse')}>
-        {copy(false)}
-        {copy(true)}
-      </ul>
+        <ul aria-label={label} className={cn('marquee-track items-stretch', isRTL && 'reverse')}>
+          {copy(false)}
+          {copy(true)}
+        </ul>
+      </div>
+
+      {/*
+        The control sits UNDER the rail, not over it. A button floating on
+        top of moving cards is one more thing sliding past the reader, and
+        it would cover part of a capture. `aria-pressed` carries the state
+        for a screen reader; the label says what pressing it will do.
+      */}
+      <button
+        type="button"
+        onClick={() => setPaused((on) => !on)}
+        aria-pressed={paused}
+        className="mt-5 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-xs font-semibold text-ink transition-colors duration-300 ease-out hover:border-ink"
+      >
+        <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" aria-hidden>
+          {paused ? <path d="M4 2.5v11l9-5.5z" /> : <path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" />}
+        </svg>
+        {t(paused ? proofUi.play : proofUi.pause)}
+      </button>
     </div>
   );
 }

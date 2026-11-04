@@ -3,69 +3,82 @@
    Change a value here and it changes everywhere.
    Colours are RGB channels so Tailwind can apply opacity modifiers.
 
-   PALETTE v7, 2026-11-04. THE SIX MAHMOUD PICKED — deep forest greens with a pale sage:
+   PALETTE v8, 2026-11-04. THE SIX MAHMOUD PICKED:
 
-     #0F1F17  near-black        #6B7F67  light
-     #1E3A2E  deep              #C7CBB8  pale
-     #3E5A3F  mid               #3D4337  neutral
+     #0B132B  near-black navy     #5BC0DE  bright cyan
+     #1C2541  deep navy           #F4D6B0  warm sand
+     #3A506B  mid slate           #D97706  orange
 
-   The six read as one dark identity, and this site has a light theme
-   as well as a dark one, so they are spread across both rather than
-   crowded into one: the pale is the light page, the near-black is the
-   dark page, and the two middle values swap jobs between them. The
-   accent has to clear the page under it and no single value clears
-   both, so each theme gets its own.
-   the dark accent is #6B7F67 taken 50% toward #C7CBB8,
-   because the swatch itself did not clear its own page.
+   This set is not shaped like the two before it. Those were six steps
+   of one colour; this one carries a real accent hue and a bright
+   secondary, so the roles are assigned by what each colour can
+   actually do rather than by where it sits in the strip.
 
-   FIVE VALUES ARE DERIVED, and only where a role has nothing in the
-   six to fill it: the alternating band and the quiet fill on each
-   theme, the hairline, the sheet behind a logo, and the dark theme's
-   secondary text. Each is a mix of two of the six (or of one with
-   white or black), and the comment on each line says which.
+   THE ORANGE IS A FILL ON THE LIGHT THEME, NEVER A LETTER. #D97706
+   on sand is 2.3:1 — it cannot be read at any size. It is the chip
+   behind navy text, the solid button, the rule; navy on it is
+   5.8:1 and that is the pairing to use. Where the accent has
+   to BE text, --c-orange-ink is the same orange walked 40% toward the
+   navy until it clears, which keeps the hue and loses the glow. On
+   the dark theme the orange reads directly at 5.8:1, so there
+   the two tokens are the same colour.
+
+   THE CYAN HAS ONE JOB: the focus ring on the DARK theme. It is
+   8.8:1 on navy, which is what a focus indicator wants — loud,
+   and not the brand colour, so it can never be read as a hover state.
+   It is 1.5:1 on sand, though, so it cannot do the same job on the
+   light theme and does not try: there the ring is the navy, at
+   13.2:1. A focus ring that is invisible on one of two themes is
+   worse than one that is a different colour on each.
+
+   FIVE VALUES ARE DERIVED, each a mix of two of the six (or of one
+   with white or black): the band and the quiet fill on each theme,
+   the hairline, the sheet behind a logo, and the dark theme's
+   secondary text. The comment on each line says which.
 
    Some token NAMES are historical: `--c-cream` is the page, `--c-orange`
    is the accent, `--c-blush` is a quiet fill. The names were kept so a
    pure-colour change stays a pure-colour change. Read the comment, not
    the name.
 
-   NOTHING outside this file may declare a colour, with FIVE deliberate
-   exceptions. Four are other people's brands rather than ours:
-   content/tools.ts (platform marks), content/brand-colors.ts (client
-   logos), ui/SocialLinks.tsx (social platforms) and the WhatsApp green
-   in ui.tsx and index.css. The fifth is lib/theme.ts, which writes the
-   browser's own theme-color meta tag and needs a literal hex — keep
-   its two values, and the two in index.html, equal to --c-cream in
-   each theme.
+   NOTHING outside this file may declare a colour, with five deliberate
+   exceptions: content/tools.ts, content/brand-colors.ts and
+   ui/SocialLinks.tsx carry other people's brands, ui.tsx and index.css
+   carry WhatsApp's green, and lib/theme.ts writes the browser's own
+   theme-color meta tag and needs a literal hex — keep its two values,
+   and the two in index.html, equal to --c-cream in each theme.
    --------------------------------------------------------------- */
 :root {
   /* Surfaces */
-  --c-cream: 199 203 184; /* #C7CBB8 — the page */
-  --c-soft: 223 225 214; /* #DFE1D6 — bands and raised panels; the page 42% toward white */
-  --c-orange: 62 90 63; /* #3E5A3F — the accent, 4.6:1 on the page */
-  --c-black: 15 31 23; /* #0F1F17 — dark sections */
-  --c-blush: 234 235 228; /* #EAEBE4 — quiet fills; the page 62% toward white */
+  --c-cream: 244 214 176; /* #F4D6B0 — the page */
+  --c-soft: 249 231 209; /* #F9E7D1 — bands and raised panels; the page 42% toward white */
+  --c-orange: 217 119 6; /* #D97706 — the accent. A FILL on this theme, never text. */
+  --c-black: 11 19 43; /* #0B132B — dark sections */
+  --c-blush: 251 239 225; /* #FBEFE1 — quiet fills; the page 62% toward white */
 
   /* Text roles */
-  --c-ink: 15 31 23; /* #0F1F17 — primary text, 10.3:1 */
-  --c-ink-dim: 61 67 55; /* #3D4337 — secondary text, 6.2:1 */
-  --c-on-orange: 199 203 184; /* #C7CBB8 — on the accent, 4.6:1 */
-  --c-on-dark: 199 203 184; /* #C7CBB8 — text on the dark sections */
+  --c-ink: 11 19 43; /* #0B132B — primary text, 13.2:1 */
+  --c-ink-dim: 58 80 107; /* #3A506B — secondary text, 5.9:1 */
+  --c-on-orange: 11 19 43; /* #0B132B — on the accent, 5.8:1 */
+  --c-on-dark: 244 214 176; /* #F4D6B0 — text on the dark sections */
 
   /**
-   * The accent WHEN IT IS TEXT. Equal to --c-orange on this theme: it
-   * is already 4.6:1 on the page, so no darker stand-in is
-   * needed. The two stay separate tokens because the dark theme uses
-   * a different value for the accent.
+   * The accent WHEN IT IS TEXT. The orange itself is 2.3:1 on the
+   * page, so a letter set in it is not a letter. This is the same
+   * orange 40% of the way to the navy: 4.8:1, same hue, no glow.
    */
-  --c-orange-ink: 62 90 63; /* #3E5A3F */
+  --c-orange-ink: 135 79 21; /* #874F15 */
+
+  /* The focus ring, and nothing else — see the note at the top. The
+     cyan cannot be seen on sand, so the light theme rings in navy. */
+  --c-focus: 11 19 43; /* #0B132B — 13.2:1 on the page */
 
   /* Lines */
-  --c-line: 158 162 145; /* #9EA291 — the page 30% toward the neutral */
-  --c-line-on-orange: 199 203 184;
+  --c-line: 188 174 155; /* #BCAE9B — the page 30% toward the slate */
+  --c-line-on-orange: 11 19 43;
 
   /* The sheet a logo or a browser frame sits on. */
-  --c-paper: 243 244 239; /* #F3F4EF — the page 78% toward white */
+  --c-paper: 253 246 238; /* #FDF6EE — the page 78% toward white */
 
   /**
    * The fill of an outline button. On a light page it lifts off the page; on
@@ -74,7 +87,7 @@
    * near-white. Not the same thing as --c-paper, which is dimmed rather than
    * inverted in dark mode.
    */
-  --c-pill: 234 235 228;
+  --c-pill: 251 239 225;
 
   /* Layout */
   --gutter: 1.25rem;
@@ -95,57 +108,58 @@
 }
 
 /* --- Contrast notes ------------------------------------------------
-   #0F1F17 on #C7CBB8  =  10.3:1  -> anything
-   #3D4337 on #C7CBB8  =   6.2:1  -> AA for body text
-   #3E5A3F on #C7CBB8  =   4.6:1  -> AA: the accent reads as text here
-   #C7CBB8 on #3E5A3F  =   4.6:1  -> safe for small text ON the accent
-   #3D4337 on #DFE1D6  =   7.7:1  -> AA on the alternating band
-   #C7CBB8 on #0F1F17  =  10.3:1  -> the dark final CTA
+   #0B132B on #F4D6B0  =  13.2:1  -> anything
+   #3A506B on #F4D6B0  =   5.9:1  -> AA for body text
+   #874F15 on #F4D6B0  =   4.8:1  -> AA: accent text
+   #D97706 on #F4D6B0  =   2.3:1  -> a FILL. Never set a letter in it.
+   #0B132B on #D97706  =   5.8:1  -> and this is what goes on that fill
+   #3A506B on #F9E7D1  =   6.8:1  -> AA on the alternating band
+   #F4D6B0 on #0B132B  =  13.2:1  -> the dark final CTA
    ------------------------------------------------------------------ */
 
 /* ---------------------------------------------------------------
-   Dark theme. Same design, same spacing — the surfaces, the text
-   roles and the accent all swap. Set by the inline script in
-   index.html before first paint, so there is no flash.
+   Dark theme. Same design, same spacing — the surfaces and the text
+   roles swap. Set by the inline script in index.html before first
+   paint, so there is no flash.
    --------------------------------------------------------------- */
 :root[data-theme='dark'] {
   /* Surfaces */
-  --c-cream: 15 31 23; /* #0F1F17 — the page */
-  --c-soft: 21 42 32; /* #152A20 — bands and panels; the page 40% toward the deep */
-  --c-orange: 153 165 144; /* #99A590 — the accent, 6.6:1 on the page */
-  --c-black: 8 17 13; /* #08110D — the dark CTA block, below the page */
-  --c-blush: 30 58 46; /* #1E3A2E — quiet fills, the deep value itself */
+  --c-cream: 11 19 43; /* #0B132B — the page */
+  --c-soft: 18 26 52; /* #121A34 — bands and panels; the page 40% toward the deep navy */
+  --c-orange: 217 119 6; /* #D97706 — the accent, 5.8:1: readable here */
+  --c-black: 6 10 24; /* #060A18 — the dark CTA block, below the page */
+  --c-blush: 28 37 65; /* #1C2541 — quiet fills, the deep navy itself */
 
   /* Text roles */
-  --c-ink: 199 203 184; /* #C7CBB8 — primary text, 10.3:1 */
-  /* Lifted off #6B7F67 toward the pale: the swatch itself is 2.9:1 on
-     a #1E3A2E chip, and small print sits on one. This is 4.7:1 there. */
-  --c-ink-dim: 151 163 141; /* #97A38D — secondary text, 6.5:1 on the page */
-  --c-on-orange: 15 31 23; /* #0F1F17 — on the accent, 6.6:1 */
-  --c-on-dark: 199 203 184;
+  --c-ink: 244 214 176; /* #F4D6B0 — primary text, 13.2:1 */
+  --c-ink-dim: 174 156 136; /* #AE9C88 — the sand 30% toward the navy, 6.9:1 */
+  --c-on-orange: 11 19 43; /* #0B132B — on the accent, 5.8:1 */
+  --c-on-dark: 244 214 176;
 
-  /* The accent is light enough to be read here, so it needs no
-     stand-in: --c-orange-ink IS --c-orange on this theme. */
-  --c-orange-ink: 153 165 144; /* #99A590 — 6.6:1 on the page */
+  /* On navy the orange reads as text, so the two accent tokens are
+     one colour here. On sand they cannot be. */
+  --c-orange-ink: 217 119 6; /* #D97706 — 5.8:1 on the page */
+
+  --c-focus: 91 192 222; /* #5BC0DE — 8.8:1 on the page, and nothing
+                            else on the site is this colour */
 
   /* Lines */
-  --c-line: 61 67 55; /* #3D4337 — the neutral */
-  --c-line-on-orange: 15 31 23;
+  --c-line: 58 80 107; /* #3A506B — the slate */
+  --c-line-on-orange: 11 19 43;
 
   /* Dimmed so a logo chip or a browser frame is not a glare source. */
-  --c-paper: 199 203 184;
+  --c-paper: 244 214 176;
 
   /* An outline button on the dark page keeps the page's own surface. */
-  --c-pill: 15 31 23;
+  --c-pill: 11 19 43;
 }
 
 /* --- Dark contrast notes ------------------------------------------
-   #C7CBB8 on #0F1F17 =  10.3:1  -> anything
-   #97A38D on #0F1F17 =   6.5:1  -> AA for body text
-   #97A38D on #1E3A2E =   4.7:1  -> AA on a chip, which is why it is
-                                   lifted off the palette's #6B7F67
-   #99A590 on #0F1F17 =   6.6:1  -> AA: the accent reads as text here
-   #0F1F17 on #99A590 =   6.6:1  -> safe for small text ON the accent
+   #F4D6B0 on #0B132B =  13.2:1  -> anything
+   #AE9C88 on #0B132B =   6.9:1  -> AA for body text
+   #AE9C88 on #1C2541 =   5.7:1  -> AA on a chip
+   #D97706 on #0B132B =   5.8:1  -> AA: the accent reads as text here
+   #0B132B on #D97706 =   5.8:1  -> safe for small text ON the accent
    ------------------------------------------------------------------ */
 
 /* Only while the theme is being switched, so a permanent transition

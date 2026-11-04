@@ -125,7 +125,8 @@
   }
 
   .marquee:hover .marquee-track,
-  .marquee:focus-within .marquee-track {
+  .marquee:focus-within .marquee-track,
+  .marquee[data-paused='true'] .marquee-track {
     animation-play-state: paused;
   }
 
@@ -258,16 +259,32 @@
    * phone on mobile data, and a motion runtime for eight fades would be most
    * of the bundle. The easing matches the main portfolio's.
    */
+  /*
+    `.reveal` NO LONGER HIDES ANYTHING. It used to be `opacity: 0` here plus
+    a class the observer added, which meant the page shipped invisible: no
+    JavaScript, no content, and a block the observer happened to miss stayed
+    hidden for the rest of the visit. GSAP sets the start state at runtime
+    instead (lib/reveal.ts), so the markup is visible as authored and is
+    only hidden for the length of its own tween.
+
+    The class stays as the hook the component attaches a ref to, and as the
+    place to put anything a revealing block needs — but never visibility.
+  */
   .reveal {
-    opacity: 0;
-    transform: translateY(14px);
-    transition:
-      opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    /* A tween on `y` nudges the box; without this a transformed block can
+       widen the page by a pixel on a narrow screen mid-animation. */
+    will-change: transform, opacity;
   }
-  .reveal.is-in {
-    opacity: 1;
-    transform: none;
+
+  /*
+    One span per word, made by SplitText. `inline-block` is what makes
+    `yPercent` mean anything — an inline box has no height of its own to
+    translate by — and the bottom padding keeps a descender from being
+    clipped while the word is still sliding up.
+  */
+  .split-word {
+    display: inline-block;
+    padding-bottom: 0.08em;
   }
 
   /**
@@ -332,11 +349,6 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
   /* The rail stops travelling and becomes a plain swipeable one. Without
      this the `animation-duration: 0.01ms` below would whip it through the
