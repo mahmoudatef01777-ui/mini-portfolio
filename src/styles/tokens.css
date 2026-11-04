@@ -3,34 +3,33 @@
    Change a value here and it changes everywhere.
    Colours are RGB channels so Tailwind can apply opacity modifiers.
 
-   PALETTE v5, 2026-11-04. THE AGENCY'S PALETTE, not this page's own.
-   Mahmoud works inside the agency whose own site is the Tafseel
-   portfolio, and asked for the same identity here, so these values
-   are read off that project's stylesheet rather than invented: linen
-   #F1EBDF as the page, charcoal #1F1D1B as the ink, and a yellow
-   #F2C230 where this site used a warm orange.
+   PALETTE v6, 2026-11-04. THE SIX MAHMOUD PICKED:
 
-   THE ACCENT IS A DIFFERENT COLOUR IN EACH THEME, and that is how
-   the reference does it rather than a compromise. #F2C230 on linen is
-   1.4:1 — a yellow dot on a cream page is an invisible dot — so the
-   agency's own site uses its red for accents on light surfaces and
-   keeps the yellow for accents on charcoal ones, where it reads at
-   11:1. This file does the same: --c-orange is the red on the light
-   theme and the yellow on the dark one.
+     #0E0B1D  near-black violet    #8B7CC7  light purple
+     #2A1E4D  deep purple          #C9C2E3  pale lavender
+     #5A3B8C  mid purple           #3A3A52  slate
 
-   AND ON LIGHT THE RED IS ONE VALUE, not two. Contrast is symmetric,
-   so a red dark enough to be read ON linen is also a red that linen
-   can be read on: #A8381F is 5.4:1 either way. The reference's own
-   #C8432F is 4.1:1, which fails in both directions at once, so it is
-   darkened by that much and no more. --c-orange and --c-orange-ink
-   are therefore the same colour here; they stay separate tokens
-   because the dark theme does need two.
+   The six are a dark identity, and the site has a light theme too, so
+   they are used at both ends rather than only one: the pale lavender
+   is the light page and the near-black violet is the dark one, and
+   the two mid purples swap jobs between them. On the light theme the
+   accent is #5A3B8C, which is dark enough to be read; on the dark one
+   it is #8B7CC7, which is light enough. Same move as the palette
+   before this one, for the same reason — an accent has to clear the
+   page it sits on, and no single purple clears both.
 
-   The token names are historical; read the comment, not the name.
+   FOUR VALUES ARE DERIVED, and only where a role has nothing in the
+   six to fill it: the alternating band and the quiet fill on each
+   theme, the hairline, and the dark theme's secondary text, which had
+   to be lifted off #8B7CC7 because #8B7CC7 on #2A1E4D is 4.2:1 and
+   small text on a chip would have failed. Every derived value is a
+   mix of two of the six (or of one with white/black) — the comment on
+   each says which.
 
-   Some token NAMES are historical (`--c-cream` is the page, which is
-   now linen; `--c-blush` is a quiet fill). The names were kept so a
-   pure-colour change stayed a pure-colour change.
+   Some token NAMES are historical: `--c-cream` is the page, which is
+   lavender; `--c-orange` is the accent, which is purple; `--c-blush`
+   is a quiet fill. The names were kept so a pure-colour change stayed
+   a pure-colour change. Read the comment, not the name.
 
    NOTHING outside this file may declare a colour, with four
    deliberate exceptions. Three are other people's brands rather than
@@ -42,41 +41,41 @@
    --------------------------------------------------------------- */
 :root {
   /* Surfaces */
-  --c-cream: 241 235 223; /* #F1EBDF — the page. Linen is the identity. */
-  --c-soft: 233 225 210; /* #E9E1D2 — alternating bands and raised panels */
-  --c-orange: 168 56 31; /* #A8381F — the accent on the light page, 5.4:1 */
-  --c-black: 31 29 27; /* #1F1D1B — dark sections, the palette's charcoal */
-  --c-blush: 251 248 242; /* #FBF8F2 — quiet fills */
+  --c-cream: 201 194 227; /* #C9C2E3 — the page. The pale lavender. */
+  --c-soft: 224 220 239; /* #E0DCEF — bands and raised panels; the page lifted 42% toward white */
+  --c-orange: 90 59 140; /* #5A3B8C — the accent, 5.0:1 on the page */
+  --c-black: 14 11 29; /* #0E0B1D — dark sections */
+  --c-blush: 234 232 244; /* #EAE8F4 — quiet fills; the page lifted 62% toward white */
 
   /* Text roles */
-  --c-ink: 31 29 27; /* #1F1D1B — primary text */
-  --c-ink-dim: 74 70 64; /* #4A4640 — secondary text, 7.9:1 on linen */
-  --c-on-orange: 241 235 223; /* #F1EBDF — linen on the red, 5.4:1 */
-  --c-on-dark: 241 235 223; /* #F1EBDF — linen text on the charcoal sections */
+  --c-ink: 14 11 29; /* #0E0B1D — primary text, 11.4:1 */
+  --c-ink-dim: 58 58 82; /* #3A3A52 — secondary text, 6.5:1 */
+  --c-on-orange: 201 194 227; /* #C9C2E3 — on the accent, 5.0:1 */
+  --c-on-dark: 201 194 227; /* #C9C2E3 — text on the dark sections */
 
   /**
-   * The accent WHEN IT IS TEXT. Equal to --c-orange on this theme, for
-   * the reason in the header: one red serves both because the ratio
-   * that makes it readable on linen is the ratio that makes linen
-   * readable on it. On the dark theme the two diverge.
+   * The accent WHEN IT IS TEXT. Equal to --c-orange here: #5A3B8C is
+   * already 5.0:1 on the page, so the light theme needs no
+   * darker stand-in. The two tokens stay separate because the dark
+   * theme uses a different purple for the accent.
    */
-  --c-orange-ink: 168 56 31; /* #A8381F — 5.4:1 on linen */
+  --c-orange-ink: 90 59 140; /* #5A3B8C */
 
   /* Lines */
-  --c-line: 212 206 193; /* #D4CEC1 — borders and hairlines */
-  --c-line-on-orange: 241 235 223;
+  --c-line: 158 153 184; /* #9E99B8 — the page mixed 30% into the slate */
+  --c-line-on-orange: 201 194 227;
 
   /* The sheet a logo or a browser frame sits on. */
-  --c-paper: 255 255 255;
+  --c-paper: 243 242 249; /* #F3F2F9 */
 
   /**
-   * The fill of an outline button. On a light page it is a true white that
-   * lifts off the page; on a dark one it has to BE the page, because a light
-   * fill there would turn an outline button into a solid slab and put
-   * near-white text on near-white. Not the same thing as --c-paper, which is
-   * dimmed rather than inverted in dark mode.
+   * The fill of an outline button. On a light page it lifts off the page; on
+   * a dark one it has to BE the page, because a light fill there would turn
+   * an outline button into a solid slab and put near-white text on
+   * near-white. Not the same thing as --c-paper, which is dimmed rather than
+   * inverted in dark mode.
    */
-  --c-pill: 255 255 255;
+  --c-pill: 234 232 244;
 
   /* Layout */
   --gutter: 1.25rem;
@@ -97,65 +96,58 @@
 }
 
 /* --- Contrast notes ------------------------------------------------
-   #1F1D1B on #F1EBDF  =  14.2:1  -> anything
-   #4A4640 on #F1EBDF  =   7.9:1  -> AA for body text
-   #A8381F on #F1EBDF  =   5.4:1  -> AA for small text: the accent-ink
-   #A8381F on #F1EBDF  =   5.4:1  -> the accent, and it IS readable: dots,
-                                    rules, marks and small accent text
-   #F1EBDF on #A8381F  =   5.4:1  -> the same number, because contrast is
-                                    symmetric. Linen on the accent is safe.
-   #C8432F on #F1EBDF  =   4.1:1  -> the reference's own red, which is why
-                                    this file does not use it undarkened
-   #F2C230 on #131210  =  11.2:1  -> the yellow belongs to the dark theme,
-                                    where it is the accent instead
-   #4A4640 on #E9E1D2  =   7.2:1  -> AA on the alternating band
-   #F1EBDF on #1F1D1B  =  14.2:1  -> the dark final CTA
+   #0E0B1D on #C9C2E3  =  11.4:1  -> anything
+   #3A3A52 on #C9C2E3  =   6.5:1  -> AA for body text
+   #5A3B8C on #C9C2E3  =   5.0:1  -> AA: the accent reads as text here
+   #C9C2E3 on #5A3B8C  =   5.0:1  -> safe for small text ON the accent
+   #3A3A52 on #E0DCEF  =   8.2:1  -> AA on the alternating band
+   #C9C2E3 on #0E0B1D  =  11.4:1  -> the dark final CTA
    ------------------------------------------------------------------ */
 
 /* ---------------------------------------------------------------
-   Dark theme. Same design, same spacing, same accent — only the
-   surfaces and the text roles swap. Set by the inline script in
+   Dark theme. Same design, same spacing — the surfaces, the text
+   roles and the accent all swap. Set by the inline script in
    index.html before first paint, so there is no flash.
-
-   Warm near-black, taken from the same reference: the light theme is
-   linen, so a neutral grey-black here would read as a different
-   identity rather than the same one at night.
    --------------------------------------------------------------- */
 :root[data-theme='dark'] {
   /* Surfaces */
-  --c-cream: 19 18 16; /* #131210 — the page */
-  --c-soft: 28 26 23; /* #1C1A17 — raised panels, alternating bands */
-  --c-orange: 242 194 48; /* #F2C230 — unchanged: it is the brand */
-  --c-black: 12 11 10; /* #0C0B0A — the dark CTA block, darker than the page */
-  --c-blush: 33 31 27; /* #211F1B */
+  --c-cream: 14 11 29; /* #0E0B1D — the page */
+  --c-soft: 25 19 48; /* #191330 — bands and panels; the page 40% toward the deep purple */
+  --c-orange: 139 124 199; /* #8B7CC7 — the accent, 5.4:1 on the page */
+  --c-black: 8 6 16; /* #080610 — the dark CTA block, below the page */
+  --c-blush: 42 30 77; /* #2A1E4D — quiet fills, the deep purple itself */
 
   /* Text roles */
-  --c-ink: 241 235 223; /* #F1EBDF on the dark page */
-  --c-ink-dim: 183 174 158; /* #B7AE9E — secondary text, 8.5:1 on the page */
-  --c-on-orange: 31 29 27; /* #1F1D1B — charcoal on the yellow, 10.0:1 */
-  --c-on-dark: 241 235 223;
+  --c-ink: 201 194 227; /* #C9C2E3 — primary text, 11.4:1 */
+  /* Lifted off #8B7CC7 by 45% toward the lavender: the light purple
+     is 4.2:1 on a #2A1E4D chip, which is not enough for the
+     small print that sits on one. This is 6.0:1 there. */
+  --c-ink-dim: 167 156 212; /* #A79CD4 — secondary text, 7.7:1 on the page */
+  --c-on-orange: 14 11 29; /* #0E0B1D — on the accent, 5.4:1 */
+  --c-on-dark: 201 194 227;
 
-  /* On a dark page the yellow is 11.2:1, so here — and only
-     here — the accent can carry text and needs no red stand-in. */
-  --c-orange-ink: 242 194 48; /* #F2C230 — 11.2:1 on the page */
+  /* The accent is light enough to be read here, so it needs no
+     stand-in: --c-orange-ink IS --c-orange on this theme. */
+  --c-orange-ink: 139 124 199; /* #8B7CC7 — 5.4:1 on the page */
 
   /* Lines */
-  --c-line: 53 50 44; /* #35322C — very subtle */
-  --c-line-on-orange: 31 29 27;
+  --c-line: 58 58 82; /* #3A3A52 — the slate */
+  --c-line-on-orange: 14 11 29;
 
   /* Dimmed so a logo chip or a browser frame is not a glare source. */
-  --c-paper: 232 228 219;
+  --c-paper: 201 194 227;
 
   /* An outline button on the dark page keeps the page's own surface. */
-  --c-pill: 19 18 16;
+  --c-pill: 14 11 29;
 }
 
 /* --- Dark contrast notes ------------------------------------------
-   #F1EBDF on #131210 =  15.8:1  -> anything
-   #B7AE9E on #131210 =   8.5:1  -> AA for body text
-   #F2C230 on #131210 =  11.2:1  -> AA for text, unlike on linen where
-                                   the same yellow is unreadable
-   #1F1D1B on #F2C230 =  10.0:1  -> unchanged
+   #C9C2E3 on #0E0B1D =  11.4:1  -> anything
+   #A79CD4 on #0E0B1D =   7.7:1  -> AA for body text
+   #A79CD4 on #2A1E4D =   6.0:1  -> AA on a chip, which is why it is
+                                   lifted off the palette's #8B7CC7
+   #8B7CC7 on #0E0B1D =   5.4:1  -> AA: the accent reads as text here
+   #0E0B1D on #8B7CC7 =   5.4:1  -> safe for small text ON the accent
    ------------------------------------------------------------------ */
 
 /* Only while the theme is being switched, so a permanent transition
