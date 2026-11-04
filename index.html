@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#F4D6B0" />
 
-    <title>Portfolio Mahmoud Elzaqla</title>
+    <title>Mahmoud Elzaqla — E-commerce Growth Specialist</title>
     <meta
       name="description"
       content="I build Shopify stores, run Meta and TikTok ads, and read the product, the market, the customer, the operation and the numbers before I read the ad."
@@ -15,9 +15,8 @@
     <link rel="alternate" hreflang="ar" href="https://mahmoudelzaqla.site/ar" />
     <link rel="alternate" hreflang="x-default" href="https://mahmoudelzaqla.site/" />
 
-    <!-- A photograph cannot be a vector, so the SVG mark is gone and the
-         PNG is the icon rather than the fallback. -->
-    <link rel="icon" href="/favicon.png" type="image/png" sizes="96x96" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.png" sizes="96x96" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!--
@@ -38,7 +37,7 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="ar_EG" />
     <meta property="og:url" content="https://mahmoudelzaqla.site/" />
-    <meta property="og:title" content="Portfolio Mahmoud Elzaqla" />
+    <meta property="og:title" content="Mahmoud Elzaqla — E-commerce Growth Specialist" />
     <meta
       property="og:description"
       content="I build Shopify stores, run Meta and TikTok ads, and read the product, the market, the customer, the operation and the numbers before I read the ad."
@@ -46,7 +45,14 @@
     <meta property="og:image" content="https://mahmoudelzaqla.site/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mahmoud Elzaqla, e-commerce growth specialist." />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- X reads the og: tags when these are absent, but only some of them,
+         and only some of the time. Stating them costs four lines. -->
+    <meta name="twitter:title" content="Mahmoud Elzaqla — E-commerce Growth Specialist" />
+    <meta name="twitter:description" content="I build Shopify stores, run Meta and TikTok ads, and read the product, the market, the customer, the operation and the numbers before I read the ad." />
+    <meta name="twitter:image" content="https://mahmoudelzaqla.site/og.png" />
+    <meta name="twitter:image:alt" content="Mahmoud Elzaqla, e-commerce growth specialist." />
 
     <!--
       STRUCTURED DATA, and it says nothing the page does not.
@@ -75,6 +81,8 @@
                       "alternateName": "Mahmoud Elzaqla",
                       "url": "https://mahmoudelzaqla.site",
                       "jobTitle": "E-commerce Growth Specialist",
+            "description": "I build Shopify stores, run Meta and TikTok ads, and read the product, the market, the customer, the operation and the numbers before I read the ad.",
+            "image": "https://mahmoudelzaqla.site/og.png",
                       "email": "mailto:mahmoudelzaqla@gmail.com",
                       "knowsLanguage": [
                             "ar",
@@ -202,8 +210,30 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Libre+Bodoni:wght@400;500;600;700&display=swap"
       media="print"
-      onload="this.media='all'"
+      id="fontcss"
     />
+    <!--
+      THE SWAP, MOVED OUT OF AN onload ATTRIBUTE.
+
+      This was `onload="this.media='all'"` on the link above. An inline
+      event handler is not covered by a CSP script hash — only by
+      'unsafe-hashes', which weakens the policy for every handler on the
+      page — so under the CSP in vercel.json the attribute was blocked and
+      the stylesheet stayed at media="print". Fonts silently never loaded.
+      Here it is a hashed inline script instead, which the policy allows
+      and which does exactly the same thing.
+    -->
+    <script>
+      (function () {
+        var f = document.getElementById('fontcss');
+        if (!f) return;
+        var swap = function () {
+          f.media = 'all';
+        };
+        if (f.sheet) swap();
+        else f.addEventListener('load', swap, { once: true });
+      })();
+    </script>
     <noscript>
       <link
         rel="stylesheet"

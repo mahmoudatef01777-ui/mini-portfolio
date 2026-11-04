@@ -69,25 +69,51 @@ if (typeof window !== 'undefined') scheduleRefresh();
  * nothing; a reader who never sees the text has lost the page.
  */
 function failSafe(el: Element) {
-  window.setTimeout(() => {
+  /*
+    ONLY RESCUE WHAT THE READER HAS ACTUALLY REACHED.
+
+    The first version cleared anything still hidden four seconds after
+    mount — including every card below the fold, which is most of the page.
+    So on the live build the whole choreography was wiped out before the
+    reader ever scrolled to it: content visible, animation gone, and no
+    error anywhere to say so.
+
+    An element waiting its turn below the fold is not a failure; an element
+    still hidden while it is ON SCREEN is. So the check runs on a timer,
+    looks only at what is in or above the viewport, and stops once it has
+    nothing left to watch.
+  */
+  const started = Date.now();
+
+  const tick = () => {
     if (!el.isConnected) return;
 
-    // The element AND anything a timeline may have hidden inside it. The
-    // first version only checked the element, which on a card whose own
-    // opacity was never touched meant it declared the card fine and left
-    // every part of it invisible.
-    const parts = el.querySelectorAll<HTMLElement>(
-      '[data-rule],[data-num],[data-head],[data-lead],[data-point]',
-    );
-    const hidden = [el, ...Array.from(parts)].filter((node) => {
-      const style = window.getComputedStyle(node);
-      // Opacity catches the faded parts; the matrix catches a rule left
-      // flat at scaleX 0, which is invisible without being transparent.
-      return Number(style.opacity) < 0.95 || style.transform.startsWith('matrix(0,');
-    });
-    if (hidden.length > 0) gsap.set(hidden, { clearProps: 'opacity,transform' });
-  }, 4000);
+    const rect = el.getBoundingClientRect();
+    const reached = rect.top < window.innerHeight;
+
+    if (reached) {
+      const parts = el.querySelectorAll<HTMLElement>(
+        '[data-rule],[data-num],[data-head],[data-lead],[data-point]',
+      );
+      const stuck = [el, ...Array.from(parts)].filter((node) => {
+        const style = window.getComputedStyle(node);
+        // Opacity catches the faded parts; the matrix catches a rule left
+        // flat at scaleX 0, which is invisible without being transparent.
+        return Number(style.opacity) < 0.95 || style.transform.startsWith('matrix(0,');
+      });
+      if (stuck.length > 0) {
+        gsap.set(stuck, { clearProps: 'opacity,transform' });
+      }
+      return;
+    }
+
+    // Give up after a minute rather than ticking for the life of the page.
+    if (Date.now() - started < 60_000) window.setTimeout(tick, 1500);
+  };
+
+  window.setTimeout(tick, 2500);
 }
+
 
 
 /** Attach to any element that should arrive as it is scrolled to. */
@@ -428,6 +454,80 @@ export function useStepSnap<T extends HTMLElement>(itemSelector: string) {
 
     return () => mm.revert();
   }, [itemSelector]);
+
+  return ref;
+}
+
+/**
+ * A figure that climbs as the reader scrolls onto it.
+ *
+ * Mahmoud's brief: the number should rise slowly while he scrolls and be
+ * at its final value by the time he stops — starting at a million for the
+ * sales figure, and stepping 500,000 at a time; the orders figure stepping
+ * 5,000 at a time from the first 5,000.
+ *
+ * SO IT IS TIED TO THE SCROLL, NOT TO A CLOCK. He gave rates as well —
+ * 500,000 every three seconds — and taken literally that is thirty-six
+ * seconds of a number ticking, which no one waits out and which would
+ * still be running long after the figure had left the screen. Scrubbing it
+ * to scroll gives him the thing he described: it moves while he moves,
+ * stops when he stops, and lands on the final value as the figure settles
+ * in the middle of the screen. The pace is then his pace.
+ *
+ * THE STEPS ARE HIS. The value is snapped to 500,000 and to 5,000, so the
+ * number reads as a counter turning over rather than as a blur of digits.
+ *
+ * THE LAST VALUE IS THE PUBLISHED ONE, always. `format` is handed the end
+ * value unchanged at progress 1, and reduced motion renders that string
+ * and nothing else — a figure on this page is a claim, and a claim must
+ * not depend on an animation finishing.
+ */
+export function useCountUp<T extends HTMLElement>(
+  from: number,
+  to: number,
+  step: number,
+  format: (value: number) => string,
+) {
+  const ref = useRef<T>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const final = format(to);
+    el.textContent = final;
+
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const state = { value: from };
+
+      const tween = gsap.to(state, {
+        value: to,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: el,
+          // Starts as the figure comes up from the bottom and finishes as
+          // it reaches the middle, so the climb happens across the part of
+          // the scroll where the reader is actually looking at it.
+          start: 'top 90%',
+          end: 'top 45%',
+          scrub: 0.6,
+        },
+        onUpdate: () => {
+          const snapped = Math.min(to, Math.round(state.value / step) * step);
+          el.textContent = snapped >= to ? final : format(snapped);
+        },
+      });
+
+      return () => {
+        tween.kill();
+        el.textContent = final;
+      };
+    });
+
+    return () => mm.revert();
+  }, [from, to, step, format]);
 
   return ref;
 }

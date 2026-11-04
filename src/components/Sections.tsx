@@ -16,7 +16,7 @@ import {
   results,
 } from '@/content/content';
 import { Button, Monogram, Reveal, SectionHead, Stagger } from './ui';
-import { useCardIntro, useSplitHeadline } from '@/lib/reveal';
+import { useCardIntro, useCountUp, useSplitHeadline } from '@/lib/reveal';
 import Carousel from './Carousel';
 import AboutPortrait from './AboutPortrait';
 
@@ -256,6 +256,62 @@ function resultShots() {
  * off a dashboard, and splitting them by which tool took the screenshot was
  * a distinction the reader was never making.
  */
+/**
+ * The two career figures, counted up as the reader scrolls onto them.
+ *
+ * THE STEPS AND THE STARTING POINTS ARE MAHMOUD'S: the sales figure from a
+ * million, in half-millions; the orders figure in fives of a thousand from
+ * the first five thousand. They are keyed by the stat's id rather than
+ * parsed out of the string, because "EGP 7M+" and "25,000+" are published
+ * figures and nothing here should be inferring a number from how one
+ * happens to be written. A stat with no entry below does not count at all
+ * — it renders its string, which is the right default for a figure.
+ */
+const COUNTERS: Record<
+  string,
+  { from: number; to: number; step: number; format: (n: number) => string }
+> = {
+  orders: {
+    from: 5_000,
+    to: 25_000,
+    step: 5_000,
+    format: (n) => `${n.toLocaleString('en-US')}+`,
+  },
+  sales: {
+    from: 1_000_000,
+    to: 7_000_000,
+    step: 500_000,
+    // Half-millions read as one decimal; the published value has none.
+    format: (n) => (n >= 7_000_000 ? 'EGP 7M+' : `EGP ${(n / 1_000_000).toFixed(1)}M`),
+  },
+};
+
+function CountingValue({ id, value }: { id: string; value: string }) {
+  const counter = COUNTERS[id];
+  const ref = useCountUp<HTMLSpanElement>(
+    counter?.from ?? 0,
+    counter?.to ?? 0,
+    counter?.step ?? 1,
+    counter?.format ?? (() => value),
+  );
+
+  if (!counter) return <span className="num">{value}</span>;
+
+  /*
+    The published string is what is in the markup, and it is the fallback:
+    with no JavaScript, under reduced motion, or if the tween never runs,
+    this is what the page shows. The hook only overwrites it while the
+    scroll sits between its start and its end.
+
+    `tabular-nums` so the digits do not jostle the layout as they turn.
+  */
+  return (
+    <span ref={ref} className="num tabular-nums">
+      {value}
+    </span>
+  );
+}
+
 export function Results() {
   const { t } = useLang();
   const viewer = useEvidenceViewer();
@@ -282,7 +338,7 @@ export function Results() {
                       it goes in its own span OUTSIDE this isolate — inside
                       it, bidi drags the word to the wrong side of the
                       number and "~6 شهور" renders as "شهور 6~". */}
-                  <span className="num">{stat.value}</span>
+                  <CountingValue id={stat.id} value={stat.value} />
                 </dt>
                 <dd className="mt-3 text-sm font-medium text-ink md:text-base">{t(stat.label)}</dd>
               </div>

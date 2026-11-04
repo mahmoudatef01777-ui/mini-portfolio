@@ -76,12 +76,15 @@ export default function Carousel({
   }, [isRTL]);
 
   /**
-   * About eleven seconds per card, so a rail of five is not slower to read
-   * than a rail of two — the cards cross the screen at the same speed
-   * whatever the section holds. It is a reading pace: slow enough that a
-   * figure can be taken in before it leaves.
+   * Seconds per card, so a rail of five is not slower to read than a rail
+   * of two — the cards cross at the same speed whatever the section holds.
+   *
+   * DOUBLED on 2026-11-04 at Mahmoud's request. Eleven seconds a card was
+   * a reading pace and it read as standing still; five and a half is a
+   * drift you can see without it becoming a slideshow. It still stops the
+   * moment a pointer touches the rail or the stop button is pressed.
    */
-  const duration = Math.max(36, items.length * 11);
+  const duration = Math.max(18, items.length * 5.5);
 
   const copy = (clone: boolean) =>
     items.map((item, i) => (

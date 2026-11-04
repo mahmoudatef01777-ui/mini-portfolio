@@ -654,8 +654,16 @@ export const seo = {
     mahmoudelzaqla.site, rather than the one the body copy uses.
   */
   title: {
-    ar: 'Portfolio Mahmoud Elzaqla',
-    en: 'Portfolio Mahmoud Elzaqla',
+    /*
+      THE ROLE IS APPENDED, THE NAME IS NOT TOUCHED. A title of the name
+      alone is findable by someone who already knows it and invisible to
+      someone searching for what he does — which is the entire job of the
+      page. The name still leads, it is still the same string in both
+      languages, and the suffix is his own role line from the hero rather
+      than a phrase written for a search engine.
+    */
+    ar: 'Mahmoud Elzaqla — E-commerce Growth Specialist',
+    en: 'Mahmoud Elzaqla — E-commerce Growth Specialist',
   } satisfies Localized,
   description: {
     ar: 'ببني ستورات Shopify، وبشغّل إعلانات Meta وTikTok، وبشوف المنتج والسوق والعميل والتشغيل والأرقام — وبعدين بشوف الإعلان.',

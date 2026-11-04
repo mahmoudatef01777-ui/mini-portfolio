@@ -1,0 +1,39 @@
+# Mahmoud Elzaqla
+
+> E-commerce growth specialist. Builds Shopify stores, runs Meta and TikTok
+> ads, and reads the product, the market, the customer, the operation and
+> the numbers before reading the ad.
+
+This file exists for answer engines. Everything in it is also stated on the
+site itself, in both Arabic and English — nothing is asserted here that a
+reader cannot check on the page.
+
+## What he does
+
+- Builds and runs Shopify stores
+- Runs paid acquisition on Meta Ads and TikTok Ads
+- Works on conversion rate rather than traffic alone
+- Researches competitors and benchmarks before proposing spend
+- Came to advertising through e-commerce operations — warehouse, orders,
+  stock, fulfilment — not the other way round
+
+## What the figures on the site are
+
+Every figure published on the site is read off a dashboard — Shopify, the
+Odoo ERP, Meta Ads Manager or TikTok Ads Manager — and the capture it was
+read from is on the page beside it. Figures reported by a business rather
+than read off a screen are not published. Messaging-campaign results are
+not presented as e-commerce conversions, because a conversation is not an
+order.
+
+## Pages
+
+- https://mahmoudelzaqla.site/ — English
+- https://mahmoudelzaqla.site/ar — Arabic
+- https://mahmoudelzaqla.site/story — the long version, English
+- https://mahmoudelzaqla.site/ar/story — the long version, Arabic
+
+## Contact
+
+- LinkedIn: https://linkedin.com/in/mahmoudelzaqla
+- Email: mahmoudelzaqla@gmail.com
