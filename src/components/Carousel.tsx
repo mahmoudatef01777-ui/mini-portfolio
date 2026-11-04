@@ -1,6 +1,5 @@
-import { Children, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { Children, useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
 import { useLang } from '@/i18n/lang';
-import { proofUi } from '@/content/proof';
 import { cn } from '@/lib/cn';
 
 /**
@@ -37,21 +36,17 @@ export default function Carousel({
   itemClassName?: string;
   className?: string;
 }) {
-  const { t, isRTL } = useLang();
+  const { isRTL } = useLang();
   const frameRef = useRef<HTMLDivElement>(null);
   const items = Children.toArray(children);
 
-  /*
-    A STOP BUTTON, because the rail moves on its own.
-
-    Hover and focus-within already pause it, and neither of those is a
-    control: a reader on a touch screen has no hover, and a reader who
-    simply wants the movement to stop has nothing to press. Anything that
-    moves by itself for more than five seconds needs a way to pause it, and
-    this loop runs for a minute and more. So there is a real button, and
-    the paused state is an attribute the stylesheet reads.
+/*
+    NO STOP BUTTON. There was one — hover and focus-within pause the rail
+    but neither is a control, and a reader on a touch screen has no hover
+    at all. Mahmoud took it off on 2026-11-04. What still stops the rail:
+    a pointer on it, a keyboard focus inside it, and prefers-reduced-motion,
+    which removes the movement entirely rather than pausing it.
   */
-  const [paused, setPaused] = useState(false);
 
   /**
    * On a touch screen the rail is a plain scroller (the clone is hidden and
@@ -111,8 +106,7 @@ export default function Carousel({
       <div
         ref={frameRef}
         dir="ltr"
-        data-paused={paused}
-        className="marquee mx-[calc(var(--gutter)*-1)]"
+          className="marquee mx-[calc(var(--gutter)*-1)]"
         style={{ '--marquee-duration': `${duration}s` } as CSSProperties}
       >
       {/*
@@ -133,23 +127,6 @@ export default function Carousel({
         </ul>
       </div>
 
-      {/*
-        The control sits UNDER the rail, not over it. A button floating on
-        top of moving cards is one more thing sliding past the reader, and
-        it would cover part of a capture. `aria-pressed` carries the state
-        for a screen reader; the label says what pressing it will do.
-      */}
-      <button
-        type="button"
-        onClick={() => setPaused((on) => !on)}
-        aria-pressed={paused}
-        className="mt-5 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-xs font-semibold text-ink transition-colors duration-300 ease-out hover:border-ink"
-      >
-        <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor" aria-hidden>
-          {paused ? <path d="M4 2.5v11l9-5.5z" /> : <path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" />}
-        </svg>
-        {t(paused ? proofUi.play : proofUi.pause)}
-      </button>
     </div>
   );
 }

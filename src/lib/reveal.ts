@@ -500,28 +500,64 @@ export function useCountUp<T extends HTMLElement>(
     const mm = gsap.matchMedia();
 
     mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const state = { value: from };
+      /*
+        READ OFF THE ELEMENT'S OWN POSITION, not off a ScrollTrigger.
 
-      const tween = gsap.to(state, {
-        value: to,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: el,
-          // Starts as the figure comes up from the bottom and finishes as
-          // it reaches the middle, so the climb happens across the part of
-          // the scroll where the reader is actually looking at it.
-          start: 'top 90%',
-          end: 'top 45%',
-          scrub: 0.6,
-        },
-        onUpdate: () => {
-          const snapped = Math.min(to, Math.round(state.value / step) * step);
-          el.textContent = snapped >= to ? final : format(snapped);
-        },
-      });
+        Two versions of this went through ScrollTrigger — a scrubbed tween
+        on a plain object, then a bare trigger with an onUpdate — and
+        neither callback ever fired for this element, with or without
+        `scrub`, while the same patterns work elsewhere on the page. The
+        likeliest reason is that the target is an inline <span>, which has
+        no useful offset box for ScrollTrigger to measure against.
+
+        Rather than keep guessing at a library's measurement, the value is
+        a pure function of one number this code can read directly: how far
+        the figure has travelled between the bottom of the screen and the
+        middle. There is nothing left to go wrong.
+      */
+      const START = 0.9; // the figure is 90% down the screen: counting begins
+      const END = 0.45; //  ...and 45% down: it has arrived
+
+      const paint = () => {
+        const top = el.getBoundingClientRect().top / window.innerHeight;
+        const progress = gsap.utils.clamp(0, 1, (START - top) / (START - END));
+        const value = from + (to - from) * progress;
+        const snapped = Math.min(to, Math.round(value / step) * step);
+        const next = snapped >= to ? final : format(snapped);
+        if (el.textContent !== next) el.textContent = next;
+      };
+
+      /*
+        PAINTED SYNCHRONOUSLY ON SCROLL, AND AGAIN ON EVERY FRAME.
+
+        Two drivers, because each one fails somewhere the other does not.
+        requestAnimationFrame — and therefore GSAP's ticker, and therefore
+        ScrollTrigger's own progress — does not run at all while a document
+        is hidden, which is how three earlier versions of this came to
+        paint once at mount and never again. A plain scroll handler keeps
+        working there. The ticker then covers the other direction: a page
+        that moves without a scroll event, such as a resize or a layout
+        settling under lazy images.
+
+         writes only when the string actually changes, so running it
+        twice in a frame costs one rect read and nothing else.
+      */
+      let last = -1;
+      const tick = () => {
+        if (window.scrollY === last) return;
+        last = window.scrollY;
+        paint();
+      };
+
+      paint();
+      gsap.ticker.add(tick);
+      window.addEventListener('scroll', paint, { passive: true });
+      window.addEventListener('resize', paint, { passive: true });
 
       return () => {
-        tween.kill();
+        gsap.ticker.remove(tick);
+        window.removeEventListener('scroll', paint);
+        window.removeEventListener('resize', paint);
         el.textContent = final;
       };
     });
