@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { useLang } from '@/i18n/lang';
 import { cn } from '@/lib/cn';
+import { useStepSnap } from '@/lib/reveal';
 import { Link } from '@/lib/router';
 import { contact, type Localized } from '@/content/content';
 import { story } from '@/content/story';
@@ -98,6 +99,7 @@ function Section({ children, className }: { children: ReactNode; className?: str
 /* ----------------------------------------------------------------- page */
 
 export default function StoryPage() {
+  const stagesRef = useStepSnap<HTMLOListElement>('li');
   const { t } = useLang();
 
   return (
@@ -131,7 +133,10 @@ export default function StoryPage() {
 
       {/* -------------------------------------------------------- timeline */}
       <Section className="bg-soft">
-        <ol className="relative">
+        {/* The scroll settles on a stage instead of stopping between two —
+            see `useStepSnap`, and the note there on why this snaps rather
+            than pins. */}
+        <ol ref={stagesRef} className="relative">
           {/* The rail. It starts and stops inside the list rather than running
               the full height, so it reads as a spine and not a page border.
               Hidden on a phone, where the numbers alone carry the sequence

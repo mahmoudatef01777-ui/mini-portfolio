@@ -88,7 +88,18 @@ for (const path of PATHS) {
         .map((el) => el.tagName.toLowerCase() + '.' + String(el.className).slice(0, 40)),
       levels: [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].map((h) => Number(h.tagName[1])),
       revealTotal: rev.length,
-      revealHidden: rev.filter((e) => !e.classList.contains('is-in')).length,
+      // Measured, not inferred from a class. The reveal used to be a CSS
+      // class the observer added; it is a GSAP tween now and adds nothing
+      // to the DOM, so the only honest test is whether the thing can
+      // actually be seen. This also catches a rule left flat at scaleX 0,
+      // which is invisible without being transparent.
+      revealHidden: rev.filter((e) => {
+        const nodes = [e, ...e.querySelectorAll('[data-rule],[data-num],[data-head],[data-lead],[data-point]')];
+        return nodes.some((n) => {
+          const s = getComputedStyle(n);
+          return Number(s.opacity) < 0.95 || s.transform.startsWith('matrix(0,');
+        });
+      }).length,
     };
   });
 

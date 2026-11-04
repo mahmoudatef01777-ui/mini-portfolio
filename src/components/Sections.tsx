@@ -16,7 +16,7 @@ import {
   results,
 } from '@/content/content';
 import { Button, Monogram, Reveal, SectionHead, Stagger } from './ui';
-import { useSplitHeadline } from '@/lib/reveal';
+import { useCardIntro, useSplitHeadline } from '@/lib/reveal';
 import Carousel from './Carousel';
 import AboutPortrait from './AboutPortrait';
 
@@ -397,6 +397,69 @@ export function Results() {
  * The order he works in, as four numbered stages. Not a services grid — the
  * platforms sit inside stage three, where they belong.
  */
+/**
+ * One stage of the framework, and the smallest component on this page with
+ * a ref of its own — which is the point: a hook cannot be called inside a
+ * `.map()`, so each card has to BE a component to animate independently.
+ *
+ * The `data-` attributes are what the timeline in `useCardIntro` reaches
+ * for. They are not styling hooks; do not reuse them.
+ */
+function GrowthBlock({ block }: { block: (typeof growth.blocks)[number] }) {
+  const { t, isRTL } = useLang();
+  const ref = useCardIntro<HTMLLIElement>(isRTL);
+
+  return (
+    <li ref={ref}>
+      {/* A <span> rather than a `border-t`, because a border cannot be
+          scaled on its own — the rule has to be an element to draw. */}
+      <span data-rule aria-hidden className="block h-px w-full bg-ink/15" />
+
+      <div className="pt-5">
+        <div className="flex items-baseline gap-3">
+          <span data-num className="display num text-sm text-orange-ink">
+            {block.n}
+          </span>
+          <h3 data-head className="display text-[1.125rem] text-ink md:text-xl">
+            {t(block.name)}
+          </h3>
+        </div>
+
+        <p
+          data-lead
+          className="mt-3 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-ink-dim md:text-base"
+        >
+          {t(block.lead)}
+        </p>
+
+        <ul className="mt-4 space-y-2">
+          {block.points.map((point) => (
+            <li
+              key={point.en}
+              data-point
+              className="flex items-start gap-2.5 text-[0.875rem] text-ink md:text-[0.9375rem]"
+            >
+              <span aria-hidden className="mt-[0.5em] block h-1 w-1 shrink-0 rounded-full bg-orange" />
+              {t(point)}
+            </li>
+          ))}
+        </ul>
+
+        {/* Not every block has one. Where it does, it is the point the list
+            was building to, so it is set apart from the bullets. */}
+        {'close' in block && block.close && (
+          <p
+            data-point
+            className="mt-4 max-w-[46ch] border-s-2 border-orange ps-3.5 text-[0.8125rem] leading-relaxed text-ink-dim md:text-[0.875rem]"
+          >
+            {t(block.close)}
+          </p>
+        )}
+      </div>
+    </li>
+  );
+}
+
 export function Growth() {
   const { t } = useLang();
 
@@ -411,47 +474,13 @@ export function Growth() {
         {/* Six blocks, two across from `md` up — the same card shape the four
             stages used, so the section reads as a longer version of what was
             here rather than as a different page. */}
-        {/* The cards come in one after another rather than each fading on
-            its own: a grid where every cell has its own trigger reveals in
-            whatever order the scroll happens to cross them. */}
-        <Stagger as="ol" each={0.07} className="mt-10 grid gap-x-10 gap-y-10 md:mt-14 md:grid-cols-2">
+        {/* Each card assembles itself on its own trigger — see GrowthBlock
+            below and `useCardIntro` in lib/reveal.ts. */}
+        <ol className="mt-10 grid gap-x-10 gap-y-10 md:mt-14 md:grid-cols-2">
           {growth.blocks.map((block) => (
-            <li key={block.id}>
-              <div className="border-t border-ink/15 pt-5">
-                <div className="flex items-baseline gap-3">
-                  <span className="display num text-sm text-orange-ink">{block.n}</span>
-                  <h3 className="display text-[1.125rem] text-ink md:text-xl">{t(block.name)}</h3>
-                </div>
-
-                <p className="mt-3 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-ink-dim md:text-base">
-                  {t(block.lead)}
-                </p>
-
-                {/* The bullets are the substance of the card, so they
-                    assemble in reading order instead of all at once. */}
-                <Stagger className="mt-4 space-y-2">
-                  {block.points.map((point) => (
-                    <li
-                      key={point.en}
-                      className="flex items-start gap-2.5 text-[0.875rem] text-ink md:text-[0.9375rem]"
-                    >
-                      <span aria-hidden className="mt-[0.5em] block h-1 w-1 shrink-0 rounded-full bg-orange" />
-                      {t(point)}
-                    </li>
-                  ))}
-                </Stagger>
-
-                {/* Not every block has one. Where it does, it is the point the
-                    list was building to, so it is set apart from the bullets. */}
-                {'close' in block && block.close && (
-                  <p className="mt-4 max-w-[46ch] border-s-2 border-orange ps-3.5 text-[0.8125rem] leading-relaxed text-ink-dim md:text-[0.875rem]">
-                    {t(block.close)}
-                  </p>
-                )}
-              </div>
-            </li>
+            <GrowthBlock key={block.id} block={block} />
           ))}
-        </Stagger>
+        </ol>
 
         {/*
           THE DECISION, FULL WIDTH AND VERTICAL.
