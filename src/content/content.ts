@@ -211,7 +211,7 @@ export const results = {
     },
     {
       id: 'sales',
-      value: 'EGP 7M+',
+      value: 'EGP 10M+',
       label: {
         ar: 'مبيعات في بيزنسات e-commerce مختلفة',
         en: 'Sales across e-commerce businesses',

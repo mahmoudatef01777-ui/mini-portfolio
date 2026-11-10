@@ -243,7 +243,7 @@
 
   /**
    * A Latin number inside Arabic copy. Without the isolation the bidi
-   * algorithm reorders the run: "EGP 7M+" renders as "+7M EGP", which is
+   * algorithm reorders the run: "EGP 10M+" renders as "+10M EGP", which is
    * simply wrong. Use it on any value carrying a prefix, unit or punctuation.
    */
   .num {

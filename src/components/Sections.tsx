@@ -277,7 +277,7 @@ function resultShots() {
  * THE STEPS AND THE STARTING POINTS ARE MAHMOUD'S: the sales figure from a
  * million, in half-millions; the orders figure in fives of a thousand from
  * the first five thousand. They are keyed by the stat's id rather than
- * parsed out of the string, because "EGP 7M+" and "25,000+" are published
+ * parsed out of the string, because "EGP 10M+" and "25,000+" are published
  * figures and nothing here should be inferring a number from how one
  * happens to be written. A stat with no entry below does not count at all
  * — it renders its string, which is the right default for a figure.
@@ -294,10 +294,10 @@ const COUNTERS: Record<
   },
   sales: {
     from: 1_000_000,
-    to: 7_000_000,
+    to: 10_000_000,
     step: 500_000,
     // Half-millions read as one decimal; the published value has none.
-    format: (n) => (n >= 7_000_000 ? 'EGP 7M+' : `EGP ${(n / 1_000_000).toFixed(1)}M`),
+    format: (n) => (n >= 10_000_000 ? 'EGP 10M+' : `EGP ${(n / 1_000_000).toFixed(1)}M`),
   },
 };
 
