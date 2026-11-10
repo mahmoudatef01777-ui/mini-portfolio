@@ -131,8 +131,10 @@ export function About() {
   return (
     <section id="main" className="border-t border-line">
       {/* Two columns from `lg` up — the words, and the portrait that used to
-          be empty space beside them. Below `lg` the portrait does not render
-          at all, so this is a single column exactly as it was. */}
+          be empty space beside them. Below `lg` they stack, words first:
+          the portrait renders on a phone now, and it reads as the picture
+          that goes WITH what has just been said rather than as a header
+          the reader has to get past to reach it. */}
       <div className="container-page grid items-center gap-10 py-14 md:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)] lg:gap-14 xl:gap-16">
         <div>
         <SectionHead label={about.label} />

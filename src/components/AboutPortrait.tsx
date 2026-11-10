@@ -2,8 +2,7 @@ import { useLang } from '@/i18n/lang';
 import { about } from '@/content/content';
 
 /**
- * THE PORTRAIT IN A CIRCLE, WITH ONE SHOPIFY MARK RUNNING ROUND ITS EDGE —
- * desktop only.
+ * THE PORTRAIT IN A CIRCLE, WITH ONE SHOPIFY MARK RUNNING ROUND ITS EDGE.
  *
  * "Who I am" is a column of text on a wide screen and the other half sat
  * empty. This fills it with him and a single mark of the platform he builds
@@ -18,10 +17,22 @@ import { about } from '@/content/content';
  * ONE MARK, not a ring of them — six read as a pattern, one reads as a thing
  * going around him. Mahmoud's call.
  *
- * DESKTOP ONLY. On a phone the column stacks and this would push the actual
- * words a screen further down, on the page that is opened from an Instagram
- * bio. `hidden lg:block` is the whole of that rule, and because it never
- * renders below 1024px it costs a phone nothing.
+ * ON THE PHONE TOO, since 2026-11-10. It used to be `hidden lg:block`, on
+ * the reasoning that a stacked column would push the words a screen further
+ * down on a page opened from an Instagram bio. Mahmoud wants it everywhere,
+ * so the cost that reasoning was avoiding is paid down instead of accepted:
+ *
+ *   - the image is `loading="lazy"` now. It is the second section, below
+ *     the fold on every phone, so it is no longer part of what a visitor
+ *     downloads before they see anything.
+ *   - the circle is capped at 17rem on a phone and only opens up to 30rem
+ *     from `lg`. 17 rather than 20 because the travelling mark rides
+ *     OUTSIDE the photograph: at 20rem on a 375px screen the chip was
+ *     sliced in half by the edge of the window on every lap. The
+ *     circle has to leave room for the thing going round it.
+ *   - the travelling mark shrinks with it. A 48px chip on a 320px circle
+ *     is a badge stuck to a photograph; proportion is what makes it read
+ *     as one thing going around him.
  *
  * THE MARK IS THE REAL ONE, in its real colour: the official Shopify glyph
  * (simple-icons, CC0) at #7AB55C, the same path and green the main
@@ -41,13 +52,16 @@ export default function AboutPortrait() {
   const { t } = useLang();
 
   return (
-    <div className="relative hidden aspect-square w-full max-w-[30rem] place-self-center lg:block">
+    <div className="relative aspect-square w-full max-w-[17rem] place-self-center sm:max-w-[24rem] lg:max-w-[30rem]">
       <img
         src="/img/portrait-about.webp"
         alt={t(about.portraitAlt)}
         width={960}
         height={1280}
-        /* Eager: it is the only image in this half of the section. */
+        /* Lazy, now that it renders on a phone as well: it is below the
+           fold everywhere, and the hero above it is the image that has to
+           arrive first. */
+        loading="lazy"
         decoding="async"
         /* `object-position` holds the framing: 50% across, and high enough up
            the 3:4 frame that his face sits in the upper third of the circle
@@ -60,8 +74,8 @@ export default function AboutPortrait() {
           over it. */}
       <div className="pointer-events-none absolute inset-[-3%]">
         <span className="orbit-travel absolute left-0 top-0 block">
-          <span className="grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-line bg-cream shadow-[0_6px_18px_-10px_rgba(17,17,17,0.5)]">
-            <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden>
+          <span className="grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-line bg-cream shadow-[0_6px_18px_-10px_rgba(17,17,17,0.5)] sm:h-11 sm:w-11 lg:h-12 lg:w-12">
+            <svg viewBox="0 0 24 24" className="h-[1.125rem] w-[1.125rem] sm:h-5 sm:w-5 lg:h-6 lg:w-6" aria-hidden>
               <path d={SHOPIFY_PATH} fill="#7AB55C" />
             </svg>
           </span>
