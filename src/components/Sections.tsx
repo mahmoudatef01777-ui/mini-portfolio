@@ -185,7 +185,20 @@ export function About() {
         </Reveal>
         </div>
 
-        <Reveal delay={0.12}>
+        {/*
+          THE PHOTOGRAPH LEADS ON A PHONE, and follows on a laptop.
+
+          It is second in the markup because that is the reading order on
+          two columns: words on the left, picture on the right. Stacked,
+          Mahmoud wants it first — so `order-first` moves it visually on
+          the single-column layout and `lg:order-none` hands the grid back
+          its natural order once there are two columns to fill.
+
+          Done with `order` rather than by moving the element, so the DOM
+          keeps the sequence a screen reader should hear: who I am, then
+          the picture of him.
+        */}
+        <Reveal delay={0.12} className="order-first lg:order-none">
           <AboutPortrait />
         </Reveal>
       </div>
