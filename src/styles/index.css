@@ -143,38 +143,37 @@
   }
 
   /**
-   * NO POINTER, NO AUTOPLAY.
+   * IT TRAVELS ON A PHONE TOO.
    *
-   * A rail that moves on its own and cannot be paused is unusable with a
-   * finger: there is no hover to stop it with, and a card slides out from
-   * under the tap. So on a touch screen the same markup becomes an ordinary
-   * swipeable rail - animation off, snap on, and the duplicate copy removed
-   * so the reader is not swiping through the same five cards twice.
+   * It did not, and the reason was sound: a rail that moves by itself and
+   * cannot be paused is hostile with a finger — there is no hover to stop
+   * it with, and a card slides out from under the tap. So on a touch
+   * screen the same markup became a plain swipeable rail.
+   *
+   * Mahmoud wants the movement everywhere, so it moves everywhere, and the
+   * container stays scrollable underneath it: a finger can still drag the
+   * rail back to a card that has gone past, which is the thing the pause
+   * was protecting. Snapping comes off, because a snap point and a moving
+   * track pull against each other every frame.
+   *
+   * WHAT A TOUCH READER NO LONGER HAS is a way to stop it outright. The
+   * stop button was removed on 2026-11-04 and hover does not exist here.
+   * Reduced motion still turns the whole thing off — see below — and that
+   * is now the only switch.
    */
   @media (hover: none) {
     .marquee {
       overflow-x: auto;
-      scroll-snap-type: x mandatory;
       scroll-padding-inline: var(--gutter);
       overscroll-behavior-x: contain;
-      -webkit-mask-image: none;
-      mask-image: none;
       scrollbar-width: none;
     }
     .marquee::-webkit-scrollbar {
       display: none;
     }
-    .marquee-track {
-      animation: none;
-      padding-inline: var(--gutter);
-    }
-    .marquee-track > [aria-hidden='true'] {
-      display: none;
-    }
-    .marquee-item {
-      scroll-snap-align: center;
-    }
   }
+
+
 
   .display {
     font-family: var(--font-display);

@@ -64,10 +64,17 @@ export default function Carousel({
   useEffect(() => {
     const el = frameRef.current;
     if (!el || !isRTL) return;
-    const swipeable =
-      window.matchMedia('(hover: none)').matches ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (swipeable) el.scrollLeft = el.scrollWidth;
+    /*
+      REDUCED MOTION ONLY, now that the rail travels on touch screens as
+      well. This jump exists for the case where the rail is a STATIC
+      scroller: laid out left-to-right, it would open on its first card at
+      the left, and in Arabic the first card belongs at the right. A
+      travelling rail has no resting position to fix, and sending it to the
+      far end would start the reader inside the duplicate copy.
+    */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.scrollLeft = el.scrollWidth;
+    }
   }, [isRTL]);
 
   /**
