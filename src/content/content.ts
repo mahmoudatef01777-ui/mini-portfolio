@@ -68,7 +68,7 @@ export const hero = {
   } satisfies Localized,
   subline: {
     ar: 'بشوف المنافسين والـbenchmark، والمنتج والسوق والعميل، والستور والتشغيل والأرقام — وبعدين بشوف الإعلان.',
-    en: 'I look at the competitors and the benchmarks, the product, the market, the customer, the website, the operations and the numbers — and then I look at the ad.',
+    en: 'I look at the competitors and the benchmarks, the product, the market, the customer, the store, the operations and the numbers — and then I look at the ad.',
   } satisfies Localized,
   /*
     THREE CROPS OF ONE PHOTOGRAPH, one per class of screen.
@@ -666,7 +666,7 @@ export const seo = {
     en: 'Mahmoud Elzaqla — E-commerce Growth Specialist',
   } satisfies Localized,
   description: {
-    ar: 'ببني ستورات Shopify، وبشغّل إعلانات Meta وTikTok، وبشوف المنتج والسوق والعميل والتشغيل والأرقام — وبعدين بشوف الإعلان.',
-    en: 'I build Shopify stores, run Meta and TikTok ads, and read the product, the market, the customer, the operation and the numbers before I read the ad.',
+    ar: 'متخصص نمو e-commerce في مصر. ببني ستورات Shopify، وبشغّل إعلانات Meta وTikTok، وببص على المنتج والعميل والتشغيل والأرقام قبل الإعلان.',
+    en: 'E-commerce growth specialist in Egypt. I build Shopify stores, run Meta and TikTok ads, and read the product, the customer and the numbers before the ad.',
   } satisfies Localized,
 };
