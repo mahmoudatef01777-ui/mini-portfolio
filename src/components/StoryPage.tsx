@@ -251,7 +251,7 @@ export default function StoryPage() {
         {/* The conclusion, out of the numbered list: it is what the six steps
             added up to, not a seventh thing that happened to him. */}
         <Reveal delay={0.06}>
-          <p className="display mt-14 max-w-[30ch] border-s-2 border-orange ps-5 text-[calc(clamp(1.375rem,4.4vw,2.25rem)*var(--display-scale))] leading-[var(--statement-leading)] text-ink md:mt-20">
+          <p className="display mt-14 max-w-[30ch] border-s-2 border-orange-ink ps-5 text-[calc(clamp(1.375rem,4.4vw,2.25rem)*var(--display-scale))] leading-[var(--statement-leading)] text-ink md:mt-20">
             {t(story.closing)}
           </p>
         </Reveal>

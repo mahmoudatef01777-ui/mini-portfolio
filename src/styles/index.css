@@ -197,9 +197,11 @@
   .eyebrow {
     @apply flex items-center gap-2.5;
   }
+  /* `orange-ink`, not `orange`: a 6px dot of acid lime on a near-white
+     page is 1.1:1 and is not a dot. See the note in tokens.css. */
   .eyebrow::before {
     content: '';
-    @apply block h-[0.4rem] w-[0.4rem] shrink-0 rounded-full bg-orange;
+    @apply block h-[0.4rem] w-[0.4rem] shrink-0 rounded-full bg-orange-ink;
   }
 
   /**

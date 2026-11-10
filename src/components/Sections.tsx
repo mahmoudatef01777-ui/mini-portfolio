@@ -343,8 +343,20 @@ export function Results() {
         <dl className="mt-10 grid gap-8 sm:grid-cols-2 md:mt-12">
           {results.stats.map((stat, i) => (
             <Reveal key={stat.id} delay={0.06 * (i + 1)}>
-              <div className="border-t border-ink/15 pt-4">
-                <dt className="display text-[calc(clamp(1.75rem,5.5vw,2.75rem)*var(--display-scale))] leading-none text-ink">
+              {/*
+                THE TWO FIGURES ARE THE BRAND COLOUR, and the rule over
+                them is a short bar of it rather than a hairline across
+                the column.
+
+                `orange-ink` and not `orange`: the accent is an acid lime,
+                and a lime letter on the light theme is 1.1:1 — it is not
+                a letter at all. `--c-orange-ink` is the lime itself on
+                the dark theme, where it reads at 17:1, and the same lime
+                taken 60% toward the ink on the light one, where it reads
+                at 5.7:1. One token, the right answer in both.
+              */}
+              <div className="border-t-2 border-orange-ink pt-4">
+                <dt className="display text-[calc(clamp(1.75rem,5.5vw,2.75rem)*var(--display-scale))] leading-none text-orange-ink">
                   {/* The figure is isolated from the Arabic around it; the unit
                       sits OUTSIDE that isolate or bidi drags it to the wrong
                       side of the number. */}
@@ -441,13 +453,13 @@ export function Results() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <p className="mt-8 max-w-[62ch] border-s-2 border-orange ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
+          <p className="mt-8 max-w-[62ch] border-s-2 border-orange-ink ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
             {t(results.note)}
           </p>
           {/* Came down from the Ads Manager section when the two rails
               became one. It is about how to read a capture's date range,
               which is now true of every card on the rail. */}
-          <p className="mt-4 max-w-[62ch] border-s-2 border-orange ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
+          <p className="mt-4 max-w-[62ch] border-s-2 border-orange-ink ps-4 text-xs leading-relaxed text-ink-dim md:text-sm">
             {t(ads.note)}
           </p>
         </Reveal>
@@ -510,7 +522,7 @@ function GrowthBlock({ block }: { block: (typeof growth.blocks)[number] }) {
               data-point
               className="flex items-start gap-2.5 text-[0.875rem] text-ink md:text-[0.9375rem]"
             >
-              <span aria-hidden className="mt-[0.5em] block h-1 w-1 shrink-0 rounded-full bg-orange" />
+              <span aria-hidden className="mt-[0.5em] block h-1 w-1 shrink-0 rounded-full bg-orange-ink" />
               {t(point)}
             </li>
           ))}
@@ -521,7 +533,7 @@ function GrowthBlock({ block }: { block: (typeof growth.blocks)[number] }) {
         {'close' in block && block.close && (
           <p
             data-point
-            className="mt-4 max-w-[46ch] border-s-2 border-orange ps-3.5 text-[0.8125rem] leading-relaxed text-ink-dim md:text-[0.875rem]"
+            className="mt-4 max-w-[46ch] border-s-2 border-orange-ink ps-3.5 text-[0.8125rem] leading-relaxed text-ink-dim md:text-[0.875rem]"
           >
             {t(block.close)}
           </p>
