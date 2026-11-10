@@ -35,7 +35,10 @@ import { Button, Reveal, SectionHead } from './ui';
 /** The small numeral that opens a stage. */
 function StageNumber({ n }: { n: number }) {
   return (
-    <span className="num inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-cream text-[0.8125rem] font-semibold text-ink-dim">
+    /* Lime on near-black, for the reason in Sections.tsx: the accent is
+       too light to read on a light page, and a dark chip is where it is
+       the colour it actually is. */
+    <span className="num inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-[0.8125rem] font-semibold text-orange">
       {String(n).padStart(2, '0')}
     </span>
   );

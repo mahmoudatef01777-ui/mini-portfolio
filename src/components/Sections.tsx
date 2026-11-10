@@ -499,8 +499,21 @@ function GrowthBlock({ block }: { block: (typeof growth.blocks)[number] }) {
       <span data-rule aria-hidden className="block h-px w-full bg-ink/15" />
 
       <div className="pt-5">
-        <div className="flex items-baseline gap-3">
-          <span data-num className="display num text-sm text-orange-ink">
+        <div className="flex items-center gap-3">
+          {/*
+            A LIME NUMERAL ON A NEAR-BLACK CHIP, and the chip is the point.
+
+            The accent is #CCFF00, which is 1.1:1 against the light theme's
+            page — on white it cannot be loud at any size, because it is
+            nearly as bright as the paper. Inside something dark it is 17:1
+            and it is the colour it actually is. So the chip carries it on
+            BOTH themes and the number looks like one object either way,
+            instead of lime at night and olive by day.
+          */}
+          <span
+            data-num
+            className="num inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-black text-[0.75rem] font-semibold text-orange"
+          >
             {block.n}
           </span>
           <h3 data-head className="display text-[1.125rem] text-ink md:text-xl">
