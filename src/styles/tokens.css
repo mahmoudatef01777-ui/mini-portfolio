@@ -3,38 +3,24 @@
    Change a value here and it changes everywhere.
    Colours are RGB channels so Tailwind can apply opacity modifiers.
 
-   PALETTE v8, 2026-11-04. THE SIX MAHMOUD PICKED:
+   PALETTE v9, 2026-11-10. READ OFF akaiagency.com, not guessed at:
+   the page is #0A0A0A, its raised surfaces #141414 and #1A1A1A,
+   hairlines #2A2A2A, type #FAFAFA over the Tailwind neutral greys —
+   and the whole identity turns on one acid lime, #CCFF00.
 
-     #0B132B  near-black navy     #5BC0DE  bright cyan
-     #1C2541  deep navy           #F4D6B0  warm sand
-     #3A506B  mid slate           #D97706  orange
+   AKAI IS DARK ONLY. THIS SITE IS NOT. So the dark theme is their
+   palette as sampled, and the light theme is the same family turned
+   over — their own greys, inverted — rather than a second palette
+   invented to sit beside it.
 
-   This set is not shaped like the two before it. Those were six steps
-   of one colour; this one carries a real accent hue and a bright
-   secondary, so the roles are assigned by what each colour can
-   actually do rather than by where it sits in the strip.
-
-   THE ORANGE IS A FILL ON THE LIGHT THEME, NEVER A LETTER. #D97706
-   on sand is 2.3:1 — it cannot be read at any size. It is the chip
-   behind navy text, the solid button, the rule; navy on it is
-   5.8:1 and that is the pairing to use. Where the accent has
-   to BE text, --c-orange-ink is the same orange walked 40% toward the
-   navy until it clears, which keeps the hue and loses the glow. On
-   the dark theme the orange reads directly at 5.8:1, so there
-   the two tokens are the same colour.
-
-   THE CYAN HAS ONE JOB: the focus ring on the DARK theme. It is
-   8.8:1 on navy, which is what a focus indicator wants — loud,
-   and not the brand colour, so it can never be read as a hover state.
-   It is 1.5:1 on sand, though, so it cannot do the same job on the
-   light theme and does not try: there the ring is the navy, at
-   13.2:1. A focus ring that is invisible on one of two themes is
-   worse than one that is a different colour on each.
-
-   FIVE VALUES ARE DERIVED, each a mix of two of the six (or of one
-   with white or black): the band and the quiet fill on each theme,
-   the hairline, the sheet behind a logo, and the dark theme's
-   secondary text. The comment on each line says which.
+   THE LIME IS A FILL ON THE LIGHT THEME AND TEXT ON THE DARK ONE.
+   #CCFF00 is 1.1:1 on near-white: it cannot be read at any size
+   there, so on the light theme it is the chip, the button, the rule,
+   with #0A0A0A on top of it at 17:1 — which is how Akai
+   uses it too. Where the accent has to BE text on light, use
+   --c-orange-ink: the same lime walked 60% toward the ink, at
+   5.6:1. On the dark theme the lime is 17:1 and the two
+   tokens are one colour.
 
    Some token NAMES are historical: `--c-cream` is the page, `--c-orange`
    is the accent, `--c-blush` is a quiet fill. The names were kept so a
@@ -50,35 +36,35 @@
    --------------------------------------------------------------- */
 :root {
   /* Surfaces */
-  --c-cream: 244 214 176; /* #F4D6B0 — the page */
-  --c-soft: 249 231 209; /* #F9E7D1 — bands and raised panels; the page 42% toward white */
-  --c-orange: 217 119 6; /* #D97706 — the accent. A FILL on this theme, never text. */
-  --c-black: 11 19 43; /* #0B132B — dark sections */
-  --c-blush: 251 239 225; /* #FBEFE1 — quiet fills; the page 62% toward white */
+  --c-cream: 250 250 250; /* #FAFAFA — the page */
+  --c-soft: 243 244 246; /* #F3F4F6 — bands and raised panels */
+  --c-orange: 204 255 0; /* #CCFF00 — the accent. A FILL on this theme, never text. */
+  --c-black: 10 10 10; /* #0A0A0A — dark sections */
+  --c-blush: 255 255 255; /* #FFFFFF — quiet fills */
 
   /* Text roles */
-  --c-ink: 11 19 43; /* #0B132B — primary text, 13.2:1 */
-  --c-ink-dim: 58 80 107; /* #3A506B — secondary text, 5.9:1 */
-  --c-on-orange: 11 19 43; /* #0B132B — on the accent, 5.8:1 */
-  --c-on-dark: 244 214 176; /* #F4D6B0 — text on the dark sections */
+  --c-ink: 10 10 10; /* #0A0A0A — primary text, 19.0:1 */
+  --c-ink-dim: 75 85 99; /* #4B5563 — secondary text, 7.2:1 */
+  --c-on-orange: 10 10 10; /* #0A0A0A — on the lime, 17:1 */
+  --c-on-dark: 250 250 250; /* #FAFAFA — text on the dark sections */
 
   /**
-   * The accent WHEN IT IS TEXT. The orange itself is 2.3:1 on the
-   * page, so a letter set in it is not a letter. This is the same
-   * orange 40% of the way to the navy: 4.8:1, same hue, no glow.
+   * The accent WHEN IT IS TEXT. The lime is 1.1:1 on this page, so a
+   * letter set in it is not a letter. This is the same lime 60% of the
+   * way to the ink: 5.6:1, same hue, no glow.
    */
-  --c-orange-ink: 135 79 21; /* #874F15 */
+  --c-orange-ink: 88 108 6; /* #586C06 */
 
-  /* The focus ring, and nothing else — see the note at the top. The
-     cyan cannot be seen on sand, so the light theme rings in navy. */
-  --c-focus: 11 19 43; /* #0B132B — 13.2:1 on the page */
+  /* The focus ring. Not the accent: the lime is the brand, and a focus
+     indicator that looks like a brand mark reads as decoration. */
+  --c-focus: 10 10 10; /* #0A0A0A — 19.0:1 on the page */
 
   /* Lines */
-  --c-line: 188 174 155; /* #BCAE9B — the page 30% toward the slate */
-  --c-line-on-orange: 11 19 43;
+  --c-line: 229 231 235; /* #E5E7EB — borders and hairlines */
+  --c-line-on-orange: 10 10 10;
 
   /* The sheet a logo or a browser frame sits on. */
-  --c-paper: 253 246 238; /* #FDF6EE — the page 78% toward white */
+  --c-paper: 255 255 255;
 
   /**
    * The fill of an outline button. On a light page it lifts off the page; on
@@ -87,7 +73,7 @@
    * near-white. Not the same thing as --c-paper, which is dimmed rather than
    * inverted in dark mode.
    */
-  --c-pill: 251 239 225;
+  --c-pill: 255 255 255;
 
   /* Layout */
   --gutter: 1.25rem;
@@ -108,58 +94,57 @@
 }
 
 /* --- Contrast notes ------------------------------------------------
-   #0B132B on #F4D6B0  =  13.2:1  -> anything
-   #3A506B on #F4D6B0  =   5.9:1  -> AA for body text
-   #874F15 on #F4D6B0  =   4.8:1  -> AA: accent text
-   #D97706 on #F4D6B0  =   2.3:1  -> a FILL. Never set a letter in it.
-   #0B132B on #D97706  =   5.8:1  -> and this is what goes on that fill
-   #3A506B on #F9E7D1  =   6.8:1  -> AA on the alternating band
-   #F4D6B0 on #0B132B  =  13.2:1  -> the dark final CTA
+   #0A0A0A on #FAFAFA  =  19.0:1  -> anything
+   #4B5563 on #FAFAFA  =   7.2:1  -> AA for body text
+   #586C06 on #FAFAFA  =   5.6:1  -> AA: accent text
+   #CCFF00 on #FAFAFA  =   1.1:1  -> a FILL. Never set a letter in it.
+   #0A0A0A on #CCFF00  =  16.8:1  -> and this is what goes on that fill
+   #4B5563 on #F3F4F6  =   6.9:1  -> AA on the alternating band
+   #FAFAFA on #0A0A0A  =  19.0:1  -> the dark final CTA
    ------------------------------------------------------------------ */
 
 /* ---------------------------------------------------------------
-   Dark theme. Same design, same spacing — the surfaces and the text
-   roles swap. Set by the inline script in index.html before first
-   paint, so there is no flash.
+   Dark theme — this is Akai's palette as sampled, unchanged. Set by
+   the inline script in index.html before first paint, so there is no
+   flash.
    --------------------------------------------------------------- */
 :root[data-theme='dark'] {
   /* Surfaces */
-  --c-cream: 11 19 43; /* #0B132B — the page */
-  --c-soft: 18 26 52; /* #121A34 — bands and panels; the page 40% toward the deep navy */
-  --c-orange: 217 119 6; /* #D97706 — the accent, 5.8:1: readable here */
-  --c-black: 6 10 24; /* #060A18 — the dark CTA block, below the page */
-  --c-blush: 28 37 65; /* #1C2541 — quiet fills, the deep navy itself */
+  --c-cream: 10 10 10; /* #0A0A0A — the page */
+  --c-soft: 20 20 20; /* #141414 — bands and panels */
+  --c-orange: 204 255 0; /* #CCFF00 — the accent, 17:1: readable here */
+  --c-black: 0 0 0; /* #000000 — the dark CTA block, below the page */
+  --c-blush: 26 26 26; /* #1A1A1A — quiet fills */
 
   /* Text roles */
-  --c-ink: 244 214 176; /* #F4D6B0 — primary text, 13.2:1 */
-  --c-ink-dim: 174 156 136; /* #AE9C88 — the sand 30% toward the navy, 6.9:1 */
-  --c-on-orange: 11 19 43; /* #0B132B — on the accent, 5.8:1 */
-  --c-on-dark: 244 214 176;
+  --c-ink: 250 250 250; /* #FAFAFA — primary text, 19.0:1 */
+  --c-ink-dim: 156 163 175; /* #9CA3AF — secondary text, 7.8:1 */
+  --c-on-orange: 10 10 10; /* #0A0A0A — on the lime, 17:1 */
+  --c-on-dark: 250 250 250;
 
-  /* On navy the orange reads as text, so the two accent tokens are
-     one colour here. On sand they cannot be. */
-  --c-orange-ink: 217 119 6; /* #D97706 — 5.8:1 on the page */
+  /* On near-black the lime reads as text, so the two accent tokens are
+     one colour here. On near-white they cannot be. */
+  --c-orange-ink: 204 255 0; /* #CCFF00 — 17:1 on the page */
 
-  --c-focus: 91 192 222; /* #5BC0DE — 8.8:1 on the page, and nothing
-                            else on the site is this colour */
+  --c-focus: 250 250 250; /* #FAFAFA — 19.0:1, and not the brand colour */
 
   /* Lines */
-  --c-line: 58 80 107; /* #3A506B — the slate */
-  --c-line-on-orange: 11 19 43;
+  --c-line: 42 42 42; /* #2A2A2A */
+  --c-line-on-orange: 10 10 10;
 
   /* Dimmed so a logo chip or a browser frame is not a glare source. */
-  --c-paper: 244 214 176;
+  --c-paper: 250 250 250;
 
   /* An outline button on the dark page keeps the page's own surface. */
-  --c-pill: 11 19 43;
+  --c-pill: 10 10 10;
 }
 
 /* --- Dark contrast notes ------------------------------------------
-   #F4D6B0 on #0B132B =  13.2:1  -> anything
-   #AE9C88 on #0B132B =   6.9:1  -> AA for body text
-   #AE9C88 on #1C2541 =   5.7:1  -> AA on a chip
-   #D97706 on #0B132B =   5.8:1  -> AA: the accent reads as text here
-   #0B132B on #D97706 =   5.8:1  -> safe for small text ON the accent
+   #FAFAFA on #0A0A0A =  19.0:1  -> anything
+   #9CA3AF on #0A0A0A =   7.8:1  -> AA for body text
+   #9CA3AF on #1A1A1A =   6.9:1  -> AA on a chip
+   #CCFF00 on #0A0A0A =  16.8:1  -> the lime, and here it is text
+   #0A0A0A on #CCFF00 =  16.8:1  -> safe for small text ON the accent
    ------------------------------------------------------------------ */
 
 /* Only while the theme is being switched, so a permanent transition

@@ -11,7 +11,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'sha256-1TZxfdR4XTLaq2jMtV+rnPygb58rzi+RsN+AwPDKg70=' 'sha256-42z2jDCmcOSHODgMlvCFas3zFr5KafXtWl/z95+NczA=' 'sha256-vzsrQtgtKRWGHT65bn15761PadJWF0FHnWgmRV5ZqqU=' https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.clarity.ms; connect-src 'self' https://*.clarity.ms; media-src 'self'; worker-src 'self' blob:; manifest-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'sha256-88UK05WSxvG0wsYeHO+TcfD8WsQm9af9x1gxcRyxqis=' 'sha256-42z2jDCmcOSHODgMlvCFas3zFr5KafXtWl/z95+NczA=' 'sha256-vzsrQtgtKRWGHT65bn15761PadJWF0FHnWgmRV5ZqqU=' https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.clarity.ms; connect-src 'self' https://*.clarity.ms; media-src 'self'; worker-src 'self' blob:; manifest-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests"
         },
         {
           "key": "Strict-Transport-Security",
