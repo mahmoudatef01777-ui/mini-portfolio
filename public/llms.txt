@@ -14,21 +14,38 @@ reader cannot check on the page.
 - Works with e-commerce brands, mainly on Shopify, in Arabic and English
 - Site languages: English (/) and Arabic (/ar), with a longer story page in each
 
-## What he does
+## What he does (the Services section)
 
-- Builds and runs Shopify stores
-- Runs paid acquisition on Meta Ads and TikTok Ads
-- Works on conversion rate rather than traffic alone
-- Researches competitors and benchmarks before proposing spend
-- Came to advertising through e-commerce operations — warehouse, orders,
-  stock, fulfilment — not the other way round
+1. Shopify stores: builds the store with the buying experience in mind, not
+   only the look
+2. Meta Ads: Facebook and Instagram campaigns, judged by the orders and what
+   each order earns, not by ROAS alone
+3. TikTok Ads: creative, angle and message first, then the spend
+4. Conversion and order value: conversion rate, order value and the path from
+   product page to checkout
+5. Operations and scaling: stock, shipping, delivery and returns checked
+   before scaling
+- Expanding into Google Ads (not claimed as expertise)
+- Came to advertising through e-commerce operations (warehouse, orders,
+  stock, fulfilment), not the other way round
+
+## Selected work
+
+- Bloomy, his own brand: EGP 3.17M in recorded sales over its whole run
+  (Odoo ERP); he built the store and ran the ads and the operation
+- A store he built and ran: EGP 1.01M from 1,526 organic orders,
+  May to July 2026, with no ad spend (Shopify)
+- A store running now: 1,361 orders and EGP 1.06M in store sales in the
+  first 10 days of ads, September 2026 (Shopify, all channels)
+- Career totals: 25,000+ orders handled; EGP 10M+ in sales across
+  e-commerce businesses
 
 ## What the figures on the site are
 
 Every figure published on the site is read off a dashboard — Shopify, the
 Odoo ERP, Meta Ads Manager or TikTok Ads Manager — and the capture it was
-read from is on the page beside it. Figures reported by a business rather
-than read off a screen are not published. Messaging-campaign results are
+read from is on the page beside it. The few approximate figures on the story
+page are labelled approximate, with their source. Messaging-campaign results are
 not presented as e-commerce conversions, because a conversation is not an
 order.
 

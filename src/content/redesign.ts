@@ -42,7 +42,7 @@ export const services = {
   title: {
     /* U+2011, a hyphen that does not break: "e-" alone at a line end reads as a typo. */
     ar: 'بعمل إيه لبراند e‑commerce.',
-    en: 'What I do for an e-commerce brand.',
+    en: 'What I do for an e‑commerce brand.',
   } satisfies Localized,
   intro: {
     ar: 'خمس حاجات بيشتغلوا كسيستم واحد: الستور، والإعلانات، والتشغيل اللي وراهم.',
@@ -98,7 +98,7 @@ export const work = {
   label: { ar: 'شغل مختار', en: 'Selected work' } satisfies Localized,
   title: {
     ar: 'تلات ستورات، والأرقام من الداشبوردات بتاعتها.',
-    en: 'Three stores, with the figures read off their own dashboards.',
+    en: 'Three stores, with figures straight from their own dashboards.',
   } satisfies Localized,
   facts: { ar: 'الأرقام', en: 'The figures' } satisfies Localized,
   did: { ar: 'عملت إيه', en: 'What I did' } satisfies Localized,

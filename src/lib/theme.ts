@@ -21,7 +21,7 @@ const KEY = 'theme';
 export function readTheme(): Theme {
   if (typeof window === 'undefined') return 'dark';
   try {
-    const saved = localStorage.getItem(KEY);
+    const saved = sessionStorage.getItem(KEY);
     if (saved === 'light' || saved === 'dark') return saved;
   } catch {
     // Blocked storage: fall through to the default.
@@ -48,7 +48,7 @@ export function applyTheme(theme: Theme, animate = false) {
 
 export function storeTheme(theme: Theme) {
   try {
-    localStorage.setItem(KEY, theme);
+    sessionStorage.setItem(KEY, theme);
   } catch {
     // Private mode or blocked storage: the choice just will not persist.
   }

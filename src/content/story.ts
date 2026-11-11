@@ -117,8 +117,8 @@ export const story = {
           'هنا بدأت أفهم إن كل أوردر وراه مخزون، تكلفة وتشغيل.',
         ],
         en: [
-          'I started in the warehouse and in preparing orders. I prepared more than 5,000 orders and received more than 11,000 pieces.', // REVIEW
-          'This is where I started to understand that behind every order there is stock, cost and an operation.', // REVIEW
+          'I started in the warehouse, preparing orders. I prepared more than 5,000 orders and received more than 11,000 pieces.', // REVIEW
+          'That is where I learned that behind every order there is stock, cost and an operation.', // REVIEW
         ],
       },
       stats: [
@@ -217,7 +217,7 @@ export const story = {
         ],
         en: [
           'Then I went deeper into the production side, went down to the factory and saw the manufacturing stages myself.', // REVIEW
-          'I am not a production specialist, but that experience taught me how much a delay in production, or a problem in the product, can reach the stock, the orders and in the end the customer.', // REVIEW
+          'I am not a production specialist, but it showed me how far a production delay or a faulty product travels: into the stock, into the orders, and in the end to the customer.', // REVIEW
         ],
       },
       /*
@@ -249,7 +249,7 @@ export const story = {
         ],
         en: [
           'After that role ended, I started Bloomy from scratch.',
-          'I studied the product, the market, the competitors and the cost, tested demand with Message Ads, and built the business step by step.', // REVIEW
+          'I studied the product, the market, the competitors and the cost, tested demand with messaging ads, and built the business step by step.', // REVIEW
         ],
       },
       /*

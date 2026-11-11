@@ -910,8 +910,8 @@ export const proofUi = {
   resultsLabel: { ar: 'النتايج', en: 'Results' } satisfies Localized,
   resultsTitle: { ar: 'كل رقم ومصدره.', en: 'Every number, with its source.' } satisfies Localized,
   resultsIntro: {
-    ar: 'كل رقم تحته اللقطة اللي طالع منها. اضغط «شوف الدليل» عشان تشوفها كاملة.',
-    en: 'Each card carries the capture its figure was read from. Open the evidence to read it in full.',
+    ar: 'لقطات زي ما هي من Shopify والـOdoo ERP وMeta وTikTok. دوس على أي لقطة تشوفها بحجمها الكامل.',
+    en: 'Screens exactly as they are, from Shopify, the Odoo ERP, Meta and TikTok. Tap any one to see it full size.',
   } satisfies Localized,
 
   viewEvidence: { ar: 'شوف الدليل', en: 'View the evidence' } satisfies Localized,

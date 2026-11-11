@@ -45,12 +45,24 @@ function GiantHead({
         <span aria-hidden className="rule-dots flex-1 text-line" />
         <span className="section-index">{`${index}/${TOTAL}`}</span>
       </div>
-      <p aria-hidden className="giant-clip mt-4 md:mt-6">
-        <span data-giant className="giant block text-ink">
-          <span className="giant-slash">/</span>
-          {t(word)}
-        </span>
-      </p>
+      {/* With no sentence title under it, the giant word IS the section's
+          heading (About), so it is an <h2>; otherwise it is decoration and
+          the sentence below carries the heading. */}
+      {title ? (
+        <p aria-hidden className="giant-clip mt-4 md:mt-6">
+          <span data-giant className="giant block text-ink">
+            <span className="giant-slash">/</span>
+            {t(word)}
+          </span>
+        </p>
+      ) : (
+        <h2 className="giant-clip mt-4 md:mt-6">
+          <span data-giant className="giant block text-ink">
+            <span aria-hidden className="giant-slash">/</span>
+            {t(word)}
+          </span>
+        </h2>
+      )}
       {title && (
         <Reveal delay={0.05}>
           <h2 className="section-title mt-6 max-w-[20ch] md:mt-8">{t(title)}</h2>
@@ -87,58 +99,65 @@ export function About() {
         <div className="container-page py-16 md:py-28">
           <GiantHead index="01" label={about.label} word={giant.about} />
 
-          <div className="mt-10 grid gap-10 md:mt-16 lg:grid-cols-[9rem_minmax(0,1fr)_minmax(0,24rem)] lg:gap-14">
-            <Reveal className="hidden lg:block">
-              <BigArrow isRTL={isRTL} className="h-32 w-32 text-ink/25" />
-            </Reveal>
-
-            <div>
+          {/*
+            TWO COLUMNS, NOT THREE. The words take the wide column; the photo
+            sits beside them, its top level with the opening line, and holds
+            still (sticky) while the paragraphs pass, so the two read as one
+            block instead of a picture floating off to the side. On a phone
+            the photo comes first, smaller, then the words full width.
+          */}
+          <div className="mt-10 grid items-start gap-10 md:mt-16 md:grid-cols-[minmax(0,1fr)_15rem] md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:gap-20 xl:grid-cols-[minmax(0,1fr)_minmax(0,27rem)] xl:gap-28">
+            <div className="min-w-0">
+              <Reveal>
+                <BigArrow isRTL={isRTL} className="h-9 w-9 text-orange-ink md:h-11 md:w-11" />
+              </Reveal>
               <Reveal delay={0.06}>
-                <p className="display max-w-[24ch] text-[calc(clamp(1.625rem,3.4vw,2.75rem)*var(--display-scale))] leading-[var(--statement-leading)] text-ink">
+                <p className="display mt-6 max-w-[21ch] text-[calc(clamp(1.625rem,3.2vw,2.75rem)*var(--display-scale))] leading-[var(--statement-leading)] text-ink">
                   {t(about.lead)}
                 </p>
               </Reveal>
               <Reveal delay={0.1}>
-                <div className="mt-8 max-w-[58ch] space-y-5">
+                <div className="mt-7 max-w-[60ch] space-y-4 md:mt-9">
                   {t(about.body).map((paragraph) => (
-                    <p key={paragraph} className="text-[1.0625rem] leading-[1.8] text-ink-dim md:text-lg">
+                    <p key={paragraph} className="text-[1.0625rem] leading-[1.75] text-ink-dim md:text-lg">
                       {paragraph}
                     </p>
                   ))}
                 </div>
               </Reveal>
 
-              <Reveal delay={0.14}>
-                <p className="label mt-10 text-ink">{t(about.chainLead)}</p>
-              </Reveal>
-              {/* The chain: the arrow is an element, rotated with the
-                  reading direction, so it points forward in both languages. */}
-              <Stagger as="ol" each={0.06} className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-2">
-                {about.chain.map((step, i) => (
-                  <li key={step.en} className="flex items-center gap-2">
-                    {i > 0 && (
-                      <span aria-hidden className={cn('text-orange-ink', isRTL && 'rotate-180')}>
-                        →
-                      </span>
-                    )}
-                    <span
-                      className={cn(
-                        'rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium md:text-sm',
-                        i === about.chain.length - 1
-                          ? 'border-orange bg-orange text-on-orange'
-                          : 'border-line bg-soft text-ink',
+              <div className="mt-10 border-t border-line pt-6 md:mt-12">
+                <Reveal>
+                  <p className="label text-ink">{t(about.chainLead)}</p>
+                </Reveal>
+                {/* The chain: the arrow is an element, rotated with the
+                    reading direction, so it points forward in both languages. */}
+                <Stagger as="ol" each={0.06} className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-2.5">
+                  {about.chain.map((step, i) => (
+                    <li key={step.en} className="flex items-center gap-2">
+                      {i > 0 && (
+                        <span aria-hidden className={cn('text-orange-ink', isRTL && 'rotate-180')}>
+                          →
+                        </span>
                       )}
-                    >
-                      {t(step)}
-                    </span>
-                  </li>
-                ))}
-              </Stagger>
+                      <span
+                        className={cn(
+                          'rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium md:text-sm',
+                          i === about.chain.length - 1
+                            ? 'border-orange bg-orange text-on-orange'
+                            : 'border-line bg-soft text-ink',
+                        )}
+                      >
+                        {t(step)}
+                      </span>
+                    </li>
+                  ))}
+                </Stagger>
+              </div>
             </div>
 
-            {/* The photograph leads on a phone and follows on a laptop. */}
-            <Reveal delay={0.12} className="order-first lg:order-none">
-              <AboutPortrait />
+            <Reveal delay={0.12} className="order-first md:order-none md:sticky md:top-28">
+              <AboutPortrait className="relative mx-auto aspect-square w-full max-w-[15rem] sm:max-w-[17rem] md:mx-0 md:mt-16 md:max-w-none" />
             </Reveal>
           </div>
         </div>
@@ -162,17 +181,17 @@ export function Services() {
         <Stagger as="ol" each={0.07} className="mt-12 md:mt-16">
           {services.items.map((item) => (
             <li key={item.n} className="service-row rule-dash last:border-b last:border-dashed last:border-ink/30">
-              <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 px-1 py-7 md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,24rem)_auto] md:items-center md:gap-x-8 md:px-4 md:py-9">
-                <span className="section-index pt-1.5 md:pt-0">{item.n}</span>
+              <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 px-1 py-7 md:gap-x-6 md:px-3 md:py-8 lg:grid-cols-[4rem_minmax(0,1fr)_minmax(0,24rem)_auto] lg:items-center lg:gap-x-8 lg:px-4 lg:py-9">
+                <span className="section-index pt-1.5 lg:pt-0">{item.n}</span>
                 <h3 className="service-name display text-[calc(clamp(1.5rem,3.6vw,2.75rem)*var(--display-scale))] text-ink">
                   {t(item.name)}
                 </h3>
-                <p className="col-start-2 text-[0.9375rem] leading-relaxed text-ink-dim md:col-start-auto md:text-base">
+                <p className="col-start-2 max-w-[52ch] text-[0.9375rem] leading-relaxed text-ink-dim md:text-base lg:col-start-auto">
                   {t(item.body)}
                 </p>
                 <span
                   aria-hidden
-                  className="service-arrow col-start-3 row-start-1 grid h-10 w-10 place-items-center rounded-full border border-line text-ink md:col-start-auto md:row-start-auto md:h-12 md:w-12"
+                  className="service-arrow col-start-3 row-start-1 grid h-10 w-10 place-items-center rounded-full border border-line text-ink lg:col-start-auto lg:row-start-auto lg:h-12 lg:w-12"
                 >
                   <span className={cn(isRTL && '-scale-x-100')}>→</span>
                 </span>
@@ -756,10 +775,10 @@ export function Contact() {
             </svg>
           </div>
 
-          <nav aria-label="Footer" className="mt-8 flex flex-col gap-5 text-xs text-ink-dim md:flex-row md:items-center md:justify-between">
-            <p className="flex items-center gap-2.5">
+          <nav aria-label="Footer" className="mt-8 flex flex-col gap-5 text-xs text-ink-dim lg:flex-row lg:items-center lg:justify-between">
+            <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
               <Monogram className="h-3.5 text-orange-ink" />
-              <span dir="ltr">© 2026 Mahmoud Elzaqla</span>
+              <span dir="ltr" className="whitespace-nowrap">© 2026 Mahmoud Elzaqla</span>
               <span aria-hidden>·</span>
               <span>{t(footerUi.rights)}</span>
             </p>

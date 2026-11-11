@@ -229,8 +229,8 @@ export const results = {
    */
 
   note: {
-    ar: 'دي مبيعات وأوردرات مسجّلة، مش أرباح، وده شغل عملته بإيدي، مش نتايج بنسبها لنفسي. كل لقطة مكتوب جنبها مصدرها وفترتها.',
-    en: "These are recorded sales and orders, not profit. It's work I did myself, not results credited to me. Every screenshot carries its source and its period.",
+    ar: 'دي مبيعات وأوردرات مسجّلة، مش أرباح. الشغل ده عملته بإيدي، وكل لقطة معروف مصدرها وفترتها.',
+    en: 'These are recorded sales and orders, not profit. I did this work myself, and every screenshot shows where it came from and the period it covers.',
   } satisfies Localized,
 
   cta: { ar: 'القصة كاملة', en: 'Read the full story' } satisfies Localized,
@@ -256,7 +256,7 @@ export const ads = {
 
   note: {
     ar: 'أي لقطة مكتوب جنبها تاريخ، ده التاريخ الظاهر فيها هي نفسها. ولو لقيت «Messaging conversations» في أي جدول، دي محادثات مش أوردرات.',
-    en: 'Where a capture carries a date range, that is the range shown in the image. And where a table reports "messaging conversations", those are conversations, not orders.',
+    en: 'Any date range is the one shown in the screenshot itself. And if a table says "messaging conversations", those are chats, not orders.',
   } satisfies Localized,
 };
 
@@ -605,7 +605,7 @@ export const fullStory = {
   } satisfies Localized,
   body: {
     ar: 'الحكاية بالترتيب اللي حصلت بيه: من المخزن وتحضير الأوردرات، لإدارة التشغيل، لـ Bloomy والـ Shopify والإعلانات. وكل رقم جنبه مصدره وفترته.', // REVIEW
-    en: 'The story in the order it happened: from the warehouse and preparing orders, to running the operation, to Bloomy, Shopify and the ads, with every figure carrying its source and its period.',
+    en: 'The story in the order it happened: the warehouse and the orders, then running the operation, then Bloomy, Shopify and the ads. Every figure comes with its source and period.',
   } satisfies Localized,
   cta: { ar: 'القصة كاملة', en: 'Read the full story' } satisfies Localized,
 };

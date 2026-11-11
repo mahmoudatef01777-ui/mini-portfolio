@@ -167,9 +167,10 @@
         try {
           var root = document.documentElement;
 
-          // THEME: dark unless a choice was saved. Not the OS preference —
-          // the site should look the same to everyone who has not chosen.
-          var saved = localStorage.getItem('theme');
+          // THEME: dark on every new visit. A switch to light lasts for this
+          // visit only (sessionStorage), so the next visit opens dark again.
+          // Not the OS preference: the site looks the same to everyone.
+          var saved = sessionStorage.getItem('theme');
           var dark = saved !== 'light';
           root.setAttribute('data-theme', dark ? 'dark' : 'light');
           if (dark) {
