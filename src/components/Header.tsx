@@ -5,7 +5,7 @@ import { ui } from '@/content/content';
 import { nav } from '@/content/redesign';
 import { applyTheme, readTheme, storeTheme, type Theme } from '@/lib/theme';
 import { cn } from '@/lib/cn';
-import { Link, useRoute } from '@/lib/router';
+import { useRoute } from '@/lib/router';
 import { build } from '@/lib/url';
 import { Monogram } from './ui';
 
@@ -19,7 +19,7 @@ import { Monogram } from './ui';
  */
 export default function Header() {
   const { lang, setLang, t } = useLang();
-  const { route } = useRoute();
+  const { route, go } = useRoute();
   const [theme, setTheme] = useState<Theme>('dark');
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -66,12 +66,35 @@ export default function Header() {
       )}
     >
       <div className="container-page flex h-16 items-center justify-between gap-3 md:h-[4.5rem]">
-        <Link to="home" aria-label="Mahmoud Elzaqla" className="flex items-center gap-2.5 text-orange-ink">
+        {/* THE MARK ALWAYS TAKES YOU TO THE HERO. On the home page it scrolls
+            back to the top from wherever you are (and drops any #section
+            from the address); on the story page it opens the home page at
+            its top. A plain left click only; anything else is a normal link. */}
+        <a
+          href={build({ lang, route: 'home' })}
+          aria-label="Mahmoud Elzaqla"
+          onClick={(e) => {
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            e.preventDefault();
+            setOpen(false);
+            if (route === 'home') {
+              window.history.replaceState({}, '', build({ lang, route: 'home' }));
+              // Straight there, not a smooth glide: from the footer a smooth
+              // scroll crosses the whole page, and lazy images loading on the
+              // way can stop it halfway. `instant` also beats the page's
+              // `scroll-behavior: smooth`.
+              window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+            } else {
+              go('home');
+            }
+          }}
+          className="flex items-center gap-2.5 text-orange-ink"
+        >
           <Monogram className="h-5 md:h-6" />
           <span className="hidden text-[0.8125rem] font-semibold text-ink sm:inline" dir="ltr">
             Mahmoud Elzaqla
           </span>
-        </Link>
+        </a>
 
         <nav aria-label="Sections" className="hidden lg:block">
           <ul className="flex items-center gap-1 rounded-full border border-line bg-cream/70 p-1.5 backdrop-blur-md">
