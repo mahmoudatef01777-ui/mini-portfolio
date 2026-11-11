@@ -2,62 +2,104 @@ import { useEffect, useState } from 'react';
 import { useLang } from '@/i18n/lang';
 import type { Lang } from '@/content/content';
 import { ui } from '@/content/content';
+import { nav } from '@/content/redesign';
 import { applyTheme, readTheme, storeTheme, type Theme } from '@/lib/theme';
+import { cn } from '@/lib/cn';
 import { Link, useRoute } from '@/lib/router';
 import { build } from '@/lib/url';
 import { Monogram } from './ui';
 
 /**
- * The only chrome on the page: the mark, centred, with the language toggle
- * and the theme toggle at the end.
+ * The chrome: the mark at the start, the sections in a floating pill in the
+ * middle (laptop), and the language and theme switches at the end. On a
+ * phone the pill becomes a full-screen menu behind one button.
  *
- * NO NAVIGATION. This is one page; a menu of anchors would be four taps to
- * reach something a thumb reaches faster by scrolling, and it is read almost
- * entirely on a phone.
+ * It is transparent over the hero and takes a surface as soon as the page
+ * moves, so the type underneath never shows through the links.
  */
 export default function Header() {
   const { lang, setLang, t } = useLang();
   const { route } = useRoute();
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   const other: Lang = lang === 'ar' ? 'en' : 'ar';
 
   // The inline script in index.html has already set the attribute before
   // first paint; this only syncs React's copy of it.
   useEffect(() => setTheme(readTheme()), []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
   const toggleTheme = () => {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
     applyTheme(next, true);
-    /* `storeTheme` existed in lib/theme.ts from the start and was never
-       called, so the toggle worked for exactly as long as the tab stayed
-       open and every reload threw the choice away. It went unnoticed while
-       the default followed the operating system — it usually landed back on
-       the same theme by accident. Dark is the default now, so it stopped
-       being invisible. */
     storeTheme(next);
     setTheme(next);
   };
 
-  return (
-    <header className="sticky top-0 z-50 border-b border-line/60 bg-cream/85 backdrop-blur-sm">
-      <div className="container-page grid h-14 grid-cols-3 items-center gap-3 md:h-16">
-        {/* An empty start cell. The mark is centred by the grid, not by a
-            margin, so it stays centred whatever the controls beside it weigh. */}
-        <div aria-hidden />
+  // On the story page the section anchors live on the home page.
+  const href = (id: string) => (route === 'home' ? `#${id}` : `${build({ lang, route: 'home' })}#${id}`);
 
-        {/* The mark goes home WITHOUT a page load: a hard href would throw
-            away the app and reload the whole site to move one route. */}
-        <Link to="home" aria-label="Mahmoud Atef" className="justify-self-center text-orange-ink">
+  return (
+    <header
+      className={cn(
+        'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300',
+        scrolled && !open ? 'border-b border-line/60 bg-cream/80 backdrop-blur-md' : 'border-b border-transparent',
+      )}
+    >
+      <div className="container-page flex h-16 items-center justify-between gap-3 md:h-[4.5rem]">
+        <Link to="home" aria-label="Mahmoud Elzaqla" className="flex items-center gap-2.5 text-orange-ink">
           <Monogram className="h-5 md:h-6" />
+          <span className="hidden text-[0.8125rem] font-semibold text-ink sm:inline" dir="ltr">
+            Mahmoud Elzaqla
+          </span>
         </Link>
 
-        <div className="flex items-center justify-self-end gap-2">
-          {/* THE OTHER LANGUAGE IS ANOTHER URL, so this is an anchor and not a
-              button. It was a button until 2026-09-19, which meant the Arabic
-              half of the site had no link pointing at it anywhere: a crawler
-              had nothing to follow, and a visitor could not open it in a new
-              tab or see where it went. Only a plain left click is intercepted,
-              so the swap itself is still instant and still replaceState. */}
+        <nav aria-label="Sections" className="hidden lg:block">
+          <ul className="flex items-center gap-1 rounded-full border border-line bg-cream/70 p-1.5 backdrop-blur-md">
+            {nav.items.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={href(item.id)}
+                  className="block rounded-full px-4 py-2 text-[0.8125rem] font-medium text-ink-dim transition-colors duration-300 hover:bg-soft hover:text-ink"
+                >
+                  {t(item.label)}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href={href('contact')}
+                className="block rounded-full bg-orange px-4 py-2 text-[0.8125rem] font-semibold text-on-orange transition-transform duration-300 hover:scale-[1.04]"
+              >
+                {t(nav.contact)}
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          {/* THE OTHER LANGUAGE IS ANOTHER URL, so this is an anchor: a
+              crawler can follow it and a visitor can open it in a new tab.
+              Only a plain left click is intercepted. */}
           <a
             href={build({ lang: other, route })}
             hrefLang={other}
@@ -68,9 +110,10 @@ export default function Header() {
                 return;
               }
               e.preventDefault();
+              setOpen(false);
               setLang(other);
             }}
-            className="rounded-full border border-line px-3.5 py-2 text-xs font-semibold text-ink transition-colors duration-300 hover:border-ink"
+            className="grid h-9 min-w-9 place-items-center rounded-full border border-line px-3 text-xs font-semibold text-ink transition-colors duration-300 hover:border-ink"
           >
             {t(ui.toggleLang)}
           </a>
@@ -81,8 +124,6 @@ export default function Header() {
             aria-label={t(ui.toggleTheme)}
             className="grid h-9 w-9 place-items-center rounded-full border border-line text-ink transition-colors duration-300 hover:border-ink"
           >
-            {/* Sun and moon, drawn rather than imported: two icons do not
-                justify an icon package on a page this size. */}
             {theme === 'dark' ? (
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden>
                 <circle cx="12" cy="12" r="4" />
@@ -94,8 +135,43 @@ export default function Header() {
               </svg>
             )}
           </button>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="site-menu"
+            aria-label={t(open ? nav.close : nav.menu)}
+            className="grid h-9 w-9 place-items-center rounded-full bg-ink text-cream lg:hidden"
+          >
+            <span aria-hidden className="relative block h-2.5 w-4">
+              <span className={cn('absolute inset-x-0 top-0 h-[1.5px] bg-current transition-transform duration-300', open && 'translate-y-[4.5px] rotate-45')} />
+              <span className={cn('absolute inset-x-0 bottom-0 h-[1.5px] bg-current transition-transform duration-300', open && '-translate-y-[4.5px] -rotate-45')} />
+            </span>
+          </button>
         </div>
       </div>
+
+      {/* The phone menu. Rendered only while open, so it is never in the
+          tab order or the prerendered page when closed. */}
+      {open && (
+        <div id="site-menu" className="fixed inset-0 top-16 z-40 flex flex-col bg-cream px-gutter pb-10 pt-6 md:top-[4.5rem] lg:hidden">
+          <ul className="flex flex-col">
+            {[...nav.items, { id: 'contact', label: nav.contact }].map((item, i) => (
+              <li key={item.id} className="border-b border-line">
+                <a
+                  href={href(item.id)}
+                  onClick={() => setOpen(false)}
+                  className="flex items-baseline justify-between py-4"
+                >
+                  <span className="display text-[calc(2.25rem*var(--display-scale))] text-ink">{t(item.label)}</span>
+                  <span className="section-index">{`(0${i + 1})`}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </header>
   );
 }

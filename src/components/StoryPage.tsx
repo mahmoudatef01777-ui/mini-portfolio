@@ -108,7 +108,7 @@ export default function StoryPage() {
   return (
     <main id="main">
       {/* ------------------------------------------------------------ hero */}
-      <section className="container-page pb-12 pt-8 md:pb-16 md:pt-12">
+      <section className="container-page pb-12 pt-24 md:pb-16 md:pt-32">
         <Reveal>
           <Link
             to="home"

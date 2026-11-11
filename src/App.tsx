@@ -6,7 +6,8 @@ import { useRoute } from '@/lib/router';
 import { OG_LOCALE, absolute } from '@/lib/url';
 import Header from '@/components/Header';
 import StoryPage from '@/components/StoryPage';
-import { About, Closing, Contact, FullStory, Growth, Hero, Results } from '@/components/Sections';
+import Hero from '@/components/Hero';
+import { About, Contact, Process, Results, Services, Statement, Work } from '@/components/Sections';
 
 /**
  * TWO PAGES, and they are both this site's.
@@ -82,16 +83,14 @@ export default function App() {
       {route === 'story' ? (
         <StoryPage />
       ) : (
-        <main>
-          {/* No `id="main"` on this element: on the home page the skip link's
-              target is the section AFTER the hero photograph (Sections.tsx),
-              so the id lives there. Duplicating it would break both. */}
+        <main id="main">
           <Hero />
           <About />
+          <Services />
+          <Work />
           <Results />
-          <Growth />
-          <Closing />
-          <FullStory />
+          <Process />
+          <Statement />
         </main>
       )}
 

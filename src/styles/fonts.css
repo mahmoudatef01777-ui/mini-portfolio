@@ -1,71 +1,50 @@
 /* ---------------------------------------------------------------
-   Font pairing — brand identity v5, 2026-11-04.
+   Font pairing — redesign, 2026-11-11.
 
-   AN EDITORIAL STACK, because the one before it was a safe one.
-   Readex Pro is a competent geometric sans and that is exactly the
-   problem: it is the font a page picks when nobody picked a font.
-   This is three faces with jobs instead of one face doing everything.
+   A GROTESQUE NOW, NOT A DIDONE. The redesign's reference sets the name
+   in an ultra-condensed black sans and lets the type be the composition,
+   so the display face is Archivo: one variable family with a WIDTH axis
+   (62-125) as well as weight, which is what lets the same face be the
+   giant condensed name in the hero and an ordinary heavy heading below it.
 
-     display   Amiri (Arabic) / Libre Bodoni (Latin)
-     body      IBM Plex Sans Arabic — both scripts
-     label     IBM Plex Mono — markers and Latin figures
+     display   Archivo (Latin) / IBM Plex Sans Arabic 700 (Arabic)
+     body      IBM Plex Sans Arabic, both scripts
+     label     IBM Plex Mono, markers and Latin figures
 
-   TWO DISPLAY FACES, ONE MOOD. There is no single family that cuts a
-   high-contrast editorial Arabic and a high-contrast editorial Latin,
-   so each script gets the face that script actually has: Amiri is a
-   Naskh revival of the Bulaq Press type, Libre Bodoni is a didone.
-   Different drawings, same thing on the page — thin hairlines, heavy
-   stems, a lot of contrast. Set a headline in either and it reads as
-   the same magazine.
+   Amiri and Libre Bodoni are gone. Arabic display takes the body family at
+   its heaviest cut: there is no condensed black Arabic that pairs with
+   Archivo, and a grotesque Naskh-free Plex keeps the two scripts the same
+   texture inside mixed lines ("بشوف المنافسين والbenchmark").
 
-   That brings back the per-script metrics the single family had
-   retired, and they are below rather than hidden in a component.
-   Amiri sets SMALL for its point size and needs the scale nudge;
-   Libre Bodoni does not.
-
-   ONE SANS FOR THE BODY, both scripts, because body copy is where a
-   mismatch shows as a texture change mid-paragraph — this page mixes
-   Arabic and Latin inside single sentences ("بشوف المنافسين
-   والbenchmark"), so the two have to come from one drawing.
-
-   Nothing else in the codebase names a font; change it here and in
-   the <link> in index.html.
+   Nothing else in the codebase names a font; change it here and in the
+   <link> in index.html.
    --------------------------------------------------------------- */
 :root {
-  --font-display: 'Libre Bodoni', Georgia, serif;
+  --font-display: 'Archivo', 'IBM Plex Sans Arabic', system-ui, sans-serif;
   --font-body: 'IBM Plex Sans Arabic', system-ui, sans-serif;
-  /* A didone at display size wants to be set tight; its own sidebearings
-     are generous and the default fit reads as spaced-out. */
-  --display-tracking: -0.015em;
-  --display-leading: 1;
-  --display-case: none;
-  --display-weight: 700;
-  --display-measure: 17ch;
-  /* The hero is one huge line; a statement that wraps needs more air. */
-  --statement-leading: 1.12;
-  --display-scale: 1;
-  /* Hand-written notes in the margins of a composition. Caveat has no
-     Arabic cut, so Arabic falls back to the body face. */
-  --font-hand: 'Caveat', var(--font-body);
-  /* The small capitalised markers, and Latin figures inside them. It
-     has no Arabic, so Arabic takes the body face — see `.label` in
-     index.css, which drops the tracking and the uppercasing there. */
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  /* The giant name: the narrowest, heaviest cut of the same family. */
+  --font-name: 'Archivo', 'Arial Narrow', 'Helvetica Neue', sans-serif;
+  --display-tracking: -0.025em;
+  --display-leading: 0.98;
+  --display-case: none;
+  --display-weight: 800;
+  --display-stretch: 92%;
+  --display-measure: 17ch;
+  --statement-leading: 1.05;
+  --display-scale: 1;
 }
 
 :root[lang='ar'] {
-  --font-display: 'Amiri', 'Libre Bodoni', serif;
+  --font-display: 'IBM Plex Sans Arabic', 'Archivo', system-ui, sans-serif;
   /* Letter-spacing in Arabic breaks the joins between letters, so it is
      always zero — this is not a taste decision. */
   --display-tracking: 0;
-  /* Naskh descends a long way below the baseline; 1.0 collides. */
-  --display-leading: 1.42;
+  /* Arabic needs room above and below the line that Latin caps do not. */
+  --display-leading: 1.32;
   --display-weight: 700;
+  --display-stretch: 100%;
   --display-measure: 15ch;
-  --statement-leading: 1.5;
-  /* Amiri's glyphs sit small in their em square — a heading set at the
-     same px as the Latin one reads noticeably smaller — so Arabic is
-     scaled UP here, where the Plex Arabic pairing had to be scaled
-     down. Same problem, opposite sign. */
-  --display-scale: 1.12;
+  --statement-leading: 1.4;
+  --display-scale: 0.94;
 }

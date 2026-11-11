@@ -178,6 +178,7 @@
   .display {
     font-family: var(--font-display);
     font-weight: var(--display-weight);
+    font-stretch: var(--display-stretch);
     letter-spacing: var(--display-tracking);
     line-height: var(--display-leading);
   }
@@ -235,6 +236,318 @@
     .orbit-travel {
       animation: none;
     }
+  }
+
+  /* ================================================================
+     REDESIGN, 2026-11-11
+     ================================================================ */
+
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  /** "(01)", the index that opens a section. Latin figures in both
+      languages, isolated so bidi cannot move the brackets. */
+  .section-index {
+    font-family: var(--font-mono);
+    @apply text-xs font-medium text-ink-dim;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  /** A dotted rule, drawn in currentColor: set the colour with text-*. */
+  .rule-dots {
+    display: block;
+    height: 2px;
+    background-image: radial-gradient(circle, currentColor 1px, transparent 1.3px);
+    background-size: 7px 2px;
+    background-repeat: repeat-x;
+  }
+
+  /** An underline that draws in from the reading edge on hover. */
+  .link-line {
+    @apply inline-flex items-center gap-2;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    padding-bottom: 2px;
+  }
+  [dir='rtl'] .link-line {
+    background-position: 100% 100%;
+  }
+  .link-line:hover,
+  .link-line:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* ---------------------------------------------------------- hero */
+
+  /*
+    THE STAGE. Sized off the portrait's WIDTH (--pw); its height follows
+    the photograph's own ratio, 1334 x 1179. Below `lg` the name sits above
+    the portrait and the hair overlaps the bottom of it; from `lg` up the
+    portrait stands bottom-centre and the name runs across behind it at eye
+    level, words at the two edges.
+  */
+  .hero-stage {
+    --pw: 118vw;
+    --ph: calc(var(--pw) * 0.8838);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (min-width: 640px) {
+    .hero-stage {
+      --pw: min(96vw, 58svh * 1.1315);
+    }
+  }
+  @media (min-width: 1024px) {
+    /* The first screen is exactly one screen: the stage is pinned to the
+       bottom of the hero and the small type sits over its empty corners. */
+    .hero-stage {
+      --pw: min(48vw, 72svh * 1.1315);
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      display: block;
+      height: var(--ph);
+    }
+  }
+
+  .hero-name {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-inline: var(--gutter);
+    font-family: var(--font-name);
+    font-weight: 900;
+    font-stretch: 62%;
+    text-transform: uppercase;
+    line-height: 0.84;
+    letter-spacing: -0.01em;
+    color: rgb(var(--c-ink));
+    /* An estimate for the first paint; useFitName corrects it. */
+    font-size: calc((100vw - 2 * var(--gutter)) / 2.6);
+    white-space: nowrap;
+  }
+  @media (min-width: 640px) {
+    .hero-name {
+      font-size: min(calc((100vw - 2 * var(--gutter)) / 2.6), 15svh);
+    }
+  }
+  @media (min-width: 1024px) {
+    .hero-name {
+      position: absolute;
+      inset-inline: 0;
+      top: calc(var(--ph) * 0.34);
+      translate: 0 -50%;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: calc((100vw - 2 * var(--gutter) - var(--pw) * 0.24) / 5.2);
+    }
+    [dir='rtl'] .hero-name {
+      /* The two words keep their Latin order on the Arabic page too. */
+      flex-direction: row-reverse;
+    }
+  }
+
+  /* One clipping line per word, so each letter rises out of nothing. */
+  .hero-word {
+    display: block;
+    /* Never shrink: with overflow hidden a flex item's min-width is 0, so
+       it would squeeze and clip its own letters instead of being measured. */
+    flex-shrink: 0;
+    overflow: hidden;
+    padding-top: 0.06em;
+  }
+  .hero-letter {
+    display: inline-block;
+  }
+
+  .hero-portrait {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: var(--pw);
+    max-width: none;
+    height: var(--ph);
+    margin-top: calc(var(--ph) * -0.12);
+    transform-origin: 50% 100%;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  @media (min-width: 1024px) {
+    .hero-portrait {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      translate: -50% 0;
+      margin: 0;
+    }
+  }
+
+  .hero-fade {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 2;
+    height: 22%;
+    pointer-events: none;
+    background: linear-gradient(to top, rgb(var(--c-cream)) 8%, rgb(var(--c-cream) / 0));
+  }
+
+  .hero-meta {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 1.25rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .hero-meta {
+      bottom: 1.75rem;
+    }
+  }
+
+  .hero-scroll-dot {
+    @apply block h-1.5 w-1.5 rounded-full bg-orange-ink;
+    animation: scroll-dot 1.8s ease-in-out infinite;
+  }
+  @keyframes scroll-dot {
+    0%,
+    100% {
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(3px);
+      opacity: 0.4;
+    }
+  }
+
+  /* The call: a lime slab inside a ring of turning type. */
+  .touch {
+    width: 6.75rem;
+    height: 6.75rem;
+  }
+  .touch-btn {
+    width: 4.75rem;
+    height: 4.75rem;
+    transition: background-color 0.3s ease;
+  }
+  @media (min-width: 768px) {
+    .touch {
+      width: 10rem;
+      height: 10rem;
+    }
+    .touch-btn {
+      width: 7rem;
+      height: 7rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .touch {
+      width: 11.5rem;
+      height: 11.5rem;
+    }
+    .touch-btn {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+  .touch-ring {
+    animation: spin 22s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ------------------------------------------------------- sections */
+
+  /** The heading every section opens with. */
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    font-stretch: var(--display-stretch);
+    letter-spacing: var(--display-tracking);
+    line-height: var(--display-leading);
+    font-size: calc(clamp(2rem, 5.6vw, 4.75rem) * var(--display-scale));
+    @apply text-ink;
+  }
+
+  /* Service rows: a soft band rises behind the row on hover. */
+  .service-row {
+    position: relative;
+    isolation: isolate;
+  }
+  .service-row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgb(var(--c-soft));
+    transform: scaleY(0);
+    transform-origin: 50% 100%;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .service-row:hover::before {
+    transform: scaleY(1);
+  }
+  .service-row .service-arrow {
+    transition:
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+  .service-row:hover .service-arrow {
+    transform: rotate(-45deg);
+    @apply border-orange bg-orange text-on-orange;
+  }
+  [dir='rtl'] .service-row:hover .service-arrow {
+    transform: rotate(45deg);
+  }
+  .service-row .service-name {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (hover: hover) {
+    .service-row:hover .service-name {
+      transform: translateX(0.75rem);
+    }
+    [dir='rtl'] .service-row:hover .service-name {
+      transform: translateX(-0.75rem);
+    }
+  }
+
+  /* Case images zoom a touch on hover; the frame does not move. */
+  .case-media img {
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .case-media:hover img {
+    transform: scale(1.035);
+  }
+
+  /** The footer's name: outlined, so it reads as a signature, not a shout. */
+  .outline-name text {
+    font-family: var(--font-name);
+    font-weight: 900;
+    font-stretch: 62%;
+    font-size: 132px;
+    fill: transparent;
+    stroke: rgb(var(--c-on-dark) / 0.4);
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
   }
 
   .lede {
