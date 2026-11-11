@@ -49,12 +49,34 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
  * capture-phase because `load` on an <img> does not bubble.
  */
 function scheduleRefresh() {
-  const refresh = () => ScrollTrigger.refresh();
+  /*
+    DEBOUNCED. This used to call `ScrollTrigger.refresh()` on EVERY image
+    load (capture phase), and a refresh re-measures every trigger on the
+    page: forty-odd forced layouts per image, a dozen images, all during the
+    first seconds after opening. That was a large part of the stutter on
+    load. Now any burst of fonts and images collapses into one refresh.
+  */
+  let timer = 0;
+  const refresh = () => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => ScrollTrigger.refresh(), 250);
+  };
   document.fonts?.ready.then(refresh);
   window.addEventListener('load', refresh, { once: true });
-  window.addEventListener('load', () => {
-    document.addEventListener('load', refresh, { capture: true });
-  }, { once: true });
+  window.addEventListener(
+    'load',
+    () => {
+      document.addEventListener(
+        'load',
+        (e) => {
+          // Only images can change the page's height here.
+          if ((e.target as Element)?.tagName === 'IMG') refresh();
+        },
+        { capture: true },
+      );
+    },
+    { once: true },
+  );
 }
 
 if (typeof window !== 'undefined') scheduleRefresh();
@@ -70,95 +92,98 @@ if (typeof window !== 'undefined') scheduleRefresh();
  */
 function failSafe(el: Element) {
   /*
-    ONLY RESCUE WHAT THE READER HAS ACTUALLY REACHED.
-
-    The first version cleared anything still hidden four seconds after
-    mount — including every card below the fold, which is most of the page.
-    So on the live build the whole choreography was wiped out before the
-    reader ever scrolled to it: content visible, animation gone, and no
-    error anywhere to say so.
-
-    An element waiting its turn below the fold is not a failure; an element
-    still hidden while it is ON SCREEN is. So the check runs on a timer,
-    looks only at what is in or above the viewport, and stops once it has
-    nothing left to watch.
+    ONLY RESCUE WHAT THE READER HAS ACTUALLY REACHED, and without polling.
+    An observer fires once the element is on screen; a little later, if it
+    or one of its animated parts is still hidden, it is cleared. The old
+    version polled every element's rect every 1.5s for a minute, which on
+    a page with sixty reveals was a steady trickle of forced layouts.
   */
-  const started = Date.now();
-
-  const tick = () => {
-    if (!el.isConnected) return;
-
-    const rect = el.getBoundingClientRect();
-    const reached = rect.top < window.innerHeight;
-
-    if (reached) {
-      const parts = el.querySelectorAll<HTMLElement>(
-        '[data-rule],[data-num],[data-head],[data-lead],[data-point]',
-      );
-      const stuck = [el, ...Array.from(parts)].filter((node) => {
-        const style = window.getComputedStyle(node);
-        // Opacity catches the faded parts; the matrix catches a rule left
-        // flat at scaleX 0, which is invisible without being transparent.
-        return Number(style.opacity) < 0.95 || style.transform.startsWith('matrix(0,');
-      });
-      if (stuck.length > 0) {
-        gsap.set(stuck, { clearProps: 'opacity,transform' });
-      }
-      return;
-    }
-
-    // Give up after a minute rather than ticking for the life of the page.
-    if (Date.now() - started < 60_000) window.setTimeout(tick, 1500);
-  };
-
-  window.setTimeout(tick, 2500);
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((e) => e.isIntersecting || e.boundingClientRect.top < 0)) return;
+      io.disconnect();
+      window.setTimeout(() => {
+        if (!el.isConnected) return;
+        const parts = el.querySelectorAll<HTMLElement>('[data-rule],[data-num],[data-head],[data-lead],[data-point]');
+        const stuck = [el, ...Array.from(parts)].filter((node) => {
+          const style = window.getComputedStyle(node);
+          return Number(style.opacity) < 0.95 || style.transform.startsWith('matrix(0,');
+        });
+        if (stuck.length > 0) gsap.set(stuck, { clearProps: 'opacity,transform' });
+      }, 2000);
+    },
+    { threshold: 0 },
+  );
+  io.observe(el);
 }
 
+/*
+ * THE LIGHT REVEAL, for the sixty-odd blocks that simply fade up.
+ *
+ * These used to be one GSAP tween and one ScrollTrigger EACH, plus a polling
+ * fail-safe each. On load that meant sixty tween inits, sixty trigger
+ * measurements and a refresh that re-measured all of them: hundreds of
+ * forced layouts in the first two seconds, which is the stutter Mahmoud saw
+ * on opening the site. It is now one shared IntersectionObserver and a CSS
+ * transition (`[data-reveal]` in styles/index.css):
+ *
+ *  - only blocks that start BELOW the screen are hidden, and only by script,
+ *    so the markup (and the prerendered page, and no-JS) is always visible;
+ *  - every new block is read in one batch per frame (all rects read, then
+ *    all attributes written), so registering sixty blocks costs one layout;
+ *  - reduced motion: nothing is hidden at all.
+ */
+const queue: { el: HTMLElement; delay: number }[] = [];
+let flushing = 0;
+let observer: IntersectionObserver | null = null;
 
+function reveal(el: Element) {
+  el.setAttribute('data-reveal', 'in');
+  observer?.unobserve(el);
+}
+
+function flush() {
+  flushing = 0;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = queue.splice(0);
+  if (reduce || typeof IntersectionObserver === 'undefined') return;
+  observer ??= new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.isIntersecting && reveal(e.target)),
+    // The root reaches far ABOVE the screen, so a block the reader jumped
+    // past (an anchor link, the End key) counts as reached and is shown,
+    // instead of waiting for an intersection that will never happen.
+    { rootMargin: '100000px 0px -8% 0px' },
+  );
+  // Read everything first...
+  const below = items.map(({ el }) => el.isConnected && el.getBoundingClientRect().top > window.innerHeight * 0.92);
+  // ...then write.
+  items.forEach(({ el, delay }, i) => {
+    if (!below[i]) return;
+    if (delay) el.style.setProperty('--reveal-delay', `${delay}s`);
+    el.setAttribute('data-reveal', 'wait');
+    observer!.observe(el);
+  });
+}
+
+function register(el: HTMLElement, delay: number) {
+  queue.push({ el, delay });
+  if (!flushing) flushing = requestAnimationFrame(flush);
+}
+
+function release(el: HTMLElement) {
+  observer?.unobserve(el);
+  el.removeAttribute('data-reveal');
+}
 
 /** Attach to any element that should arrive as it is scrolled to. */
 export function useReveal<T extends HTMLElement>(delay = 0) {
   const ref = useRef<T>(null);
-
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    const mm = gsap.matchMedia();
-
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      /*
-        A fade with a short lift, not a slide. 12px is what the "subtle"
-        preset uses and it is the right distance: far enough to read as
-        arriving, near enough that a fast scroll does not leave a column of
-        half-placed blocks behind it.
-
-        `toggleActions: 'play none none none'` — play once and stay. The
-        preset's default reverses on scroll-up, which suits a hero and is
-        wrong for a page of evidence: scrolling back to re-read a figure
-        should not fade it out.
-      */
-      // `fromTo` for the reason spelled out in useCardIntro: `from` reads
-      // the current value as its destination, and a second run reads the
-      // zero the first one left behind.
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: 12 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.45,
-          delay,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none' },
-        },
-      );
-      failSafe(el);
-    });
-
-    return () => mm.revert();
+    register(el, delay);
+    return () => release(el);
   }, [delay]);
-
   return ref;
 }
 
@@ -223,54 +248,18 @@ export function useSplitHeadline<T extends HTMLElement>(key: string) {
 }
 
 /**
- * A list that arrives one item at a time.
- *
- * `useReveal` fades a whole block, which is right for a paragraph and wrong
- * for a list: six bullets appearing together is the same event as one
- * paragraph appearing, and the reader is told nothing about the order they
- * are meant to be read in. This tweens the container's direct CHILDREN on a
- * stagger, so the list assembles down the page in reading order.
- *
- * The numbers are the "stagger list" guidance: 20-40ms per item once a list
- * is long, never more than 100ms, or the last bullet arrives after the
- * reader has finished with the first. `each` defaults to 55ms, which suits
- * the three-to-six-item lists this page actually has.
- *
- * DIRECT CHILDREN, read at effect time. That means the container must own
- * its items — do not point this at a wrapper that holds one <ul>, or the
- * single <ul> is the only thing that staggers.
+ * A list that arrives one item at a time: the same light reveal on each
+ * DIRECT child, with a stepped delay so the list assembles in reading order.
  */
-export function useStagger<T extends HTMLElement>(each = 0.055, y = 10) {
+export function useStagger<T extends HTMLElement>(each = 0.055) {
   const ref = useRef<T>(null);
-
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    const mm = gsap.matchMedia();
-
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const items = Array.from(el.children);
-      if (items.length === 0) return;
-
-      gsap.fromTo(
-        items,
-        { opacity: 0, y },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          stagger: each,
-          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-        },
-      );
-      items.forEach(failSafe);
-    });
-
-    return () => mm.revert();
-  }, [each, y]);
-
+    const items = Array.from(el.children) as HTMLElement[];
+    items.forEach((item, i) => register(item, Math.min(i * each, 0.5)));
+    return () => items.forEach(release);
+  }, [each]);
   return ref;
 }
 
@@ -542,20 +531,18 @@ export function useCountUp<T extends HTMLElement>(
          writes only when the string actually changes, so running it
         twice in a frame costs one rect read and nothing else.
       */
-      let last = -1;
-      const tick = () => {
-        if (window.scrollY === last) return;
-        last = window.scrollY;
-        paint();
-      };
-
+      /*
+        SCROLL AND RESIZE ONLY, NO PER-FRAME TICKER. A ticker read
+        `scrollY` every frame for the life of the page, and with the hero's
+        name animating, that read forced a style and layout pass on every
+        single frame. The scroll event alone is enough: the figure only
+        changes when the page moves.
+      */
       paint();
-      gsap.ticker.add(tick);
       window.addEventListener('scroll', paint, { passive: true });
       window.addEventListener('resize', paint, { passive: true });
 
       return () => {
-        gsap.ticker.remove(tick);
         window.removeEventListener('scroll', paint);
         window.removeEventListener('resize', paint);
         el.textContent = final;

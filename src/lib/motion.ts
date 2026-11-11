@@ -66,6 +66,8 @@ export function useHeroMotion<T extends HTMLElement>(key: string, isRTL = false)
         trigger: el,
         start: 'top top',
         end: 'bottom top',
+        // Off screen, the loop stops: no reason to animate what nobody sees.
+        onToggle: (self) => (self.isActive ? loop.play() : loop.pause()),
         onUpdate: (self) => {
           const boost = 1 + Math.min(5, Math.abs(self.getVelocity()) / 300);
           gsap.to(loop, { timeScale: boost, duration: 0.2, overwrite: true });

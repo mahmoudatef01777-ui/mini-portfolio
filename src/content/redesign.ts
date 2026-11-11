@@ -136,3 +136,24 @@ export const footerUi = {
   message: { ar: 'ابعتلي رسالة', en: 'Send me a message' } satisfies Localized,
   rights: { ar: 'كل رقم في الموقع جنبه مصدره.', en: 'Every figure on this site carries its source.' } satisfies Localized,
 };
+
+/**
+ * The 30-second nudge (components/Nudge.tsx). Mahmoud chose line 1 on
+ * 2026-11-11. It is a QUESTION, not a promise: the site's honesty clause says
+ * its figures are evidence, not a guarantee, and a "I'll double your sales"
+ * would contradict it.
+ */
+export const nudge = {
+  text: {
+    ar: 'عايز تضاعف مبيعاتك؟ ابعتلي على واتساب ونشوف فين الفرصة.',
+    en: 'Want to double your sales? Message me on WhatsApp and let’s find where the growth is.',
+  } satisfies Localized,
+  /** What the visitor finds already typed in the chat. */
+  prefill: {
+    ar: 'أهلًا محمود، شفت البورتفوليو بتاعك. عندي براند e-commerce وعايز أزوّد المبيعات. نقدر نتكلم؟',
+    en: 'Hi Mahmoud, I saw your portfolio. I run an e-commerce brand and want to grow my sales. Can we talk?',
+  } satisfies Localized,
+  open: { ar: 'افتح الرسالة', en: 'Open the message' } satisfies Localized,
+  close: { ar: 'اقفل الرسالة', en: 'Close the message' } satisfies Localized,
+  from: 'Mahmoud Elzaqla',
+};

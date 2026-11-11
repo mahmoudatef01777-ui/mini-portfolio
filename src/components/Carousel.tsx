@@ -61,6 +61,26 @@ export default function Carousel({
    * the whole section blank. The rail only has a reading position to fix when
    * the animation is off, which is exactly these two queries.
    */
+  /*
+    PAUSED WHEN OFF SCREEN. The rail and the lime line running round each
+    card are endless CSS animations; left running below the fold they keep
+    the compositor busy for the whole visit. `data-visible` is what lets them
+    play (see `.marquee` in styles/index.css).
+  */
+  useEffect(() => {
+    const el = frameRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.setAttribute('data-visible', '');
+        else el.removeAttribute('data-visible');
+      },
+      { rootMargin: '150px 0px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   useEffect(() => {
     const el = frameRef.current;
     if (!el || !isRTL) return;

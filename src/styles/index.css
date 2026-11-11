@@ -125,7 +125,9 @@
   }
 
   .marquee:hover .marquee-track,
-  .marquee:focus-within .marquee-track {
+  .marquee:focus-within .marquee-track,
+  .marquee:not([data-visible]) .marquee-track,
+  .marquee:not([data-visible]) .snake::before {
     animation-play-state: paused;
   }
 
@@ -598,7 +600,7 @@
     z-index: -1;
     left: 50%;
     top: 50%;
-    width: 200%;
+    width: 160%;
     aspect-ratio: 1;
     translate: -50% -50%;
     background: conic-gradient(
@@ -821,6 +823,108 @@
     fill: rgb(var(--c-ink));
   }
 
+  /*
+    THE NUDGE (components/Nudge.tsx): a lime pill fixed to the LEFT edge,
+    bottom corner, square on the edge side and fully round on the other, so
+    at its narrowest it is exactly a half circle bulging out of the screen.
+    GSAP drives its width; CSS only shapes it.
+  */
+  .nudge {
+    position: fixed;
+    left: 0;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 45;
+    display: flex;
+    align-items: flex-start;
+  }
+  @media (min-width: 768px) {
+    .nudge {
+      bottom: 1.75rem;
+    }
+  }
+  .nudge-card {
+    display: flex;
+    align-items: stretch;
+    min-height: 60px;
+    width: 0;
+    overflow: hidden;
+    border-radius: 0 999px 999px 0;
+    background: rgb(204 255 0);
+    color: rgb(10 10 10);
+    box-shadow: 0 14px 34px -12px rgb(0 0 0 / 0.55);
+    white-space: nowrap;
+  }
+  .nudge-card:focus-visible {
+    outline: 2px solid rgb(var(--c-ink));
+    outline-offset: 3px;
+  }
+  .nudge-edge {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 30px;
+    padding-inline-end: 4px;
+  }
+  .nudge-body {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding-block: 0.5rem;
+    padding-inline-end: 1.5rem;
+  }
+  .nudge-av {
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border-radius: 50%;
+    border: 2px solid rgb(10 10 10);
+    object-fit: cover;
+  }
+  .nudge-text {
+    display: block;
+    white-space: normal;
+    width: min(15.5rem, calc(100vw - 9.5rem));
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .nudge-from {
+    display: block;
+    font-size: 0.66rem;
+    font-weight: 700;
+    opacity: 0.6;
+    letter-spacing: 0.02em;
+  }
+  .nudge-x {
+    margin-inline-start: -0.9rem;
+    margin-top: -0.55rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: rgb(10 10 10);
+    color: rgb(250 250 250);
+    border: 1px solid rgb(255 255 255 / 0.15);
+    font-size: 1rem;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  @media (min-width: 768px) {
+    .nudge-card {
+      min-height: 64px;
+    }
+    .nudge-av {
+      width: 48px;
+      height: 48px;
+    }
+    .nudge-text {
+      width: 19.5rem;
+      font-size: 0.82rem;
+    }
+  }
+
   /* Case images zoom a touch on hover; the frame does not move. */
   .case-media img {
     transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -875,9 +979,21 @@
     place to put anything a revealing block needs — but never visibility.
   */
   .reveal {
-    /* A tween on `y` nudges the box; without this a transformed block can
-       widen the page by a pixel on a narrow screen mid-animation. */
-    will-change: transform, opacity;
+    /* No `will-change` here any more: on sixty blocks it pinned sixty
+       compositor layers for the life of the page, which cost memory and
+       frames on phones. GSAP promotes an element only while it tweens. */
+  }
+
+  /* The light reveal (lib/reveal.ts). Only script ever sets `wait`, and only
+     on blocks that start below the screen. */
+  [data-reveal] {
+    transition:
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+  }
+  [data-reveal='wait'] {
+    opacity: 0;
+    transform: translateY(14px);
   }
 
   /*
