@@ -79,7 +79,7 @@ export const story = {
 
   title: {
     ar: 'من المخزن للأوردرات والتشغيل، وبعدين Bloomy',
-    en: 'From the warehouse to the orders and the operation — and then Bloomy',
+    en: 'From the warehouse to the orders and the operation, and then Bloomy',
   } satisfies Localized,
 
   lead: {
@@ -191,8 +191,8 @@ export const story = {
           quiet: true,
           value: 'EGP 6.5M',
           label: {
-            ar: 'مبيعات الشركة في الفترة دي — مش نتيجة بنسبها لنفسي',
-            en: "the company's sales in that period — not a result attributed to me",
+            ar: 'مبيعات الشركة في الفترة دي، مش نتيجة بنسبها لنفسي',
+            en: "the company's sales in that period, not a result attributed to me",
           },
         },
       ],
@@ -262,8 +262,8 @@ export const story = {
         width: 1200,
         height: 751,
         alt: {
-          ar: 'محمود عاطف على مكتب بيخطّط لـBloomy — لابتوب ونوتة وعيّنات قماش ورسومات، وستاند لبس ولوحة أفكار وراه.',
-          en: 'Mahmoud Atef at a desk planning Bloomy — a laptop, a notebook, fabric samples and sketches, a clothing rail and a mood board behind him.',
+          ar: 'محمود عاطف على مكتب بيخطّط لـBloomy: لابتوب ونوتة وعيّنات قماش ورسومات، وستاند لبس ولوحة أفكار وراه.',
+          en: 'Mahmoud Atef at a desk planning Bloomy: a laptop, a notebook, fabric samples and sketches, a clothing rail and a mood board behind him.',
         },
       },
     },
@@ -359,8 +359,8 @@ export const story = {
   takeaway: {
     lead: { ar: 'أنا مش بشوف الإعلان لوحده.', en: "I don't look at the ad on its own." } satisfies Localized,
     body: {
-      ar: 'بشوف المنتج والسوق والعميل، والستور والتشغيل والأرقام — وبعدين بشوف الإعلان.',
-      en: 'I look at the product, the market, the customer, the website, the operations and the numbers — and then I look at the ad.',
+      ar: 'بشوف المنتج والسوق والعميل، والستور والتشغيل والأرقام. وبعدين بشوف الإعلان.',
+      en: 'I look at the product, the market, the customer, the store, the operations and the numbers. Then I look at the ad.',
     } satisfies Localized,
     /*
       The photograph beside the closing line, on a laptop only.
@@ -386,10 +386,10 @@ export const story = {
   seo: {
     /* The page keeps its own prefix — two pages must not share one title —
        and carries the same name the home page's title does. */
-    title: { ar: 'الحكاية كاملة — Mahmoud Elzaqla', en: 'The full background — Mahmoud Elzaqla' } satisfies Localized,
+    title: { ar: 'الحكاية كاملة | Mahmoud Elzaqla', en: 'The full background | Mahmoud Elzaqla' } satisfies Localized,
     description: {
-      ar: 'من المخزن وتحضير الأوردرات، للتشغيل وإدارته، لـ Bloomy والـ Shopify والإعلانات — الحكاية بالترتيب اللي حصلت بيه.',
-      en: 'From the warehouse and preparing orders, to running the operation, to Bloomy, Shopify and the ads — the story in the order it happened.',
+      ar: 'من المخزن وتحضير الأوردرات، للتشغيل وإدارته، لـ Bloomy والـ Shopify والإعلانات. الحكاية بالترتيب اللي حصلت بيه.',
+      en: 'From the warehouse and preparing orders, to running the operation, to Bloomy, Shopify and the ads. The story in the order it happened.',
     } satisfies Localized,
   },
 };

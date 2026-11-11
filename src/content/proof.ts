@@ -203,8 +203,8 @@ export const evidence = {
     brand: 'Veloura',
     source: 'meta',
     caption: {
-      ar: 'Meta Ads — حملتين شغالين: 657 عملية شرا من الموقع بتكلفة EGP 20.75 للشرا، وصرف EGP 13,629.83 · 7–14 سبتمبر 2026.',
-      en: 'Meta Ads — two live campaigns: 657 website purchases at EGP 20.75 per purchase, on EGP 13,629.83 spent · Sep 7–14, 2026.',
+      ar: 'Meta Ads: حملتين شغالين: 657 عملية شرا من الموقع بتكلفة EGP 20.75 للشرا، وصرف EGP 13,629.83 · 7–14 سبتمبر 2026.',
+      en: 'Meta Ads: two live campaigns: 657 website purchases at EGP 20.75 per purchase, on EGP 13,629.83 spent · Sep 7–14, 2026.',
     },
     alt: {
       ar: 'جدول حملات Meta Ads لستور شغّال دلوقتي فيه 657 عملية شرا وصرف 13,629.83 جنيه.',
@@ -219,8 +219,8 @@ export const evidence = {
     brand: 'Veloura',
     source: 'tiktok',
     caption: {
-      ar: 'TikTok Ads — صرف EGP 4,061.68 · 197,436 ظهور · CTR 2.86% · 287 تحويل · 9–14 سبتمبر 2026.',
-      en: 'TikTok Ads — EGP 4,061.68 spent · 197,436 impressions · 2.86% CTR · 287 conversions · Sep 9–14, 2026.',
+      ar: 'TikTok Ads: صرف EGP 4,061.68 · 197,436 ظهور · CTR 2.86% · 287 تحويل · 9–14 سبتمبر 2026.',
+      en: 'TikTok Ads: EGP 4,061.68 spent · 197,436 impressions · 2.86% CTR · 287 conversions · Sep 9–14, 2026.',
     },
     alt: {
       ar: 'داشبورد TikTok Ads لستور شغّال دلوقتي من 9 لـ 14 سبتمبر 2026.',
@@ -235,8 +235,8 @@ export const evidence = {
     brand: 'Dahab Decor',
     source: 'meta',
     caption: {
-      ar: 'Meta Ads Manager — الحملات والصرف وتكلفة النتيجة على الحساب اللي بنيته. الحساب بقى شغال عند الأونرز.',
-      en: 'Meta Ads Manager — the campaigns, spend and cost per result on the account I built. The account is now run by the owners.',
+      ar: 'Meta Ads Manager: الحملات والصرف وتكلفة النتيجة على الحساب اللي بنيته. الحساب بقى شغال عند الأونرز.',
+      en: 'Meta Ads Manager: the campaigns, spend and cost per result on the account I built. The account is now run by the owners.',
     },
     alt: {
       ar: 'جدول حملات Meta Ads لمنتج high-ticket.',
@@ -392,8 +392,8 @@ export const evidence = {
     source: 'meta',
     caption: { ar: 'Meta · الحملات من الموبايل', en: 'Meta · campaigns, from mobile' },
     alt: {
-      ar: 'تطبيق Meta Ads على الموبايل لحساب براند تاني: مبلغ منفق 164,801.61 ج.م، وحملتين نشطتين — واحدة بـ 1,947 محادثة بتكلفة 1.92 ج.م، والتانية بـ 5,516 محادثة بتكلفة 2.06 ج.م.',
-      en: 'The Meta Ads mobile app for another account: EGP 164,801.61 spent, and two active campaigns — one with 1,947 messaging conversations at EGP 1.92 each, the other with 5,516 at EGP 2.06 each.',
+      ar: 'تطبيق Meta Ads على الموبايل لحساب براند تاني: مبلغ منفق 164,801.61 ج.م، وحملتين نشطتين، واحدة بـ 1,947 محادثة بتكلفة 1.92 ج.م، والتانية بـ 5,516 محادثة بتكلفة 2.06 ج.م.',
+      en: 'The Meta Ads mobile app for another account: EGP 164,801.61 spent, and two active campaigns, one with 1,947 messaging conversations at EGP 1.92 each, the other with 5,516 at EGP 2.06 each.',
     },
   },
   'fakhama-adsets': {
@@ -404,8 +404,8 @@ export const evidence = {
     brand: 'Fakhama',
     source: 'meta',
     caption: {
-      ar: 'Meta Ads Manager — الـ ad sets بتاعة الكامبين: صرف 1,103.54 + 1,528.02 جنيه، و664 + 2,824 محادثة. دي محادثات مش أوردرات؛ الأوردرات كانت بتتجمع يدوي على واتساب.',
-      en: 'Meta Ads Manager — the ad sets in this campaign: EGP 1,103.54 + EGP 1,528.02 spent, and 664 + 2,824 messaging conversations. These are conversations, not orders; the orders were collected by hand over WhatsApp.',
+      ar: 'Meta Ads Manager: الـ ad sets بتاعة الكامبين: صرف 1,103.54 + 1,528.02 جنيه، و664 + 2,824 محادثة. دي محادثات مش أوردرات؛ الأوردرات كانت بتتجمع يدوي على واتساب.',
+      en: 'Meta Ads Manager: the ad sets in this campaign: EGP 1,103.54 + EGP 1,528.02 spent, and 664 + 2,824 messaging conversations. These are conversations, not orders; the orders were collected by hand over WhatsApp.',
     },
     alt: {
       ar: 'جدول ad sets في Meta Ads Manager لبراند ملابس رجالي بنتيجة messaging conversations والمبالغ المنفقة.',

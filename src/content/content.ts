@@ -36,8 +36,8 @@ export type Localized<T = string> = Record<Lang, T>;
 export const identity = {
   name: { ar: 'محمود عاطف', en: 'Mahmoud Atef' } satisfies Localized,
   role: {
-    ar: 'E-commerce Growth Specialist',
-    en: 'E-commerce Growth Specialist',
+    ar: 'متخصص نمو e-commerce · مصر',
+    en: 'E-commerce Growth Specialist · Egypt',
   } satisfies Localized,
 };
 
@@ -67,8 +67,8 @@ export const hero = {
     en: "I don't look at the ad on its own.",
   } satisfies Localized,
   subline: {
-    ar: 'بشوف المنافسين والـbenchmark، والمنتج والسوق والعميل، والستور والتشغيل والأرقام — وبعدين بشوف الإعلان.',
-    en: 'I look at the competitors and the benchmarks, the product, the market, the customer, the store, the operations and the numbers — and then I look at the ad.',
+    ar: 'بشوف المنافسين والـbenchmark، والمنتج والسوق والعميل، والستور والتشغيل والأرقام. وبعدين بشوف الإعلان.',
+    en: 'I look at the competitors and the benchmarks, the product, the market, the customer, the store, the operations and the numbers. Then I look at the ad.',
   } satisfies Localized,
   /*
     THREE CROPS OF ONE PHOTOGRAPH, one per class of screen.
@@ -133,7 +133,7 @@ export const about = {
    */
   lead: {
     ar: 'أنا مش بدأت من Ads Manager. بدأت من المخزن، والأوردرات، والشحن، والستوك، والمصنع.',
-    en: "I didn't start in Ads Manager. I started in the warehouse — the orders, the shipping, the stock, the factory.",
+    en: "I didn't start in Ads Manager. I started in the warehouse: the orders, the shipping, the stock, the factory.",
   } satisfies Localized,
 
   body: {
@@ -147,7 +147,7 @@ export const about = {
     ],
     en: [
       'I prepared thousands of orders, worked on the ERP, and followed the operation, the stock and the production. Over time I understood that the ad is one part of the system, not the whole system.',
-      'And with Bloomy I lived the full cycle myself — from choosing the product, setting the pricing and following the production, through to the ads, the website, the orders, the shipping and the returns.',
+      'And with Bloomy I lived the full cycle myself, from choosing the product, setting the pricing and following the production, through to the ads, the website, the orders, the shipping and the returns.',
       "So when I look at an ad, I don't ask how many orders it brought. I ask what happened to that order afterwards.",
     ],
   } satisfies Localized<string[]>,
@@ -229,8 +229,8 @@ export const results = {
    */
 
   note: {
-    ar: 'دي مبيعات وأوردرات مسجّلة، مش أرباح — وشغل عملته بإيدي، مش نتايج بنسبها لنفسي. كل لقطة مكتوب جنبها مصدرها وفترتها.',
-    en: "These are recorded sales and orders, not profit — and it's work I did myself, not results credited to me. Every screenshot carries its source and its period.",
+    ar: 'دي مبيعات وأوردرات مسجّلة، مش أرباح، وده شغل عملته بإيدي، مش نتايج بنسبها لنفسي. كل لقطة مكتوب جنبها مصدرها وفترتها.',
+    en: "These are recorded sales and orders, not profit. It's work I did myself, not results credited to me. Every screenshot carries its source and its period.",
   } satisfies Localized,
 
   cta: { ar: 'القصة كاملة', en: 'Read the full story' } satisfies Localized,
@@ -340,21 +340,21 @@ export const growth = {
       n: '03',
       name: { ar: 'الـMarketing', en: 'Marketing' } satisfies Localized,
       lead: {
-        ar: 'هنا الإعلان بيدخل الصورة — كجزء من السيستم، مش كالسيستم كله.',
-        en: 'This is where advertising comes in — as part of the system, not as the system.',
+        ar: 'هنا الإعلان بيدخل الصورة، كجزء من السيستم، مش كالسيستم كله.',
+        en: 'This is where advertising comes in, as part of the system, not as the system.',
       } satisfies Localized,
       points: [
         { ar: 'الكرياتيف والزوايا والرسالة', en: 'Creative, angles and the message' },
         { ar: 'شرايح وجمهور مكناش بنكلمه', en: "Segments and audiences we weren't reaching" },
         /* Google Ads is EXPANDING INTO, never expertise. docs/CLAUDE.md. */
         {
-          ar: 'Meta وTikTok وقنوات تانية لما تستاهل — وبوسّع خبرتي في Google Ads',
-          en: "Meta, TikTok and other channels when they earn it — and I'm expanding into Google Ads",
+          ar: 'Meta وTikTok وقنوات تانية لما تستاهل، وبوسّع خبرتي في Google Ads',
+          en: "Meta, TikTok and other channels when they earn it, and I'm expanding into Google Ads",
         },
         { ar: 'الستور نفسه: الـCRO وتجربة الشرا', en: 'The store itself: CRO and the buying experience' },
         {
           ar: 'اقتصاديات الأوردر: MAR والـROAS، والـROI لما بيانات البيزنس تسمح',
-          en: 'Unit economics: MAR and ROAS — and ROI when the business data allows it',
+          en: 'Unit economics: MAR and ROAS, and ROI when the business data allows it',
         },
       ] as Localized[],
     },
@@ -367,16 +367,16 @@ export const growth = {
         en: "Scaling doesn't just mean raising the budget.",
       } satisfies Localized,
       points: [
-        { ar: 'الـBudget — نزوّد الصرف لما الأرقام والتشغيل يستحملوا', en: 'Budget — spend more when the economics and the operation can carry it' },
-        { ar: 'شرايح جديدة — نوصل لعميل مكناش بنكلمه', en: "Segments — reach a customer we weren't talking to" },
-        { ar: 'أسواق جديدة — محافظة أو بلد فيها فرصة حقيقية', en: 'Markets — a governorate or a country where the opportunity is real' },
-        { ar: 'الجملة — نفتح قناة بيع تانية', en: 'Wholesale — open a second sales channel' },
-        { ar: 'توسيع المنتج — مقاسات، variations، bundles، استخدامات جديدة', en: 'Product — sizes, variations, bundles, new use cases around what works' },
-        { ar: 'الـAOV — نرفع قيمة الأوردر بدل ما نجري ورا أوردرات أكتر', en: 'AOV — raise the value of the order instead of always chasing more orders' },
+        { ar: 'الـBudget: نزوّد الصرف لما الأرقام والتشغيل يستحملوا', en: 'Budget: spend more when the economics and the operation can carry it' },
+        { ar: 'شرايح جديدة: نوصل لعميل مكناش بنكلمه', en: "Segments: reach a customer we weren't talking to" },
+        { ar: 'أسواق جديدة: محافظة أو بلد فيها فرصة حقيقية', en: 'Markets: a governorate or a country where the opportunity is real' },
+        { ar: 'الجملة: نفتح قناة بيع تانية', en: 'Wholesale: open a second sales channel' },
+        { ar: 'توسيع المنتج: مقاسات، variations، bundles، استخدامات جديدة', en: 'Product: sizes, variations, bundles, new use cases around what works' },
+        { ar: 'الـAOV: نرفع قيمة الأوردر بدل ما نجري ورا أوردرات أكتر', en: 'AOV: raise the value of the order instead of always chasing more orders' },
       ] as Localized[],
       close: {
-        ar: 'زيادة الـbudget والكرياتيف أدوات كويسة — بس دول بعض الطرق، مش كل الطرق.',
-        en: "More budget and more creatives are useful levers — they're just some of them, not all of them.",
+        ar: 'زيادة الـbudget والكرياتيف أدوات كويسة، بس دول بعض الطرق، مش كل الطرق.',
+        en: "More budget and more creatives are useful levers. They're just some of them, not all of them.",
       } satisfies Localized,
     },
     {
@@ -420,8 +420,8 @@ export const growth = {
         and do not cut it for length.
       */
       close: {
-        ar: 'والأرقام اللي في البورتفوليو ده نتايج حقيقية لبيزنسات ومنتجات وأسواق وتشغيل وميزانيات وظروف معيّنة. دي دليل على شغل حصل — مش وعد إن أي بيزنس هيطلّع نفس الأرقام.',
-        en: "And the figures in this portfolio are real results from specific businesses, products, markets, operations, budgets and circumstances. They're evidence of work that happened — not a promise that every business will produce the same numbers.",
+        ar: 'والأرقام اللي في البورتفوليو ده نتايج حقيقية لبيزنسات ومنتجات وأسواق وتشغيل وميزانيات وظروف معيّنة. دي دليل على شغل حصل، مش وعد إن أي بيزنس هيطلّع نفس الأرقام.',
+        en: "And the figures in this portfolio are real results from specific businesses, products, markets, operations, budgets and circumstances. They're evidence of work that happened, not a promise that every business will produce the same numbers.",
       } satisfies Localized,
     },
   ],
@@ -604,8 +604,8 @@ export const fullStory = {
     en: 'A single page cannot carry all of it.',
   } satisfies Localized,
   body: {
-    ar: 'الحكاية بالترتيب اللي حصلت بيه: من المخزن وتحضير الأوردرات، لإدارة التشغيل، لـ Bloomy والـ Shopify والإعلانات — وكل رقم جنبه مصدره وفترته.', // REVIEW
-    en: 'The story in the order it happened: from the warehouse and preparing orders, to running the operation, to Bloomy, Shopify and the ads — with every figure carrying its source and its period.',
+    ar: 'الحكاية بالترتيب اللي حصلت بيه: من المخزن وتحضير الأوردرات، لإدارة التشغيل، لـ Bloomy والـ Shopify والإعلانات. وكل رقم جنبه مصدره وفترته.', // REVIEW
+    en: 'The story in the order it happened: from the warehouse and preparing orders, to running the operation, to Bloomy, Shopify and the ads, with every figure carrying its source and its period.',
   } satisfies Localized,
   cta: { ar: 'القصة كاملة', en: 'Read the full story' } satisfies Localized,
 };
@@ -613,24 +613,24 @@ export const fullStory = {
 /* -------------------------------------------------------------- closing */
 
 export const closing = {
-  lead: { ar: 'مبدأتش بالإعلانات.', en: 'I didn’t start with ads.' } satisfies Localized,
+  lead: { ar: 'مبدأتش بالإعلانات.', en: "I didn't start with ads." } satisfies Localized,
   body: {
-    ar: 'بدأت من إني أفهم البيزنس — من المنتج لحد التسليم.',
-    en: 'I started by understanding the business — from product to delivery.',
+    ar: 'بدأت من إني أفهم البيزنس، من المنتج لحد التسليم.',
+    en: 'I started by understanding the business, from product to delivery.',
   } satisfies Localized,
 };
 
 /* -------------------------------------------------------------- contact */
 
 export const cta = {
-  label: { ar: 'يلا نتكلم', en: 'Let’s talk' } satisfies Localized,
+  label: { ar: 'يلا نتكلم', en: "Let's talk" } satisfies Localized,
   title: {
     ar: 'يلا نبني حاجة تكبر بجد.',
-    en: 'Let’s build something that actually grows.',
+    en: "Let's build something that actually grows.",
   } satisfies Localized,
   body: {
-    ar: 'لو عندك براند e-commerce ومحتاج حد يشوف الصورة كاملة — الستور والإعلانات والتشغيل — ابعتلي وقولي إنت واقف فين دلوقتي.',
-    en: 'If you have an e-commerce brand and want someone who sees the whole picture — the store, the ads and the operation — message me and tell me where you are right now.',
+    ar: 'لو عندك براند e-commerce ومحتاج حد يشوف الصورة كاملة (الستور والإعلانات والتشغيل)، ابعتلي وقولي إنت واقف فين دلوقتي.',
+    en: 'If you have an e-commerce brand and want someone who sees the whole picture (the store, the ads and the operation), message me and tell me where you are right now.',
   } satisfies Localized,
 };
 
@@ -662,8 +662,8 @@ export const seo = {
       languages, and the suffix is his own role line from the hero rather
       than a phrase written for a search engine.
     */
-    ar: 'Mahmoud Elzaqla — E-commerce Growth Specialist',
-    en: 'Mahmoud Elzaqla — E-commerce Growth Specialist',
+    ar: 'Mahmoud Elzaqla | متخصص نمو e-commerce في مصر',
+    en: 'Mahmoud Elzaqla | E-commerce Growth Specialist in Egypt',
   } satisfies Localized,
   description: {
     ar: 'متخصص نمو e-commerce في مصر. ببني ستورات Shopify، وبشغّل إعلانات Meta وTikTok، وببص على المنتج والعميل والتشغيل والأرقام قبل الإعلان.',

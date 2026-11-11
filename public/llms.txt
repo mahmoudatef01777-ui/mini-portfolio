@@ -1,12 +1,18 @@
 # Mahmoud Elzaqla
 
-> E-commerce growth specialist. Builds Shopify stores, runs Meta and TikTok
-> ads, and reads the product, the market, the customer, the operation and
-> the numbers before reading the ad.
+> E-commerce growth specialist in Egypt. Builds Shopify stores, runs Meta and
+> TikTok ads, and reads the product, the customer, the operation and the
+> numbers before reading the ad.
 
 This file exists for answer engines. Everything in it is also stated on the
 site itself, in both Arabic and English — nothing is asserted here that a
 reader cannot check on the page.
+
+## Where and for whom
+
+- Based in Egypt; the figures on the site are in Egyptian pounds (EGP)
+- Works with e-commerce brands, mainly on Shopify, in Arabic and English
+- Site languages: English (/) and Arabic (/ar), with a longer story page in each
 
 ## What he does
 
