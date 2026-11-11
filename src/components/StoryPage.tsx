@@ -108,7 +108,8 @@ export default function StoryPage() {
   return (
     <main id="main">
       {/* ------------------------------------------------------------ hero */}
-      <section className="container-page pb-12 pt-24 md:pb-16 md:pt-32">
+      <section className="container-page grid items-end gap-10 pb-12 pt-24 md:pb-16 md:pt-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:gap-16">
+        <div className="min-w-0">
         <Reveal>
           <Link
             to="home"
@@ -131,6 +132,26 @@ export default function StoryPage() {
             tell it. The timeline below is where the story happens. */}
         <Reveal delay={0.12}>
           <p className="lede mt-6 max-w-[44ch] md:mt-8">{t(story.lead)}</p>
+        </Reveal>
+        </div>
+
+        {/* The same cut-out as the home page, on the raised panel, so the
+            top of the story is not half a screen of nothing on a laptop.
+            Laptop only, like the pictures down the timeline. */}
+        <Reveal delay={0.1} className="hidden lg:block">
+          <div className="relative aspect-[4/3.4] overflow-hidden rounded-[1.75rem] bg-soft">
+            <span aria-hidden className="absolute inset-x-6 top-6 flex justify-between text-xs text-ink-dim">
+              <span>{t(story.label)}</span>
+              <span className="num">{`0${story.stages.length}`}</span>
+            </span>
+            <img
+              src="/img/hero-cutout-720.webp"
+              alt=""
+              width={720}
+              height={636}
+              className="absolute inset-x-0 bottom-0 mx-auto w-[92%]"
+            />
+          </div>
         </Reveal>
       </section>
 
@@ -170,7 +191,7 @@ export default function StoryPage() {
                 <div
                   className={cn(
                     'min-w-0 flex-1 pb-2',
-                    stage.art && 'lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,21rem)] lg:items-start lg:gap-10',
+                    stage.art && 'lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,1fr)_minmax(0,30rem)]',
                   )}
                 >
                   <div className="min-w-0">
@@ -267,14 +288,16 @@ export default function StoryPage() {
 
       {/* --------------------------------------------------------- learned */}
       <Section>
+        <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-16">
         <SectionHead label={story.learned.label} title={story.learned.title} />
 
-        <div className="mt-7 max-w-[56ch] space-y-4">
+        <div className="max-w-[56ch] space-y-4 lg:pt-10">
           {t(story.learned.body).map((paragraph, i) => (
             <Reveal key={paragraph} delay={0.04 * i}>
               <p className="text-[1.0625rem] leading-[1.8] text-ink-dim md:text-lg">{paragraph}</p>
             </Reveal>
           ))}
+        </div>
         </div>
       </Section>
 
@@ -285,7 +308,7 @@ export default function StoryPage() {
         {/* Two columns on a laptop, one on anything narrower — and the
             photograph is simply not there below `lg`, so a phone never
             downloads it. Same rule as the pictures up the timeline. */}
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,19rem)] lg:items-center lg:gap-14">
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-center lg:gap-16">
         <div className="min-w-0">
         <Reveal>
           <p className="display max-w-[16ch] text-balance text-[calc(clamp(1.875rem,6.4vw,3.25rem)*var(--display-scale))] text-ink">

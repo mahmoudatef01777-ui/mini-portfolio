@@ -101,6 +101,10 @@ export const work = {
     en: 'Three stores, with figures straight from their own dashboards.',
   } satisfies Localized,
   facts: { ar: 'الأرقام', en: 'The figures' } satisfies Localized,
+  hint: {
+    ar: 'افتح أي رقم تشوف عملت إيه، والأرقام اللي وراه، والداشبورد اللي طالع منه.',
+    en: 'Open any figure to see what I did, the numbers behind it, and the dashboard it came from.',
+  } satisfies Localized,
   did: { ar: 'عملت إيه', en: 'What I did' } satisfies Localized,
   captures: { ar: 'لقطة', en: 'captures' } satisfies Localized,
 };

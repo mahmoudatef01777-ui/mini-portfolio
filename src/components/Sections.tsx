@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useLang } from '@/i18n/lang';
 import { cn } from '@/lib/cn';
 import { Link, useRoute } from '@/lib/router';
@@ -28,12 +28,16 @@ function GiantHead({
   label,
   word,
   title,
+  aside,
   className,
 }: {
   index: string;
   label: Localized;
   word: Localized;
   title?: Localized;
+  /** Set beside the title on a laptop, under it on a phone: the short
+      paragraph that would otherwise leave the right half of the head empty. */
+  aside?: ReactNode;
   className?: string;
 }) {
   const { t, lang } = useLang();
@@ -64,9 +68,16 @@ function GiantHead({
         </h2>
       )}
       {title && (
-        <Reveal delay={0.05}>
-          <h2 className="section-title mt-6 max-w-[20ch] md:mt-8">{t(title)}</h2>
-        </Reveal>
+        <div className="mt-6 grid gap-6 md:mt-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-end lg:gap-16">
+          <Reveal delay={0.05}>
+            <h2 className="section-title max-w-[20ch]">{t(title)}</h2>
+          </Reveal>
+          {aside && (
+            <Reveal delay={0.1} className="lg:pb-2">
+              {aside}
+            </Reveal>
+          )}
+        </div>
       )}
     </div>
   );
@@ -173,10 +184,13 @@ export function Services() {
   return (
     <section id="services" className="scroll-mt-16">
       <div className="container-page py-20 md:py-32">
-        <GiantHead index="02" label={services.label} word={giant.services} title={services.title} />
-        <Reveal delay={0.06}>
-          <p className="lede mt-6 max-w-[52ch]">{t(services.intro)}</p>
-        </Reveal>
+        <GiantHead
+          index="02"
+          label={services.label}
+          word={giant.services}
+          title={services.title}
+          aside={<p className="lede max-w-[44ch]">{t(services.intro)}</p>}
+        />
 
         <Stagger as="ol" each={0.07} className="mt-12 md:mt-16">
           {services.items.map((item) => (
@@ -313,7 +327,14 @@ export function Work() {
           </Reveal>
         </div>
 
-        <GiantHead index="03" label={work.label} word={giant.work} title={work.title} className="mt-20 md:mt-28" />
+        <GiantHead
+          index="03"
+          label={work.label}
+          word={giant.work}
+          title={work.title}
+          aside={<p className="lede max-w-[42ch]">{t(work.hint)}</p>}
+          className="mt-20 md:mt-28"
+        />
 
         <div ref={listRef} className="relative mt-12 md:mt-16" onPointerLeave={() => setHover(null)}>
           {/* The cover that follows the pointer over the list (desktop). */}
@@ -453,7 +474,18 @@ export function Results() {
   return (
     <section id="results" className="scroll-mt-16 border-t border-line">
       <div className="container-page py-20 md:py-32">
-        <GiantHead index="04" label={proofUi.resultsLabel} word={giant.results} title={proofUi.resultsTitle} />
+        <GiantHead
+          index="04"
+          label={proofUi.resultsLabel}
+          word={giant.results}
+          title={proofUi.resultsTitle}
+          aside={
+            <>
+              <p className="label eyebrow">{t(results.evidenceLabel)}</p>
+              <p className="lede mt-3 max-w-[44ch]">{t(proofUi.resultsIntro)}</p>
+            </>
+          }
+        />
 
         <dl className="mt-12 grid gap-10 sm:grid-cols-2 md:mt-16">
           {results.stats.map((stat, i) => (
@@ -467,17 +499,12 @@ export function Results() {
             </Reveal>
           ))}
         </dl>
-
-        <Reveal delay={0.1} className="mt-16 md:mt-20">
-          <p className="label eyebrow">{t(results.evidenceLabel)}</p>
-          <p className="lede mt-4 max-w-[50ch]">{t(proofUi.resultsIntro)}</p>
-        </Reveal>
       </div>
 
       {/* Full bleed: the rail runs edge to edge, as the reference's strips do. */}
       {/* `px-gutter` cancels the rail's own negative gutter margin, which is
           there for use inside a container; out here it would overflow. */}
-      <Reveal delay={0.14} className="px-gutter">
+      <Reveal delay={0.14} className="-mt-6 px-gutter md:-mt-14">
         <Carousel label={t(proofUi.resultsLabel)} itemClassName="w-[min(86vw,24rem)]">
           {cards.map(({ shot }) => (
             /* THE CAPTURE ALONE, inside a frame a lime line runs round
@@ -652,10 +679,13 @@ export function Process() {
     <section id="process" className="panel-shell scroll-mt-16">
       <div className="panel panel-ink">
         <div className="container-page py-16 md:py-28">
-          <GiantHead index="05" label={processUi.label} word={giant.process} title={growth.title} />
-          <Reveal delay={0.06}>
-            <p className="lede mt-6 max-w-[48ch]">{t(growth.intro)}</p>
-          </Reveal>
+          <GiantHead
+            index="05"
+            label={processUi.label}
+            word={giant.process}
+            title={growth.title}
+            aside={<p className="lede max-w-[42ch]">{t(growth.intro)}</p>}
+          />
 
           <div className="mt-14 grid gap-12 md:mt-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
             <div className="hidden lg:block">
@@ -704,20 +734,33 @@ export function Process() {
             </ol>
           </div>
 
+          {/* The decision, across the full width of the panel: on a laptop the
+              six questions run left to right as one line of thought; on a
+              phone they stack, joined by a downward arrow. */}
           <Reveal delay={0.1} className="mt-16 md:mt-24">
-            <div className="max-w-[40rem] rounded-[1.5rem] border border-line bg-soft p-6 md:p-8">
-              <p className="display text-[calc(clamp(1.125rem,2vw,1.375rem)*var(--display-scale))] text-ink">
+            <div className="rounded-[1.5rem] border border-line bg-soft p-6 md:p-10">
+              <p className="display text-[calc(clamp(1.25rem,2.4vw,1.75rem)*var(--display-scale))] text-ink">
                 {t(growth.decision.title)}
               </p>
-              <Stagger as="ol" each={0.08} className="mt-5 space-y-1">
+              <Stagger as="ol" each={0.08} className="mt-6 grid gap-1 lg:mt-8 lg:grid-cols-6 lg:gap-4">
                 {growth.decision.steps.map((step, i) => (
-                  <li key={step.en}>
+                  <li key={step.en} className="relative lg:border-t lg:border-line lg:pt-4">
                     {i > 0 && (
-                      <span aria-hidden className="block py-0.5 text-sm leading-none text-orange-ink">
+                      <span aria-hidden className="block py-0.5 text-sm leading-none text-orange-ink lg:hidden">
                         ↓
                       </span>
                     )}
-                    <span className="block text-[0.9375rem] leading-relaxed text-ink">{t(step)}</span>
+                    <span aria-hidden className="num mb-2 hidden text-xs font-semibold text-orange-ink lg:block">
+                      {`0${i + 1}`}
+                    </span>
+                    <span
+                      className={cn(
+                        'block text-[0.9375rem] leading-relaxed lg:text-base',
+                        i === growth.decision.steps.length - 1 ? 'font-semibold text-orange-ink' : 'text-ink',
+                      )}
+                    >
+                      {t(step)}
+                    </span>
                   </li>
                 ))}
               </Stagger>
