@@ -328,7 +328,7 @@ export const growth = {
         { ar: 'في طلب حقيقي على المنتج؟', en: 'Is there real demand for it?' },
         { ar: 'السعر والـoffer مظبوطين؟', en: 'Are the price and the offer right?' },
         { ar: 'في variations أو features تزوّد قيمته؟', en: 'Are there variations or features that add value?' },
-        { ar: 'نقدر نرفع الـAOV؟', en: 'Can we raise the average order value?' },
+        { ar: 'نقدر نرفع قيمة الأوردر؟', en: 'Can we raise the average order value?' },
         {
           ar: 'ولا نوسّع من المنتج الناجح بدل ما ندوّر على منتج جديد؟',
           en: 'Or extend the product that already works, instead of hunting for a new one?',
@@ -351,10 +351,10 @@ export const growth = {
           ar: 'Meta وTikTok وقنوات تانية لما تستاهل، وبوسّع خبرتي في Google Ads',
           en: "Meta, TikTok and other channels when they earn it, and I'm expanding into Google Ads",
         },
-        { ar: 'الستور نفسه: الـCRO وتجربة الشرا', en: 'The store itself: CRO and the buying experience' },
+        { ar: 'الستور نفسه: نسبة التحويل وتجربة الشرا', en: 'The store itself: conversion rate and the buying experience' },
         {
-          ar: 'اقتصاديات الأوردر: MAR والـROAS، والـROI لما بيانات البيزنس تسمح',
-          en: 'Unit economics: MAR and ROAS, and ROI when the business data allows it',
+          ar: 'ربح الأوردر الحقيقي: الـROAS، والـROI لما بيانات البيزنس تسمح',
+          en: 'What each order really earns: ROAS, and ROI when the business data allows it',
         },
       ] as Localized[],
     },
@@ -372,7 +372,7 @@ export const growth = {
         { ar: 'أسواق جديدة: محافظة أو بلد فيها فرصة حقيقية', en: 'Markets: a governorate or a country where the opportunity is real' },
         { ar: 'الجملة: نفتح قناة بيع تانية', en: 'Wholesale: open a second sales channel' },
         { ar: 'توسيع المنتج: مقاسات، variations، bundles، استخدامات جديدة', en: 'Product: sizes, variations, bundles, new use cases around what works' },
-        { ar: 'الـAOV: نرفع قيمة الأوردر بدل ما نجري ورا أوردرات أكتر', en: 'AOV: raise the value of the order instead of always chasing more orders' },
+        { ar: 'قيمة الأوردر: نرفعها بدل ما نجري ورا أوردرات أكتر', en: 'Order value: raise it instead of always chasing more orders' },
       ] as Localized[],
       close: {
         ar: 'زيادة الـbudget والكرياتيف أدوات كويسة، بس دول بعض الطرق، مش كل الطرق.',
@@ -391,7 +391,7 @@ export const growth = {
         { ar: 'المصنع متأخر أو الستوك بيخلص', en: 'The factory is behind, or stock is running out' },
         { ar: 'المخزن مش لاحق على الكمية', en: "The warehouse can't keep up with the volume" },
         { ar: 'فريق الموديريشن مضغوط', en: 'The moderation team is overloaded' },
-        { ar: 'الشحن والتسليم فيهم مشاكل', en: 'Shipping and delivery are breaking' },
+        { ar: 'الشحن والتسليم فيهم مشاكل', en: 'Shipping and delivery have problems' },
         { ar: 'المرتجعات بتكبر', en: 'Returns are climbing' },
       ] as Localized[],
       close: {
@@ -410,7 +410,7 @@ export const growth = {
       points: [
         { ar: 'المبيعات مش أرباح', en: 'Sales are not profit' },
         { ar: 'الأوردر اللي اتعمل مش الأوردر اللي وصل', en: 'An order taken is not an order delivered' },
-        { ar: 'الـROAS مش الـROI', en: 'ROAS is not ROI' },
+        { ar: 'الـROAS مش الـROI: مبيعات كل جنيه إعلان مش هي الربح', en: 'ROAS is not ROI: sales per pound of ads is not profit' },
         { ar: 'صرف أكتر مش بالضرورة قيمة أكتر للبيزنس', en: 'More spend is not automatically more value' },
       ] as Localized[],
       /*

@@ -209,7 +209,7 @@ export const story = {
     },
     {
       id: 'production',
-      name: { ar: 'التصنيع', en: 'Production' },
+      name: { ar: 'متابعة التصنيع', en: 'Following production' },
       body: {
         ar: [
           'بعدها دخلت أكتر في جانب الإنتاج، ونزلت المصنع وشوفت مراحل التصنيع بنفسي.',
@@ -272,11 +272,11 @@ export const story = {
       name: { ar: 'Shopify والـPerformance Marketing', en: 'Shopify & performance marketing' },
       body: {
         ar: [
-          'مع Bloomy دخلت أعمق في الـShopify والـCRO والـAOV، وبنيت الستور بنفسي.',
+          'مع Bloomy دخلت أعمق في الـShopify ونسبة التحويل وقيمة الأوردر، وبنيت الستور بنفسي.',
           'وبدأت أشغل Meta Ads وأختبر الـCreatives والـAngles، وأربط اللي بشوفه في الـAds Manager باللي بيحصل بعد الأوردر.',
         ],
         en: [
-          'With Bloomy I went deeper into Shopify, CRO and AOV, and built the store myself.', // REVIEW
+          'With Bloomy I went deeper into Shopify, conversion rate and order value, and built the store myself.', // REVIEW
           'I started running Meta Ads, testing creatives and angles, and tying what I saw in Ads Manager to what happened after the order.', // REVIEW
         ],
       },
