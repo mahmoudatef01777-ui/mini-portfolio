@@ -346,7 +346,9 @@
       position: absolute;
       inset-inline: 0;
       top: calc(var(--ph) * 0.34);
-      translate: 0 -50%;
+      /* Half the line box (0.84em line + 0.06em pad), as a margin for the
+         same reason as the portrait: GSAP clears `translate`. */
+      margin-top: -0.45em;
       flex-direction: row;
       justify-content: space-between;
       align-items: baseline;
@@ -384,12 +386,15 @@
     -webkit-user-drag: none;
   }
   @media (min-width: 1024px) {
+    /* Centred with auto margins, NOT `translate`: GSAP folds the CSS
+       translate property into its own transform and writes
+       `translate: none`, which pushed the portrait half its width to the
+       side. Margins are a property it never touches. */
     .hero-portrait {
       position: absolute;
       bottom: 0;
-      left: 50%;
-      translate: -50% 0;
-      margin: 0;
+      inset-inline: 0;
+      margin: 0 auto;
     }
   }
 
