@@ -529,14 +529,45 @@ export function Results() {
 
 /* --------------------------------------------------------------- process */
 
+/**
+ * A picture for each stage of the process, after the reference's
+ * DEFINE / DESIGN / DELIVER card, where the photo beside the list changes
+ * with the step. These are the story page's own scenes of Mahmoud, reused,
+ * each paired with the stage it fits; they illustrate, they are not evidence.
+ */
+const STAGE_ART: Record<string, string> = {
+  business: 'bloomy',
+  product: 'production',
+  marketing: 'shopify',
+  scaling: 'managing',
+  operations: 'operations',
+  numbers: 'customers',
+};
+const artFor = (blockId: string) => story.stages.find((stage) => stage.id === STAGE_ART[blockId])?.art;
+
+
 /** One stage. The data- attributes are what `useCardIntro` animates. */
 function GrowthBlock({ block }: { block: (typeof growth.blocks)[number] }) {
   const { t, isRTL } = useLang();
+  const art = artFor(block.id);
   const ref = useCardIntro<HTMLLIElement>(isRTL);
 
   return (
     <li ref={ref} className="pb-2">
       <span data-rule aria-hidden className="block h-px w-full bg-ink/15" />
+      {/* On a phone and a tablet the stage's picture sits with the stage;
+          on a laptop it lives in the sticky column beside the list. */}
+      {art && (
+        <img
+          src={art.src}
+          alt={t(art.alt)}
+          width={art.width}
+          height={art.height}
+          loading="lazy"
+          decoding="async"
+          className="mt-6 aspect-[16/10] w-full rounded-[1.25rem] object-cover lg:hidden"
+        />
+      )}
       <div className="grid gap-4 pt-6 md:grid-cols-[5rem_minmax(0,1fr)] md:gap-6 md:pt-8">
         {/* A lime numeral on a near-black chip, on both themes: the chip is
             what lets the lime be the colour it actually is. */}
@@ -586,16 +617,35 @@ export function Process() {
   useEffect(() => {
     const items = Array.from(listRef.current?.children ?? []);
     if (items.length === 0) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(items.indexOf(e.target));
-        });
-      },
-      { rootMargin: '-45% 0px -50% 0px' },
-    );
-    items.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    // The stage being read is the last one whose top has passed the middle
+    // of the screen. Worked out from all six at once, so it is right even
+    // when the reader lands mid-section (an anchor link, a fast flick).
+    const pick = () => {
+      const mid = window.innerHeight * 0.5;
+      const passed = items.filter((el) => el.getBoundingClientRect().top < mid).length;
+      setActive(Math.max(0, Math.min(items.length - 1, passed - 1)));
+    };
+    // On scroll, at most once a frame, and only while the list is on screen.
+    let frame = 0;
+    let near = false;
+    const onScroll = () => {
+      if (!near || frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        pick();
+      });
+    };
+    const io = new IntersectionObserver(([entry]) => {
+      near = entry.isIntersecting;
+      if (near) pick();
+    });
+    if (listRef.current) io.observe(listRef.current);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+    };
   }, []);
 
   return (
@@ -609,13 +659,42 @@ export function Process() {
 
           <div className="mt-14 grid gap-12 md:mt-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
             <div className="hidden lg:block">
-              <ol aria-hidden className="sticky top-28 space-y-1">
-                {growth.blocks.map((block, i) => (
-                  <li key={block.id} className={cn('step-name', i === active && 'is-active')}>
-                    {t(block.name)}
-                  </li>
-                ))}
-              </ol>
+              {/* Held still while the six stages scroll past: the names, the
+                  one being read in full ink, and its picture underneath. */}
+              <div className="sticky top-24">
+                <ol aria-hidden className="space-y-0.5">
+                  {growth.blocks.map((block, i) => (
+                    <li key={block.id} className={cn('step-name', i === active && 'is-active')}>
+                      {t(block.name)}
+                    </li>
+                  ))}
+                </ol>
+                <div className="relative mt-8 aspect-[16/11] max-h-[38svh] w-full overflow-hidden rounded-[1.5rem] border border-line bg-soft">
+                  {growth.blocks.map((block, i) => {
+                    const art = artFor(block.id);
+                    if (!art) return null;
+                    return (
+                      <img
+                        key={block.id}
+                        src={art.src}
+                        alt=""
+                        aria-hidden
+                        width={art.width}
+                        height={art.height}
+                        loading="lazy"
+                        decoding="async"
+                        className={cn(
+                          'absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ease-out',
+                          i === active ? 'scale-100 opacity-100' : 'scale-[1.04] opacity-0',
+                        )}
+                      />
+                    );
+                  })}
+                  <span className="num absolute bottom-3 start-3 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-orange backdrop-blur">
+                    {growth.blocks[active]?.n}/06
+                  </span>
+                </div>
+              </div>
             </div>
 
             <ol ref={listRef} className="space-y-12 md:space-y-16">

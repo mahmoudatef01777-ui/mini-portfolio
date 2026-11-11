@@ -674,6 +674,11 @@
   .panel {
     border-radius: 1.75rem;
     overflow: hidden;
+    /* `clip`, not `hidden`, where supported: `hidden` makes the panel a
+       scroll container, and then nothing inside it can be position:sticky.
+       That is what left the Process list scrolling away and the column
+       empty. `clip` trims the corners the same way and keeps sticky. */
+    overflow: clip;
   }
   @media (min-width: 768px) {
     .panel {
@@ -799,7 +804,7 @@
     font-stretch: 62%;
     text-transform: uppercase;
     line-height: 0.92;
-    font-size: clamp(2rem, 3.6vw, 3.75rem);
+    font-size: clamp(1.75rem, 2.6vw, 2.75rem);
     color: rgb(var(--c-ink) / 0.2);
     transition: color 0.45s ease;
   }
