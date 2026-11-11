@@ -285,19 +285,72 @@
   /* ---------------------------------------------------------- hero */
 
   /*
-    THE STAGE. Sized off the portrait's WIDTH (--pw); its height follows
-    the photograph's own ratio, 1334 x 1179. Below `lg` the name sits above
-    the portrait and the hair overlaps the bottom of it; from `lg` up the
-    portrait stands bottom-centre and the name runs across behind it at eye
-    level, words at the two edges.
+    THE HERO PANEL, as in the reference: a rounded card inset from the page
+    edge, with everything (arcs, name, portrait) clipped to it. On the light
+    theme it is the pale grey of the reference; on the dark one it is the
+    raised surface, so it still reads as a card.
+  */
+  .hero-shell {
+    padding: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .hero-shell {
+      padding: 0.75rem;
+    }
+  }
+  .hero-panel {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - 1rem);
+    overflow: hidden;
+    border-radius: 1.75rem;
+    background: rgb(var(--c-soft));
+    padding-top: 5rem;
+  }
+  @media (min-width: 768px) {
+    .hero-panel {
+      min-height: calc(100svh - 1.5rem);
+      border-radius: 2.25rem;
+      padding-top: 6.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .hero-panel {
+      height: calc(100svh - 1.5rem);
+      min-height: 38rem;
+    }
+  }
+
+  .hero-arcs {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    fill: none;
+    stroke: rgb(var(--c-ink) / 0.16);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+  .hero-arcs circle {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /*
+    THE STAGE. Sized off the portrait's WIDTH (--pw); its height follows the
+    photograph's own ratio, 1334 x 1179. The portrait stands bottom-centre,
+    the running name crosses behind it at eye level.
   */
   .hero-stage {
     --pw: 118vw;
     --ph: calc(var(--pw) * 0.8838);
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    height: var(--ph);
   }
   @media (min-width: 640px) {
     .hero-stage {
@@ -305,96 +358,84 @@
     }
   }
   @media (min-width: 1024px) {
-    /* The first screen is exactly one screen: the stage is pinned to the
-       bottom of the hero and the small type sits over its empty corners. */
     .hero-stage {
       --pw: min(48vw, 72svh * 1.1315);
       position: absolute;
       inset-inline: 0;
       bottom: 0;
-      display: block;
-      height: var(--ph);
     }
   }
 
   .hero-name {
-    position: relative;
+    position: absolute;
+    inset-inline: 0;
     z-index: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding-inline: var(--gutter);
+    top: calc(var(--ph) * 0.3);
     font-family: var(--font-name);
     font-weight: 900;
     font-stretch: 62%;
     text-transform: uppercase;
-    line-height: 0.84;
-    letter-spacing: -0.01em;
+    line-height: 0.86;
+    letter-spacing: -0.005em;
     color: rgb(var(--c-ink));
-    /* An estimate for the first paint; useFitName corrects it. */
-    font-size: calc((100vw - 2 * var(--gutter)) / 2.6);
+    font-size: min(38vw, 24svh);
+    /* The loop is laid out left to right in both languages; without this an
+       Arabic page would park the track against the right edge. */
+    direction: ltr;
+    /* Half the line box, as a margin: GSAP clears the CSS translate. */
+    margin-top: -0.45em;
     white-space: nowrap;
-  }
-  @media (min-width: 640px) {
-    .hero-name {
-      font-size: min(calc((100vw - 2 * var(--gutter)) / 2.6), 15svh);
-    }
   }
   @media (min-width: 1024px) {
     .hero-name {
-      position: absolute;
-      inset-inline: 0;
-      top: calc(var(--ph) * 0.34);
-      /* Half the line box (0.84em line + 0.06em pad), as a margin for the
-         same reason as the portrait: GSAP clears `translate`. */
-      margin-top: -0.45em;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: baseline;
-      font-size: calc((100vw - 2 * var(--gutter) - var(--pw) * 0.24) / 5.2);
-    }
-    [dir='rtl'] .hero-name {
-      /* The two words keep their Latin order on the Arabic page too. */
-      flex-direction: row-reverse;
+      top: calc(var(--ph) * 0.36);
+      font-size: min(17vw, 34svh);
     }
   }
-
-  /* One clipping line per word, so each letter rises out of nothing. */
-  .hero-word {
-    display: block;
-    /* Never shrink: with overflow hidden a flex item's min-width is 0, so
-       it would squeeze and clip its own letters instead of being measured. */
-    flex-shrink: 0;
+  .hero-name-clip {
     overflow: hidden;
     padding-top: 0.06em;
   }
-  .hero-letter {
-    display: inline-block;
+  .hero-track {
+    display: flex;
+    width: max-content;
+  }
+  .hero-chunk {
+    display: block;
+    flex-shrink: 0;
+    font: inherit;
+    padding-inline-end: 0.28em;
+  }
+  .hero-sep {
+    color: rgb(var(--c-orange-ink));
+    padding-inline-start: 0.28em;
+    font-stretch: 62%;
   }
 
   .hero-portrait {
-    position: relative;
+    position: absolute;
     z-index: 1;
+    bottom: 0;
+    inset-inline: 0;
     display: block;
     width: var(--pw);
     max-width: none;
     height: var(--ph);
-    margin-top: calc(var(--ph) * -0.12);
+    /* Centred with auto margins, not `translate`: GSAP folds translate into
+       its own transform and writes `translate: none`. */
+    margin: 0 auto;
     transform-origin: 50% 100%;
     user-select: none;
     -webkit-user-drag: none;
   }
-  @media (min-width: 1024px) {
-    /* Centred with auto margins, NOT `translate`: GSAP folds the CSS
-       translate property into its own transform and writes
-       `translate: none`, which pushed the portrait half its width to the
-       side. Margins are a property it never touches. */
+  @media (max-width: 639px) {
+    /* Wider than the phone on purpose (shoulders cropped); auto margins
+       cannot centre an over-wide box, so it is pulled back by half the
+       overflow instead. */
     .hero-portrait {
-      position: absolute;
-      bottom: 0;
-      inset-inline: 0;
-      margin: 0 auto;
+      inset-inline: auto;
+      left: calc((100% - var(--pw)) / 2);
+      margin: 0;
     }
   }
 
@@ -405,7 +446,7 @@
     z-index: 2;
     height: 22%;
     pointer-events: none;
-    background: linear-gradient(to top, rgb(var(--c-cream)) 8%, rgb(var(--c-cream) / 0));
+    background: linear-gradient(to top, rgb(var(--c-soft)) 6%, rgb(var(--c-soft) / 0));
   }
 
   .hero-meta {
@@ -533,6 +574,251 @@
     [dir='rtl'] .service-row:hover .service-name {
       transform: translateX(-0.75rem);
     }
+  }
+
+  /*
+    THE SNAKE: a short lime line that races round each result's frame.
+
+    A conic gradient on an oversized square behind the card, spun with a
+    transform (cheap: compositor only), and the card's own surface laid over
+    it 2px in, so only the rim shows. The tail fades through the ink-leaning
+    lime first, which is what keeps it visible on the light theme, where the
+    raw lime on near-white is 1.1:1.
+  */
+  .snake {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 3px;
+    background: rgb(var(--c-line));
+  }
+  .snake::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 50%;
+    width: 200%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 250deg,
+      rgb(var(--c-orange-ink) / 0.5) 300deg,
+      rgb(var(--c-orange)) 350deg,
+      rgb(var(--c-orange)) 360deg
+    );
+    animation: snake-spin 2.4s linear infinite;
+  }
+  /* The rail's second copy starts half a lap on, so neighbours differ. */
+  .marquee-item:nth-child(even) .snake::before {
+    animation-delay: -1.2s;
+  }
+  @keyframes snake-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .snake:hover .snake-inner img {
+    transform: scale(1.03);
+  }
+  .snake-inner img {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* No movement: a plain lime-ink rim instead of a racing line. */
+    .snake::before {
+      animation: none;
+      background: rgb(var(--c-orange-ink));
+    }
+  }
+
+  /*
+    THE INK PANEL: the reference's black card (About, the process). It
+    re-themes everything inside it to the dark palette by redefining the
+    tokens, so every component in it reads correctly with no per-component
+    branch, and the lime is allowed as text here on both themes. On the dark
+    theme the card is the raised surface, so it still separates from the page.
+  */
+  .panel-ink {
+    --c-cream: 10 10 10;
+    --c-soft: 26 26 26;
+    --c-blush: 30 30 30;
+    --c-ink: 250 250 250;
+    --c-ink-dim: 156 163 175;
+    --c-orange-ink: 204 255 0;
+    --c-line: 46 46 46;
+    --c-focus: 250 250 250;
+    --c-paper: 250 250 250;
+    --c-black: 0 0 0;
+    background: rgb(var(--c-cream));
+    color: rgb(var(--c-ink));
+  }
+  :root[data-theme='dark'] .panel-ink {
+    --c-cream: 20 20 20;
+    --c-soft: 30 30 30;
+    --c-line: 48 48 48;
+  }
+
+  .panel-shell {
+    padding-inline: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .panel-shell {
+      padding-inline: 0.75rem;
+    }
+  }
+  .panel {
+    border-radius: 1.75rem;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .panel {
+      border-radius: 2.25rem;
+    }
+  }
+
+  /*
+    THE GIANT SLASH HEADING ("/ABOUT"). Latin: the condensed black cut,
+    uppercase. Arabic: the heavy Plex cut, no case and no tracking.
+  */
+  .giant {
+    font-family: var(--font-name);
+    font-weight: 900;
+    font-stretch: 62%;
+    text-transform: uppercase;
+    line-height: 0.84;
+    letter-spacing: -0.005em;
+    font-size: clamp(4.5rem, 17vw, 15rem);
+  }
+  :root[lang='ar'] .giant {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 100%;
+    line-height: 1.15;
+    letter-spacing: 0;
+    font-size: clamp(3.5rem, 12vw, 10rem);
+  }
+  .giant-clip {
+    overflow: hidden;
+    padding-top: 0.04em;
+  }
+  .giant-slash {
+    font-family: var(--font-name);
+    font-weight: 300;
+    font-stretch: 62%;
+    color: rgb(var(--c-orange-ink));
+    margin-inline-end: 0.06em;
+  }
+
+  /* Dashed rules, as in the reference's lists. */
+  .rule-dash {
+    border-top: 1px dashed rgb(var(--c-ink) / 0.28);
+  }
+
+  /*
+    SELECTED WORK: one row per case, the headline figure set huge and
+    clipped by its own line so it rises into place, the category at the end.
+  */
+  .work-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1rem 2rem;
+    width: 100%;
+    padding-block: 1.5rem 1.25rem;
+    text-align: start;
+  }
+  .work-figure {
+    font-family: var(--font-name);
+    font-weight: 900;
+    font-stretch: 62%;
+    line-height: 0.86;
+    font-size: clamp(3.25rem, 11vw, 9.5rem);
+    color: rgb(var(--c-ink));
+    transition:
+      color 0.4s ease,
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .work-row:hover .work-figure,
+  .work-row[aria-expanded='true'] .work-figure {
+    color: rgb(var(--c-orange-ink));
+  }
+  @media (hover: hover) {
+    .work-row:hover .work-figure {
+      transform: translateX(0.6rem);
+    }
+    [dir='rtl'] .work-row:hover .work-figure {
+      transform: translateX(-0.6rem);
+    }
+  }
+  .work-toggle {
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .work-row[aria-expanded='true'] .work-toggle {
+    transform: rotate(45deg);
+  }
+
+  /* The cover that follows the pointer (desktop). Sits at the pointer's
+     top-left; GSAP moves it, CSS only shows and hides it. */
+  .follow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 30;
+    width: 20rem;
+    pointer-events: none;
+    opacity: 0;
+    scale: 0.85;
+    margin: -7rem 0 0 -10rem;
+    transition:
+      opacity 0.3s ease,
+      scale 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .follow.is-on {
+    opacity: 1;
+    scale: 1;
+  }
+  @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .follow {
+      display: none;
+    }
+  }
+
+  /*
+    THE PROCESS LIST (DEFINE / DESIGN / DELIVER in the reference): the stage
+    names stacked, the one being read in full ink, the rest dimmed.
+  */
+  .step-name {
+    font-family: var(--font-name);
+    font-weight: 900;
+    font-stretch: 62%;
+    text-transform: uppercase;
+    line-height: 0.92;
+    font-size: clamp(2rem, 3.6vw, 3.75rem);
+    color: rgb(var(--c-ink) / 0.2);
+    transition: color 0.45s ease;
+  }
+  :root[lang='ar'] .step-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 100%;
+    line-height: 1.35;
+    font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+  }
+  .step-name.is-active {
+    color: rgb(var(--c-ink));
+  }
+
+  /* The footer's name, filled, as the last thing on the page. */
+  .footer-name text {
+    font-family: var(--font-name);
+    font-weight: 900;
+    font-stretch: 62%;
+    font-size: 132px;
+    fill: rgb(var(--c-ink));
   }
 
   /* Case images zoom a touch on hover; the frame does not move. */

@@ -53,8 +53,12 @@ export default function AboutPortrait() {
 
   return (
     <div className="relative aspect-square w-full max-w-[17rem] place-self-center sm:max-w-[24rem] lg:max-w-[30rem]">
+      <picture>
+      <source type="image/avif" srcSet="/img/portrait-about-720.avif 720w, /img/portrait-about.webp 960w" sizes="(min-width: 1024px) 24rem, 17rem" />
       <img
-        src="/img/portrait-about.webp"
+        src="/img/portrait-about-720.webp"
+        srcSet="/img/portrait-about-720.webp 720w, /img/portrait-about.webp 960w"
+        sizes="(min-width: 1024px) 24rem, 17rem"
         alt={t(about.portraitAlt)}
         width={960}
         height={1280}
@@ -68,6 +72,7 @@ export default function AboutPortrait() {
            rather than dead centre. Nudge the second number, not the file. */
         className="absolute inset-0 h-full w-full rounded-full object-cover [object-position:50%_30%]"
       />
+      </picture>
 
       {/* The mark runs the rim itself — the track is the same circle as the
           photograph, nudged out just enough to sit on the edge rather than

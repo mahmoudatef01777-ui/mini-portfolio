@@ -112,3 +112,27 @@ export const processUi = {
 export const footer = {
   top: { ar: 'لفوق', en: 'Back to top' } satisfies Localized,
 };
+
+/**
+ * The giant slash headings, after the reference's "/ABOUT". Short on
+ * purpose: they are a signpost set huge, not a sentence. The sentence under
+ * each one is the section's real heading.
+ */
+export const giant = {
+  about: { ar: 'مين أنا', en: 'About' } satisfies Localized,
+  services: { ar: 'الخدمات', en: 'Services' } satisfies Localized,
+  work: { ar: 'الشغل', en: 'Work' } satisfies Localized,
+  results: { ar: 'النتايج', en: 'Results' } satisfies Localized,
+  process: { ar: 'طريقتي', en: 'Process' } satisfies Localized,
+};
+
+export const workUi = {
+  more: { ar: 'التفاصيل', en: 'Details' } satisfies Localized,
+  less: { ar: 'اقفل التفاصيل', en: 'Hide details' } satisfies Localized,
+};
+
+export const footerUi = {
+  together: { ar: 'يلا نشتغل سوا', en: "Let's work together" } satisfies Localized,
+  message: { ar: 'ابعتلي رسالة', en: 'Send me a message' } satisfies Localized,
+  rights: { ar: 'كل رقم في الموقع جنبه مصدره.', en: 'Every figure on this site carries its source.' } satisfies Localized,
+};
