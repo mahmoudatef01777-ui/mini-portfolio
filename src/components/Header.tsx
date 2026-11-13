@@ -10,9 +10,10 @@ import { build } from '@/lib/url';
 import { Monogram } from './ui';
 
 /**
- * The chrome: the mark at the start, the sections in a floating pill in the
- * middle (laptop), and the language and theme switches at the end. On a
- * phone the pill becomes a full-screen menu behind one button.
+ * The chrome, in three columns with the mark in the middle: the sections in
+ * a floating pill on one side (laptop), the contact button and the language
+ * and theme switches on the other. On a phone the pill becomes a full-screen
+ * menu behind one button, which takes the first column.
  *
  * It is transparent over the hero and takes a surface as soon as the page
  * moves, so the type underneath never shows through the links.
@@ -65,7 +66,9 @@ export default function Header() {
         scrolled && !open ? 'border-b border-line/60 bg-cream/80 backdrop-blur-md' : 'border-b border-transparent',
       )}
     >
-      <div className="container-page flex h-16 items-center justify-between gap-3 md:h-[4.5rem]">
+      {/* THE MARK IS ON THE PAGE'S CENTRE LINE. The two side columns are equal
+          (`minmax(0,1fr)`), so it stays centred whatever is in them. */}
+      <div className="container-page grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 md:h-[4.5rem]">
         {/* THE MARK ALWAYS TAKES YOU TO THE HERO. On the home page it scrolls
             back to the top from wherever you are (and drops any #section
             from the address); on the story page it opens the home page at
@@ -88,15 +91,12 @@ export default function Header() {
               go('home');
             }
           }}
-          className="flex items-center gap-2.5 text-orange-ink"
+          className="col-start-2 row-start-1 flex items-center text-orange-ink"
         >
           <Monogram className="h-5 md:h-6" />
-          <span className="hidden text-[0.8125rem] font-semibold text-ink sm:inline" dir="ltr">
-            Mahmoud Elzaqla
-          </span>
         </a>
 
-        <nav aria-label="Sections" className="hidden lg:block">
+        <nav aria-label="Sections" className="col-start-1 row-start-1 hidden justify-self-start lg:block">
           <ul className="flex items-center gap-1 rounded-full border border-line bg-cream/70 p-1.5 backdrop-blur-md">
             {nav.items.map((item) => (
               <li key={item.id}>
@@ -108,18 +108,31 @@ export default function Header() {
                 </a>
               </li>
             ))}
-            <li>
-              <a
-                href={href('contact')}
-                className="block rounded-full bg-orange px-4 py-2 text-[0.8125rem] font-semibold text-on-orange transition-transform duration-300 hover:scale-[1.04]"
-              >
-                {t(nav.contact)}
-              </a>
-            </li>
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="site-menu"
+            aria-label={t(open ? nav.close : nav.menu)}
+            className="col-start-1 row-start-1 grid h-9 w-9 justify-self-start place-items-center rounded-full bg-ink text-cream lg:hidden"
+          >
+            <span aria-hidden className="relative block h-2.5 w-4">
+              <span className={cn('absolute inset-x-0 top-0 h-[1.5px] bg-current transition-transform duration-300', open && 'translate-y-[4.5px] rotate-45')} />
+              <span className={cn('absolute inset-x-0 bottom-0 h-[1.5px] bg-current transition-transform duration-300', open && '-translate-y-[4.5px] -rotate-45')} />
+            </span>
+          </button>
+
+        <div className="col-start-3 row-start-1 flex items-center justify-end gap-2">
+          <a
+            href={href('contact')}
+            className="hidden h-9 items-center rounded-full bg-orange px-4 text-[0.8125rem] font-semibold text-on-orange transition-transform duration-300 hover:scale-[1.04] lg:inline-flex"
+          >
+            {t(nav.contact)}
+          </a>
+
           {/* THE OTHER LANGUAGE IS ANOTHER URL, so this is an anchor: a
               crawler can follow it and a visitor can open it in a new tab.
               Only a plain left click is intercepted. */}
@@ -157,20 +170,6 @@ export default function Header() {
                 <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
               </svg>
             )}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="site-menu"
-            aria-label={t(open ? nav.close : nav.menu)}
-            className="grid h-9 w-9 place-items-center rounded-full bg-ink text-cream lg:hidden"
-          >
-            <span aria-hidden className="relative block h-2.5 w-4">
-              <span className={cn('absolute inset-x-0 top-0 h-[1.5px] bg-current transition-transform duration-300', open && 'translate-y-[4.5px] rotate-45')} />
-              <span className={cn('absolute inset-x-0 bottom-0 h-[1.5px] bg-current transition-transform duration-300', open && '-translate-y-[4.5px] -rotate-45')} />
-            </span>
           </button>
         </div>
       </div>
