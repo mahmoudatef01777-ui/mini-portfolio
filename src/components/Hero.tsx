@@ -104,7 +104,7 @@ export default function Hero() {
             <div aria-hidden className="hero-fade" />
 
             <div className="hero-meta container-page">
-              <a data-intro href="#about" className="inline-flex items-center gap-2 text-xs font-medium text-ink">
+              <a data-intro href="#results" className="inline-flex items-center gap-2 text-xs font-medium text-ink">
                 <span className="hero-scroll-dot" aria-hidden />
                 {t(heroExtra.scroll)}
                 <span aria-hidden>↓</span>

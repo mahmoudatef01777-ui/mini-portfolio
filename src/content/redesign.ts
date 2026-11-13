@@ -11,10 +11,10 @@ import type { Localized } from './content';
 
 export const nav = {
   items: [
+    { id: 'results', label: { ar: 'النتايج', en: 'Results' } },
     { id: 'about', label: { ar: 'مين أنا', en: 'About' } },
     { id: 'services', label: { ar: 'الخدمات', en: 'Services' } },
     { id: 'work', label: { ar: 'الشغل', en: 'Work' } },
-    { id: 'results', label: { ar: 'النتايج', en: 'Results' } },
     { id: 'process', label: { ar: 'طريقتي', en: 'Process' } },
   ] as { id: string; label: Localized }[],
   contact: { ar: 'كلّمني', en: 'Contact' } satisfies Localized,

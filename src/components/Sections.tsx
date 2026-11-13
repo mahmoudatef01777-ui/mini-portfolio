@@ -108,7 +108,7 @@ export function About() {
     <section id="about" className="panel-shell scroll-mt-16">
       <div className="panel panel-ink">
         <div className="container-page py-16 md:py-28">
-          <GiantHead index="01" label={about.label} word={giant.about} />
+          <GiantHead index="02" label={about.label} word={giant.about} />
 
           {/*
             TWO COLUMNS, NOT THREE. The words take the wide column; the photo
@@ -185,7 +185,7 @@ export function Services() {
     <section id="services" className="scroll-mt-16">
       <div className="container-page py-20 md:py-32">
         <GiantHead
-          index="02"
+          index="03"
           label={services.label}
           word={giant.services}
           title={services.title}
@@ -328,7 +328,7 @@ export function Work() {
         </div>
 
         <GiantHead
-          index="03"
+          index="04"
           label={work.label}
           word={giant.work}
           title={work.title}
@@ -475,7 +475,7 @@ export function Results() {
     <section id="results" className="scroll-mt-16 border-t border-line">
       <div className="container-page py-20 md:py-32">
         <GiantHead
-          index="04"
+          index="01"
           label={proofUi.resultsLabel}
           word={giant.results}
           title={proofUi.resultsTitle}

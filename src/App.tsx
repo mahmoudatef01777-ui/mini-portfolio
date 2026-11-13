@@ -86,10 +86,10 @@ export default function App() {
       ) : (
         <main id="main">
           <Hero />
+          <Results />
           <About />
           <Services />
           <Work />
-          <Results />
           <Process />
           <Statement />
         </main>

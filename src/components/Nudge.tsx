@@ -5,9 +5,9 @@ import { contact } from '@/content/content';
 import { nudge } from '@/content/redesign';
 
 /**
- * THE 30-SECOND NUDGE.
+ * THE 15-SECOND NUDGE.
  *
- * Thirty seconds into a visit, a small lime message pops out of the LEFT
+ * Fifteen seconds into a visit, a small lime message pops out of the LEFT
  * edge, bottom corner: first a half circle bulges out of the screen edge
  * (with Shopify's new-order chime), then it stretches into a pill carrying
  * his face and the line Mahmoud chose. Tapping it opens WhatsApp on his
@@ -26,7 +26,7 @@ import { nudge } from '@/content/redesign';
  *    paint are untouched;
  *  - reduced motion gets a plain fade, no bounce.
  */
-const DELAY = 30_000;
+const DELAY = 15_000;
 const TUCK_AFTER = 14_000;
 const KEY = 'nudge';
 const EDGE = 30; // the half circle: half the pill's height
@@ -61,7 +61,7 @@ export default function Nudge() {
 
   const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Fire once, thirty seconds in, unless there is a reason not to.
+  // Fire once, fifteen seconds in, unless there is a reason not to.
   useEffect(() => {
     if (seen()) return;
 
