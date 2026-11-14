@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import StoryPage from '@/components/StoryPage';
 import Hero from '@/components/Hero';
 import Nudge from '@/components/Nudge';
+import { Tools } from '@/components/Tools';
 import { About, Contact, Process, Results, Services, Statement, Work } from '@/components/Sections';
 
 /**
@@ -90,6 +91,7 @@ export default function App() {
           <About />
           <Services />
           <Work />
+          <Tools />
           <Process />
           <Statement />
         </main>

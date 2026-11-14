@@ -15,15 +15,15 @@ import AboutPortrait from './AboutPortrait';
 
 /* -------------------------------------------------------------- shared */
 
-const TOTAL = '05';
+const TOTAL = '06';
 
 /**
  * The head every numbered section opens with, after the reference's
- * "/ABOUT": the label and "01/05" on one line, then the label again, huge,
+ * "/ABOUT": the label and "01/06" on one line, then the label again, huge,
  * behind a slash, rising out of its own line as it is scrolled to. The
  * sentence under it is the section's real <h2>.
  */
-function GiantHead({
+export function GiantHead({
   index,
   label,
   word,
@@ -332,7 +332,12 @@ export function Work() {
           label={work.label}
           word={giant.work}
           title={work.title}
-          aside={<p className="lede max-w-[42ch]">{t(work.hint)}</p>}
+          aside={
+            <>
+              <p className="lede max-w-[42ch]">{t(work.why)}</p>
+              <p className="mt-4 max-w-[42ch] text-sm text-ink-dim">{t(work.hint)}</p>
+            </>
+          }
           className="mt-20 md:mt-28"
         />
 
@@ -370,17 +375,6 @@ export function Work() {
                     <span className="flex items-center gap-4 pb-1">
                       <span className="hidden text-end sm:block">
                         <span className="flex items-center justify-end gap-2">
-                          {card.logo && (
-                            <img
-                              src={card.logo}
-                              alt=""
-                              width={192}
-                              height={192}
-                              loading="lazy"
-                              decoding="async"
-                              className="h-8 w-8 rounded-lg bg-paper object-contain p-0.5"
-                            />
-                          )}
                           <span className="text-sm font-semibold text-ink md:text-base">
                             {card.alias ? t(card.alias) : card.brand}
                           </span>
@@ -680,7 +674,7 @@ export function Process() {
       <div className="panel panel-ink">
         <div className="container-page py-16 md:py-28">
           <GiantHead
-            index="05"
+            index="06"
             label={processUi.label}
             word={giant.process}
             title={growth.title}

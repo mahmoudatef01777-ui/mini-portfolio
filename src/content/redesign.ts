@@ -15,6 +15,7 @@ export const nav = {
     { id: 'about', label: { ar: 'مين أنا', en: 'About' } },
     { id: 'services', label: { ar: 'الخدمات', en: 'Services' } },
     { id: 'work', label: { ar: 'الشغل', en: 'Work' } },
+    { id: 'tools', label: { ar: 'الأدوات', en: 'Tools' } },
     { id: 'process', label: { ar: 'طريقتي', en: 'Process' } },
   ] as { id: string; label: Localized }[],
   contact: { ar: 'كلّمني', en: 'Contact' } satisfies Localized,
@@ -95,10 +96,20 @@ export const services = {
 };
 
 export const work = {
-  label: { ar: 'شغل مختار', en: 'Selected work' } satisfies Localized,
+  label: { ar: 'كيس ستاديز', en: 'Case studies' } satisfies Localized,
   title: {
-    ar: 'تلات ستورات، والأرقام من الداشبوردات بتاعتها.',
-    en: 'Three stores, with figures straight from their own dashboards.',
+    ar: 'شوية كيس ستاديز من شغل التشغيل مع العملاء.',
+    en: 'Some case studies from running the operation with clients.',
+  } satisfies Localized,
+  /* WHY THESE THREE, in Mahmoud's own reason (2026-11-13): he started with each
+     of them at the store build. The sentence stops at "the first million",
+     which every one of the three has passed in its own figures; "in under 30
+     days" is NOT claimed for all three, because the Cove capture covers 66
+     days for its EGP 1.01M. The fast start is stated where it is evidenced:
+     the first fact on the Veloura card. */
+  why: {
+    ar: 'اخترت التلات دول بالذات لأني بدأت مع كل واحد منهم من بناء الستور، وبعدين تحسين التحويل، واختبار المنتج، لحد ما وصلوا لأول مليون جنيه.',
+    en: 'I chose these three on purpose: with each one I started from building the store, then conversion, then testing the product, up to the first million EGP.',
   } satisfies Localized,
   facts: { ar: 'الأرقام', en: 'The figures' } satisfies Localized,
   hint: {
@@ -126,6 +137,7 @@ export const giant = {
   about: { ar: 'مين أنا', en: 'About' } satisfies Localized,
   services: { ar: 'الخدمات', en: 'Services' } satisfies Localized,
   work: { ar: 'الشغل', en: 'Work' } satisfies Localized,
+  tools: { ar: 'الأدوات', en: 'Tools' } satisfies Localized,
   results: { ar: 'النتايج', en: 'Results' } satisfies Localized,
   process: { ar: 'طريقتي', en: 'Process' } satisfies Localized,
 };

@@ -72,7 +72,7 @@ export const sourceLabel: Record<ProofSource, Localized> = {
 /* ------------------------------------------------------------- evidence */
 
 /**
- * The 21 captures this site publishes, drawn from Site 1. Keyed by id so a section can name the
+ * The 24 captures this site publishes, drawn from Site 1. Keyed by id so a section can name the
  * handful it shows without copying the caption a second time.
  */
 export const evidence = {
@@ -193,6 +193,60 @@ export const evidence = {
     alt: {
       ar: 'جدول Odoo ERP مجمّع بصفحة الفيسبوك: صفوف البراند بتاعي وصفوف الصفحات الشريكة بإجمالياتها والأسامي متخفية، وإجمالي كلي 6,785,810 جنيه.',
       en: "An Odoo ERP table grouped by Facebook page, with every page name redacted: my own brand's rows and the partner pages' rows with their totals, and a grand total of EGP 6,785,810.",
+    },
+  },
+  'veloura-shopify-nov': {
+    id: 'veloura-shopify-nov',
+    src: '/img/ev-veloura-shopify-nov.webp',
+    width: 1325,
+    height: 534,
+    brand: 'Veloura',
+    source: 'shopify',
+    /* Added 2026-11-13, straight from the dashboard and not edited: it carries
+       no customer or staff names, only the store's own totals. */
+    caption: {
+      ar: 'Shopify · 7 سبتمبر – 11 نوفمبر 2026 · كل القنوات: إجمالي المبيعات EGP 2,608,713.00 قبل الخصومات والمرتجعات · معدل التحويل 4.27%.',
+      en: 'Shopify · Sep 7 – Nov 11, 2026 · all channels: gross sales EGP 2,608,713.00 before discounts and returns · 4.27% conversion rate.',
+    },
+    alt: {
+      ar: 'داشبورد Shopify لستور شغّال دلوقتي: إجمالي مبيعات 2,608,713 جنيه من 7 سبتمبر لـ 11 نوفمبر 2026.',
+      en: 'The Shopify dashboard of a store running now: gross sales of EGP 2,608,713 from Sep 7 to Nov 11, 2026.',
+    },
+  },
+  'veloura-meta-total': {
+    id: 'veloura-meta-total',
+    src: '/img/ev-veloura-meta-total.webp',
+    width: 1377,
+    height: 690,
+    brand: 'Veloura',
+    source: 'meta',
+    /* The totals row is the headline of this capture; the per-ad rows above it
+       are the same table. Campaign names are cropped out of the left edge. */
+    caption: {
+      ar: 'Meta Ads · 7 أغسطس – 11 نوفمبر 2026 · صف الإجمالي: صرف EGP 50,810.76 · قيمة تحويل الشرا EGP 1,633,464.54 · ROAS متوسط 32.15 · تكلفة الشرا EGP 24.48.',
+      en: 'Meta Ads · Aug 7 – Nov 11, 2026 · totals row: EGP 50,810.76 spent · EGP 1,633,464.54 purchases conversion value · 32.15 average purchase ROAS · EGP 24.48 per purchase.',
+    },
+    alt: {
+      ar: 'جدول Meta Ads لستور شغّال دلوقتي، صف الإجمالي: صرف 50,810.76 جنيه وقيمة تحويل 1,633,464.54 جنيه.',
+      en: 'A Meta Ads table for a store running now, totals row: EGP 50,810.76 spent and EGP 1,633,464.54 purchases conversion value.',
+    },
+  },
+  'veloura-meta-one': {
+    id: 'veloura-meta-one',
+    src: '/img/ev-veloura-meta-one.webp',
+    width: 1273,
+    height: 251,
+    brand: 'Veloura',
+    source: 'meta',
+    /* One row under a filter, so it is a part of the totals above and is
+       captioned as exactly that. */
+    caption: {
+      ar: 'Meta Ads · 7 أغسطس – 11 نوفمبر 2026 · صف واحد بعد الفلترة: صرف EGP 10,093.79 · قيمة تحويل الشرا EGP 356,277.55 · ROAS 35.30 · تكلفة الشرا EGP 22.48.',
+      en: 'Meta Ads · Aug 7 – Nov 11, 2026 · one filtered row: EGP 10,093.79 spent · EGP 356,277.55 purchases conversion value · 35.30 purchase ROAS · EGP 22.48 per purchase.',
+    },
+    alt: {
+      ar: 'صف واحد من جدول Meta Ads لستور شغّال دلوقتي: صرف 10,093.79 جنيه وقيمة تحويل 356,277.55 جنيه.',
+      en: 'One row of a Meta Ads table for a store running now: EGP 10,093.79 spent and EGP 356,277.55 purchases conversion value.',
     },
   },
   'veloura-meta': {
@@ -441,18 +495,8 @@ export interface ResultCard {
    */
   brand: string;
   /**
-   * The brand's real mark, shown in place of the name on Mahmoud's
-   * instruction (2026-09-17) so a client's name is not sitting on the page as
-   * selectable text for a visitor to copy into a search box.
-   *
-   * It is a real logo file copied from the main portfolio, never a drawn or
-   * generated substitute. A brand whose logo is missing keeps its name — a
-   * missing mark is never invented.
-   */
-  logo?: string;
-  /**
-   * What the card is called OUT LOUD — in the logo's alt text and anywhere the
-   * name would otherwise be printed. It describes the brand without naming it,
+   * What the card is called OUT LOUD — in a screen reader's name for the row and
+   * anywhere the name would otherwise be printed. It describes the brand without naming it,
    * which is the whole point: `brand` identifies the entry inside this file,
    * `alias` is what the page and a screen reader get.
    */
@@ -543,7 +587,6 @@ export const resultCards: ResultCard[] = [
   {
     id: 'bloomy',
     brand: 'Bloomy',
-    logo: '/img/logo-bloomy.webp',
     alias: { ar: 'البراند بتاعي', en: 'my own brand' } satisfies Localized,
     badge: { ar: 'البراند بتاعي', en: 'my own brand' },
     /* Ran about three to four months and is stopped now (docs/context.md §5).
@@ -587,7 +630,6 @@ export const resultCards: ResultCard[] = [
   {
     id: 'cove',
     brand: 'Cove',
-    logo: '/img/logo-cove.webp',
     alias: { ar: 'ستور بنيته وشغّلته', en: 'a store I built and ran' } satisfies Localized,
     value: 'EGP 1.01M',
     label: { ar: '1,526 أوردر organic', en: '1,526 organic orders' },
@@ -623,67 +665,49 @@ export const resultCards: ResultCard[] = [
   },
   {
     /*
-      MOVED TO THE Sep 7-17 WINDOW on 2026-09-17, from three dashboards Mahmoud
-      read off himself: Shopify (all channels), Meta Ads Manager and TikTok Ads
-      Manager. It replaces the Sep 7-14 snapshot, which is the shorter window
-      inside this one.
+      THE LATEST READING, 2026-11-13: three captures Mahmoud supplied, read
+      off Shopify (Sep 7 - Nov 11) and Meta Ads Manager (Aug 7 - Nov 11).
 
-      THE SHOPIFY FIGURES KEEP MOVING, because the store is live: 1,290 orders
-      at 26.4K sessions, then 1,298 at 26.7K, now 1,361 at 28.3K — all inside
-      two days, all the same Sep 7-17 window. Any figure here is a reading at a
-      moment, not a final number. Take the newest reading and print the date
-      beside it; never average two readings, and never keep an older one just
-      because it is the one that has a screenshot.
+      THE HEADLINE IS SALES, NOT AN ORDER COUNT, on Mahmoud's instruction the
+      same day: the card used to lead with "1,361" orders. The figure is
+      Shopify's GROSS sales, which Shopify defines as before discounts and
+      returns, so the label says "gross" and the details say what that means.
 
-      THE CAPTURE MATCHES THE HEADLINE AGAIN. The Sep 7-14 shot was removed on
-      2026-09-19 — it reported 988 orders under a headline that says 1,361, and
-      a screenshot that argues with the number above it is worse than none —
-      and the Sep 7-17 capture Mahmoud supplied replaced it the same day. If
-      the figures move again, the capture has to move with them.
+      THE WINDOWS DIFFER AND ARE NEVER MIXED. Shopify's is Sep 7 - Nov 11;
+      Meta's is Aug 7 - Nov 11, because the ads started earlier than the
+      store's first sales. Each fact names its own window. Do not set Meta's
+      spend against Shopify's sales: the Shopify view is "All channels".
 
-      THE CAPTURES FOR THIS WINDOW ARE NOT IN THE PROJECT YET. The card's cover
-      is still the Sep 7-14 Shopify shot, so `coverNote` says outright that the
-      capture is the shorter window and the headline is the longer one — the
-      same thing Bloomy's card does where its screen and its headline cover
-      different spans. Drop the three new files into the project and this note
-      comes out.
+      THE FIRST TEN DAYS STAY, as the first fact: EGP 1,061,525 in Sep 7-17.
+      It is the reading that backs "the first million in under 30 days" for
+      this store, and it has its own capture (`veloura-shopify-17`).
 
-      THE TWO SPEND FIGURES ARE ADDITIVE AND THE ORDERS ARE NOT. Meta's spend
-      plus TikTok's spend is money out of one pocket, so ~EGP 22K is a sum that
-      holds. Meta's purchases plus TikTok's conversions is NOT, and neither can
-      be set against Shopify's 1,290: that view says "All channels", so those
-      are store orders from every source, not ad-attributed ones.
-
-      The Meta figure is the two campaigns legible in the capture
-      (7,333.68 + 9,416.92), not an account total — there is no totals row in
-      the shot, so it is not claimed as one.
+      NO LOGO, on Mahmoud's instruction: a client's mark is not shown here.
     */
     id: 'veloura',
     brand: 'Veloura',
-    logo: '/img/logo-veloura.webp',
     alias: { ar: 'ستور شغّال دلوقتي', en: 'a store running now' } satisfies Localized,
     badge: { ar: 'شغال دلوقتي', en: 'live' },
-    value: '1,361',
+    value: 'EGP 2.6M',
     label: {
-      /* "أول 10 أيام إعلانات", not "10 أيام": the store did not open on the
-         7th — the ads did. Without the word the figure reads as the store's
-         whole life, which would be a much smaller claim than it is. */
-      ar: 'أوردر · EGP 1.06M مبيعات الستور في أول 10 أيام إعلانات', // REVIEW
-      en: 'orders · EGP 1.06M in store sales in the first 10 days of ads',
+      /* Ends in Arabic on purpose, like every Arabic line here: a Latin run at
+         the end sits next to the full stop and bidi reorders the two. */
+      ar: 'إجمالي مبيعات الستور من كل القنوات في الفترة من 7 سبتمبر 2026 لحد 11 نوفمبر',
+      en: 'gross store sales · all channels · Sep 7 – Nov 11, 2026',
     },
-    /* The Arabic ENDS IN ARABIC on purpose: a Latin run at the end of an
-       Arabic line sits next to the full stop, which is a neutral character,
-       and bidi then reorders the two. Hence "22 ألف جنيه", not "EGP 22K". */
     did: {
-      ar: 'بنيت الستور وبشغّل Meta وTikTok — إجمالي صرف الإعلانات في الفترة دي حوالي 22 ألف جنيه', // REVIEW
-      en: 'built the store, running Meta and TikTok — about EGP 22K of ad spend across the period',
+      ar: 'بنيت الستور وبشغّل إعلانات Meta وTikTok',
+      en: 'built the store, running Meta and TikTok ads',
     },
     source: {
-      ar: 'Shopify · 7–17 سبتمبر 2026 · كل القنوات · نتايج مبكرة',
-      en: 'Shopify · Sep 7–17, 2026 · all channels · early results',
+      ar: 'Shopify · 7 سبتمبر – 11 نوفمبر 2026 · كل القنوات',
+      en: 'Shopify · Sep 7 – Nov 11, 2026 · all channels',
     },
-    cover: 'veloura-shopify-17',
+    cover: 'veloura-shopify-nov',
     gallery: [
+      'veloura-shopify-nov',
+      'veloura-meta-total',
+      'veloura-meta-one',
       'veloura-shopify-17',
       'veloura-meta',
       'veloura-tiktok-period',
@@ -694,33 +718,37 @@ export const resultCards: ResultCard[] = [
     ],
     facts: [
       {
-        /* Read off the "Total sales over time" panel, which prints the figure
-           in full; the tiles above it round the same number to EGP 1.01M. */
+        /* Read off the "Total sales over time" panel of the Sep 7-17 capture. */
         value: 'EGP 1,061,525',
-        label: { ar: 'مبيعات الستور · كل القنوات', en: 'store sales · all channels' },
-        source: { ar: 'Shopify · 7–17 سبتمبر 2026', en: 'Shopify · Sep 7–17, 2026' },
+        label: { ar: 'مبيعات الستور في أول 10 أيام إعلانات', en: 'store sales in the first 10 days of ads' },
+        source: { ar: 'Shopify · 7–17 سبتمبر 2026 · كل القنوات', en: 'Shopify · Sep 7–17, 2026 · all channels' },
       },
       {
-        value: '28.3K',
-        label: { ar: 'زيارة · معدل تحويل 4.51%', en: 'sessions · 4.51% conversion rate' },
-        source: { ar: 'Shopify · نفس الفترة', en: 'Shopify · same period' },
+        value: 'EGP 2,608,713',
+        label: { ar: 'إجمالي المبيعات قبل الخصومات والمرتجعات', en: 'gross sales, before discounts and returns' },
+        source: {
+          ar: 'Shopify · 7 سبتمبر – 11 نوفمبر 2026 · كل القنوات',
+          en: 'Shopify · Sep 7 – Nov 11, 2026 · all channels',
+        },
       },
       {
-        value: 'EGP 16,750',
-        label: { ar: 'صرف Meta · الحملتين في اللقطة', en: 'Meta spend · the two campaigns in the capture' },
-        source: { ar: 'Meta Ads · 7–17 سبتمبر 2026', en: 'Meta Ads · Sep 7–17, 2026' },
+        value: '32.15×',
+        label: { ar: 'عائد الإعلان على Meta (ROAS) على صرف 50,811 جنيه', en: 'Meta purchase ROAS, on EGP 50,811 of spend' },
+        source: {
+          ar: 'Meta Ads · 7 أغسطس – 11 نوفمبر 2026 · الحملات في اللقطة',
+          en: 'Meta Ads · Aug 7 – Nov 11, 2026 · the campaigns in the capture',
+        },
       },
       {
-        value: 'EGP 5,190',
-        label: { ar: 'صرف TikTok', en: 'TikTok spend' },
-        source: { ar: 'TikTok Ads · 9–17 سبتمبر 2026', en: 'TikTok Ads · Sep 9–17, 2026' },
+        value: '4.27%',
+        label: { ar: 'معدل تحويل الستور', en: 'store conversion rate' },
+        source: { ar: 'Shopify · 7 سبتمبر – 11 نوفمبر 2026', en: 'Shopify · Sep 7 – Nov 11, 2026' },
       },
     ],
   },
   {
     id: 'dahab-decor',
     brand: 'Dahab Decor',
-    logo: '/img/logo-dahab-decor.webp',
     alias: { ar: 'منتج high-ticket', en: 'a high-ticket product' } satisfies Localized,
     value: '~EGP 770,000',
     label: {
@@ -758,7 +786,6 @@ export const resultCards: ResultCard[] = [
   {
     id: 'fakhama',
     brand: 'Fakhama',
-    logo: '/img/logo-fakhama.webp',
     alias: { ar: 'براند ملابس رجالي', en: 'a menswear brand' } satisfies Localized,
     value: '~EGP 180,000',
     label: {

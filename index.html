@@ -202,8 +202,14 @@
       recordings, and the heatmaps stop being real visitors. It matches the
       live domain and its subdomains, nothing else.
 
-      The tag itself is Clarity's own loader, unchanged: it injects an async
-      script, so it never blocks first paint. Clarity masks text content by
+      The tag is Clarity's own loader with one change: it is injected once the
+      page has loaded and the browser is idle (or after 4 seconds at the latest),
+      not while the page is still being parsed. The recording script and its
+      requests then never compete with the first paint, the hero image or the
+      app bundle. `window.clarity` exists at once, so the nudge's events queue
+      and are sent when the tag arrives. The hash of this script is in the CSP
+      in vercel.json: if you change one character here, recompute it there.
+      Clarity masks text content by
       default and this page has no inputs to leak, so no extra masking rules
       are needed here — masking is configured in the Clarity dashboard.
     -->
@@ -215,11 +221,18 @@
           function () {
             (c[a].q = c[a].q || []).push(arguments);
           };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = 'https://www.clarity.ms/tag/' + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
+        var load = function () {
+          t = l.createElement(r);
+          t.async = 1;
+          t.src = 'https://www.clarity.ms/tag/' + i;
+          y = l.getElementsByTagName(r)[0];
+          y.parentNode.insertBefore(t, y);
+        };
+        var idle = function () {
+          (c.requestIdleCallback || function (f) { setTimeout(f, 1); })(load, { timeout: 4000 });
+        };
+        if (l.readyState === 'complete') idle();
+        else c.addEventListener('load', idle, { once: true });
       })(window, document, 'clarity', 'script', 'ym7hoi1r3c');
     </script>
 

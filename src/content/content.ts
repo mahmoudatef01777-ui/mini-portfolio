@@ -63,8 +63,8 @@ export const hero = {
   eyebrow: identity.role,
   /** The full stop is set in the accent colour by the component. */
   headline: {
-    ar: 'أنا مش بشوف الإعلان لوحده.',
-    en: "I don't look at the ad on its own.",
+    ar: 'الإعلان آخر حاجة بفكر فيها.',
+    en: 'The ad is the last thing I think about.',
   } satisfies Localized,
   subline: {
     ar: 'بشوف المنافسين والـbenchmark، والمنتج والسوق والعميل، والستور والتشغيل والأرقام. وبعدين بشوف الإعلان.',
