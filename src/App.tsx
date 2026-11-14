@@ -4,6 +4,7 @@ import { seo, ui } from '@/content/content';
 import { story } from '@/content/story';
 import { useRoute } from '@/lib/router';
 import { OG_LOCALE, absolute } from '@/lib/url';
+import { track } from '@/lib/track';
 import Header from '@/components/Header';
 import StoryPage from '@/components/StoryPage';
 import Hero from '@/components/Hero';
@@ -32,6 +33,20 @@ import { About, Contact, Process, Results, Services, Statement, Work } from '@/c
 export default function App() {
   const { lang, t } = useLang();
   const { route } = useRoute();
+
+  /* WHICH CALL TO ACTION GETS USED, counted in Clarity where it is pressed:
+     every WhatsApp, email and LinkedIn link on the site, so the recordings can
+     be filtered by who went on to get in touch. */
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const href = (e.target as Element | null)?.closest?.('a[href]')?.getAttribute('href') ?? '';
+      if (href.includes('wa.me')) track('cta_whatsapp');
+      else if (href.startsWith('mailto:')) track('cta_email');
+      else if (href.includes('linkedin.com')) track('cta_linkedin');
+    };
+    document.addEventListener('click', onClick, true);
+    return () => document.removeEventListener('click', onClick, true);
+  }, []);
 
   /**
    * THE HEAD FOLLOWS THE URL, all of it.

@@ -134,3 +134,20 @@ export const toolsSuggest = {
     en: 'Hi Mahmoud, I have an idea for a calculator for your site:',
   } satisfies Localized,
 };
+
+/**
+ * The button under a result: the visitor's own numbers, typed into a
+ * WhatsApp message for them. Nothing is sent until they press send in
+ * WhatsApp. `{name}` slots are filled in by `components/Tools.tsx`.
+ */
+export const sendNumbers = {
+  cta: { ar: 'ابعتلي أرقامك على واتساب', en: 'Send me these numbers on WhatsApp' } satisfies Localized,
+  breakeven: {
+    ar: 'أهلًا محمود، حسبت منتجي: سعر البيع {price} {cur}، وBreak-Even ROAS {roas}، وأقصى تكلفة للأوردر {cpa} {cur}. تقدر تساعدني أشغّل الإعلانات عليه؟',
+    en: 'Hi Mahmoud, I ran my product through your calculator: selling price {price} {cur}, break-even ROAS {roas}, max CPA {cpa} {cur}. Can you help me run ads on it?',
+  } satisfies Localized,
+  mer: {
+    ar: 'أهلًا محمود، حسبت متجري: MER {mer}، وPOAS {poas}، وصافي الربح بعد الإعلانات {net} {cur}. ممكن نتكلم؟',
+    en: 'Hi Mahmoud, I ran my store through your calculator: MER {mer}, POAS {poas}, net profit after ads {net} {cur}. Can we talk?',
+  } satisfies Localized,
+};

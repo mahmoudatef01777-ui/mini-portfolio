@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { useLang } from '@/i18n/lang';
 import { contact } from '@/content/content';
 import { nudge } from '@/content/redesign';
+import { track } from '@/lib/track';
 
 /**
  * THE 15-SECOND NUDGE.
@@ -53,9 +54,6 @@ function mark(value: string) {
   } catch {
     /* private mode: it simply may keep coming */
   }
-}
-function track(name: string) {
-  (window as unknown as { clarity?: (...a: unknown[]) => void }).clarity?.('event', name);
 }
 
 /** One shared chime, built the first time it is wanted so it never competes

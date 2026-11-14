@@ -1,13 +1,15 @@
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { useLang } from '@/i18n/lang';
 import { cn } from '@/lib/cn';
 import { contact, type Localized } from '@/content/content';
 import { giant } from '@/content/redesign';
 import { blended, breakEven, clamp, fmt, parseNum, type Zone } from '@/lib/calc';
+import { track } from '@/lib/track';
 import {
   CURRENCIES,
   breakevenUi,
   merUi,
+  sendNumbers,
   toolsSuggest,
   toolsUi,
   type Currency,
@@ -35,10 +37,34 @@ type Values<K extends string> = Record<K, string>;
 const money = (v: string) => Math.max(0, parseNum(v));
 const pct = (v: string) => clamp(parseNum(v), 0, 100);
 
-function useFields<K extends string>(defaults: Values<K>) {
+/** `tool` names the calculator in Clarity: the first edit in each is counted once. */
+function useFields<K extends string>(defaults: Values<K>, tool: string) {
   const [values, setValues] = useState(defaults);
-  const set = (key: K, value: string) => setValues((current) => ({ ...current, [key]: value }));
+  const used = useRef(false);
+  const set = (key: K, value: string) => {
+    if (!used.current) {
+      used.current = true;
+      track(`tool_used_${tool}`);
+    }
+    setValues((current) => ({ ...current, [key]: value }));
+  };
   return [values, set] as const;
+}
+
+const fill = (template: string, values: Record<string, string>) =>
+  template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? '');
+
+/** The visitor's own numbers, ready to send: nothing leaves the page until
+    they press send in WhatsApp. */
+function SendNumbers({ text }: { text: string }) {
+  const { t } = useLang();
+  return (
+    <div className="mt-6">
+      <Button href={`${contact.whatsapp.href}?text=${encodeURIComponent(text)}`} tone="whatsapp">
+        {t(sendNumbers.cta)}
+      </Button>
+    </div>
+  );
 }
 
 function Fields<K extends string>({
@@ -173,7 +199,7 @@ const BREAKEVEN_DEFAULTS = { price: '600', cogs: '220', shipping: '50', fee: '2'
 
 function BreakEvenCard({ cur }: { cur: Currency }) {
   const { t } = useLang();
-  const [v, set] = useFields<keyof typeof BREAKEVEN_DEFAULTS>(BREAKEVEN_DEFAULTS);
+  const [v, set] = useFields<keyof typeof BREAKEVEN_DEFAULTS>(BREAKEVEN_DEFAULTS, 'breakeven');
   const r = breakEven({
     price: money(v.price),
     cogs: money(v.cogs),
@@ -207,6 +233,14 @@ function BreakEvenCard({ cur }: { cur: Currency }) {
               </Row>
             </Rows>
             <p className="mt-4 text-[0.8125rem] leading-relaxed text-ink-dim">{t(breakevenUi.tip)}</p>
+            <SendNumbers
+              text={fill(t(sendNumbers.breakeven), {
+                price: fmt(money(v.price)),
+                roas: ratio(r.roas),
+                cpa: fmt(r.cpa),
+                cur: t(toolsUi.currencies[cur]),
+              })}
+            />
           </>
         )}
       </Result>
@@ -234,7 +268,7 @@ const ZONE_DOT: Record<Zone, string> = {
 
 function MerCard({ cur }: { cur: Currency }) {
   const { t } = useLang();
-  const [v, set] = useFields<keyof typeof MER_DEFAULTS>(MER_DEFAULTS);
+  const [v, set] = useFields<keyof typeof MER_DEFAULTS>(MER_DEFAULTS, 'mer');
   const spends = { meta: money(v.meta), tiktok: money(v.tiktok), google: money(v.google), snap: money(v.snap) };
   const r = blended({ sales: money(v.sales), ...spends, margin: pct(v.margin) });
   const out = merUi.out;
@@ -286,6 +320,14 @@ function MerCard({ cur }: { cur: Currency }) {
             </ul>
           </>
         )}
+        <SendNumbers
+          text={fill(t(sendNumbers.mer), {
+            mer: ratio(r.mer),
+            poas: ratio(r.poas),
+            net: fmt(r.net),
+            cur: t(toolsUi.currencies[cur]),
+          })}
+        />
       </Result>
     </Card>
   );

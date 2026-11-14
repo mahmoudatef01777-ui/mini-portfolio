@@ -67,6 +67,7 @@ entry is written twice, `ar` and `en`. Change both.
 | `content.ts` | the home page: hero, who I am, how I think about growth, the websites, the closing, the contact details |
 | `proof.ts` | the proof library — every figure, every capture, its caption, its source and its period, keyed by id |
 | `story.ts` | the `/story` page: the timeline, what it taught, the takeaway |
+| `tools.ts` | the Tools section: both calculators' labels, notes and the WhatsApp message |
 
 A figure appears in `proof.ts` once and is referenced by id from there, so the
 same number can never be captioned two different ways in two places.
@@ -77,6 +78,7 @@ same number can never be captioned two different ways in two places.
 | A figure, a caption, a capture | `src/content/proof.ts` |
 | The `/story` page | `src/content/story.ts` |
 | The order of the sections | `src/App.tsx` |
+| The calculators: words, maths, layout | `src/content/tools.ts`, `src/lib/calc.ts`, `src/components/Tools.tsx` |
 | How a section looks | `src/components/Sections.tsx` |
 | The header, the toggles | `src/components/Header.tsx` |
 | The evidence lightbox | `src/components/Evidence.tsx` |
@@ -95,7 +97,7 @@ hero-desktop.webp      the hero photograph, wide
 portrait-about.webp    the portrait in "who I am", desktop only
 ev-*.webp              a dashboard capture behind a figure
 ads-*.webp             an Ads Manager capture
-logo-*.webp            a brand mark, results cards only
+logo-*.webp            brand marks, not shown on the site any more
 site-*.webp            a website, desktop
 phone-*.webp           the same website, phone
 ```

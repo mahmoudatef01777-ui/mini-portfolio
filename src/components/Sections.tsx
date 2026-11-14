@@ -248,12 +248,12 @@ function CaseDetails({ card, onOpen }: { card: ResultCard; onOpen: (card: Result
           className="case-media group relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden rounded-[1.5rem] border border-line bg-soft px-4 py-10 sm:p-8 lg:col-span-7"
         >
           <img
+            loading="lazy"
+            decoding="async"
             src={cover.src}
             alt={t(cover.alt)}
             width={cover.width}
             height={cover.height}
-            loading="lazy"
-            decoding="async"
             className="max-h-full w-auto max-w-full rounded-md object-contain shadow-[0_24px_60px_-30px_rgba(0,0,0,0.6)]"
           />
           <span className="absolute bottom-4 end-4 rounded-full bg-cream/90 px-3 py-1.5 text-[0.6875rem] font-semibold text-ink backdrop-blur">
@@ -514,12 +514,12 @@ export function Results() {
             >
               <span className="snake-inner flex h-full w-full items-center justify-center rounded-[calc(1.25rem-3px)] bg-soft p-4">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={shot.src}
                   alt={t(shot.alt)}
                   width={shot.width}
                   height={shot.height}
-                  loading="lazy"
-                  decoding="async"
                   className="max-h-full w-auto max-w-full rounded-md object-contain"
                 />
               </span>
@@ -580,12 +580,12 @@ function GrowthBlock({ block }: { block: (typeof growth.blocks)[number] }) {
           on a laptop it lives in the sticky column beside the list. */}
       {art && (
         <img
+          loading="lazy"
+          decoding="async"
           src={art.src}
           alt={t(art.alt)}
           width={art.width}
           height={art.height}
-          loading="lazy"
-          decoding="async"
           className="mt-6 aspect-[16/10] w-full rounded-[1.25rem] object-cover lg:hidden"
         />
       )}
@@ -699,14 +699,14 @@ export function Process() {
                     if (!art) return null;
                     return (
                       <img
+                        loading="lazy"
+                        decoding="async"
                         key={block.id}
                         src={art.src}
                         alt=""
                         aria-hidden
                         width={art.width}
                         height={art.height}
-                        loading="lazy"
-                        decoding="async"
                         className={cn(
                           'absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ease-out',
                           i === active ? 'scale-100 opacity-100' : 'scale-[1.04] opacity-0',

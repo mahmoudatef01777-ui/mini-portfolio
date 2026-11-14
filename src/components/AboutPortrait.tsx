@@ -56,6 +56,8 @@ export default function AboutPortrait({ className }: { className?: string }) {
       <picture>
       <source type="image/avif" srcSet="/img/portrait-about-720.avif 720w, /img/portrait-about.webp 960w" sizes="(min-width: 1024px) 24rem, 17rem" />
       <img
+        loading="lazy"
+        decoding="async"
         src="/img/portrait-about-720.webp"
         srcSet="/img/portrait-about-720.webp 720w, /img/portrait-about.webp 960w"
         sizes="(min-width: 1024px) 24rem, 17rem"
@@ -65,8 +67,6 @@ export default function AboutPortrait({ className }: { className?: string }) {
         /* Lazy, now that it renders on a phone as well: it is below the
            fold everywhere, and the hero above it is the image that has to
            arrive first. */
-        loading="lazy"
-        decoding="async"
         /* `object-position` holds the framing: 50% across, and high enough up
            the 3:4 frame that his face sits in the upper third of the circle
            rather than dead centre. Nudge the second number, not the file. */

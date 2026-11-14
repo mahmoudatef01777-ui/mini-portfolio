@@ -29,7 +29,7 @@ reader cannot check on the page.
 - Came to advertising through e-commerce operations (warehouse, orders,
   stock, fulfilment), not the other way round
 
-## Selected work
+## Selected work (shown on the site as case studies)
 
 - Bloomy, his own brand: EGP 3.17M in recorded sales over its whole run
   (Odoo ERP); he built the store and ran the ads and the operation
@@ -39,6 +39,23 @@ reader cannot check on the page.
   (Shopify, all channels), EGP 1.06M of it in the first 10 days of ads
 - Career totals: 25,000+ orders handled; EGP 10M+ in sales across
   e-commerce businesses
+
+Why these three: with each one he started at the store build, then conversion
+and testing the product, up to the first million EGP.
+
+## Tools
+
+Two free calculators, live on the home page (https://mahmoudelzaqla.site/#tools),
+no signup. The numbers a visitor types stay in their browser.
+
+- Break-even ROAS and max CPA: from selling price, product cost, shipping,
+  payment fee, return rate and other costs per order, it gives the lowest ROAS a
+  product needs to avoid losing money, the most that can be paid per order, the
+  margin before ads and the ROAS needed for a 15% net profit
+- MER and POAS: from store sales, spend on Meta, TikTok, Google and Snapchat,
+  and margin, it gives MER (sales / spend), POAS (profit / spend), the net profit
+  after ads and a zone: scaling (POAS above 1.3), watch (1 to 1.3) or losing
+  money (below 1)
 
 ## What the figures on the site are
 

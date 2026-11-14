@@ -257,12 +257,12 @@ export default function StoryPage() {
 
                   {stage.art && (
                     <img
+                      loading="lazy"
+                      decoding="async"
                       src={stage.art.src}
                       alt={t(stage.art.alt)}
                       width={stage.art.width}
                       height={stage.art.height}
-                      loading="lazy"
-                      decoding="async"
                       className="hidden h-auto w-full rounded-media border border-line lg:block"
                     />
                   )}
@@ -337,12 +337,12 @@ export default function StoryPage() {
         </div>
 
         <img
+          loading="lazy"
+          decoding="async"
           src={story.takeaway.art.src}
           alt={t(story.takeaway.art.alt)}
           width={story.takeaway.art.width}
           height={story.takeaway.art.height}
-          loading="lazy"
-          decoding="async"
           className="hidden h-auto w-full lg:block"
         />
         </div>
