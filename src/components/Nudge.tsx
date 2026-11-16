@@ -26,7 +26,8 @@ import { track } from '@/lib/track';
  *  - the sound needs the visitor to have touched the page (a click, a tap or
  *    a key; scrolling does not count): browsers block audio before that, and
  *    until then the nudge arrives silent instead of failing. The first touch
- *    unlocks the chime, so every later arrival is heard;
+ *    unlocks the chime, so every later arrival is heard, and if a message
+ *    arrived silent in the last few seconds its chime plays on that touch;
  *  - nothing renders until it fires, so the prerendered page and the first
  *    paint are untouched;
  *  - reduced motion gets a plain fade, no bounce.
@@ -34,6 +35,7 @@ import { track } from '@/lib/track';
 const DELAY = 15_000; // the first one, counted from opening the site
 const STEP = 5_000; // every wait after it is this much longer than the one before
 const TUCK_AFTER = 8_000; // how long the message stays out before it tucks away
+const CATCH_UP = 10_000; // a silent arrival still gets its chime on a tap this soon after
 const KEY = 'nudge';
 const EDGE = 30; // the half circle: half the pill's height
 
@@ -67,13 +69,15 @@ function getChime(): HTMLAudioElement {
   }
   return chime;
 }
-function playChime() {
+/** Plays the chime. `onBlocked` runs when the browser refuses, which it does
+    until the visitor has tapped, clicked or pressed a key. */
+function playChime(onBlocked?: () => void) {
   try {
     const a = getChime();
     a.currentTime = 0;
-    void a.play().catch(() => {});
+    a.play().catch(() => onBlocked?.());
   } catch {
-    /* no sound: the message still arrives */
+    onBlocked?.();
   }
 }
 
@@ -89,6 +93,9 @@ export default function Nudge() {
   // True when the next opening is the nudge arriving (with its chime), not a
   // visitor tapping the half circle.
   const arriving = useRef(false);
+  // When the last arrival was refused its chime (no tap yet), so the first tap
+  // can play it late.
+  const missedAt = useRef(0);
 
   const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -102,25 +109,48 @@ export default function Nudge() {
     };
     document.addEventListener('click', onClick, true);
 
-    // The first touch of the page unlocks the chime for every later arrival:
-    // a muted play inside a real gesture is what iOS and Chrome both accept.
-    const gestures = ['pointerdown', 'touchend', 'keydown'] as const;
-    const unlock = () => {
-      gestures.forEach((g) => window.removeEventListener(g, unlock));
+    // THE FIRST TOUCH OF THE PAGE. Browsers count a click, a tap or a key as
+    // "the visitor touched the page" and nothing else; a scroll never does.
+    // Chrome flags a tap only AFTER its touchend handlers have run, so the
+    // listeners stay until one of them gets a play() through.
+    //  - A message arrived silent a moment ago: play its chime now, inside
+    //    the tap, where the browser allows it.
+    //  - Otherwise play the chime muted, once: iOS and Chrome both then let
+    //    every later arrival make its sound.
+    const gestures = ['pointerdown', 'pointerup', 'touchend', 'mousedown', 'click', 'keydown'] as const;
+    let busy = false;
+    const stop = () => gestures.forEach((g) => window.removeEventListener(g, onGesture));
+    const onGesture = () => {
       const a = getChime();
-      if (!a.paused) return;
+      if (!a.paused) return stop(); // it is playing aloud: sound is already allowed
+      if (busy) return;
+      busy = true;
+      if (missedAt.current && Date.now() - missedAt.current < CATCH_UP) {
+        a.currentTime = 0;
+        a.play()
+          .then(() => {
+            missedAt.current = 0;
+            stop();
+          })
+          .catch(() => {
+            busy = false;
+          });
+        return;
+      }
       a.muted = true;
       a.play()
         .then(() => {
           a.pause();
           a.currentTime = 0;
           a.muted = false;
+          stop();
         })
         .catch(() => {
           a.muted = false;
+          busy = false;
         });
     };
-    gestures.forEach((g) => window.addEventListener(g, unlock, { passive: true }));
+    gestures.forEach((g) => window.addEventListener(g, onGesture, { passive: true }));
 
     let arrivals = 0;
     const fire = () => {
@@ -142,7 +172,7 @@ export default function Nudge() {
     return () => {
       window.clearTimeout(repeat.current);
       document.removeEventListener('click', onClick, true);
-      gestures.forEach((g) => window.removeEventListener(g, unlock));
+      stop();
     };
   }, []);
 
@@ -152,7 +182,11 @@ export default function Nudge() {
     if (!card || !body) return;
     window.clearTimeout(tuck.current);
     gsap.killTweensOf([card, body]);
-    if (withSound) playChime();
+    if (withSound) {
+      playChime(() => {
+        missedAt.current = Date.now();
+      });
+    }
 
     if (reduce()) {
       gsap.set(card, { width: 'auto' });
